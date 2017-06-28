@@ -6,6 +6,7 @@ import { LAceEditorModule } from 'angular2-ace';
 
 import { AppComponent } from './app.component';
 import { StatletManagerService } from './model/statlet-manager.service';
+import { CanvasComponent } from './session/canvas/canvas.component';
 import { EditorComponent } from './session/editor/editor.component';
 import { SessionComponent } from './session/session.component';
 
@@ -14,6 +15,7 @@ import { SessionComponent } from './session/session.component';
     AppComponent,
     SessionComponent,
     EditorComponent,
+    CanvasComponent,
   ],
   imports: [
     BrowserModule,
