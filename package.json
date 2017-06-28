@@ -24,6 +24,7 @@
     "ace-builds": "^1.2.6",
     "angular2-ace": "0.0.3",
     "core-js": "^2.4.1",
+    "font-awesome": "^4.7.0",
     "jquery": "^3.2.1",
     "jsplumb": "^2.4.3",
     "opencpu-js": "git+https://github.com/Y0hy0h/opencpu.js.git#v0.7.0",
