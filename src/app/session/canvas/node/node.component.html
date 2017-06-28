@@ -1,11 +1,11 @@
 <div id="node-{{statlet.id}}"
      class="node"
-     (mousedown)="setActiveStatlet(statlet)">
+     (mousedown)="selected()">
   <div class="node-header">
     <div class="node-title">
       {{statlet.title}}
     </div>
-    <div class="node-execute" (click)="execute()" [ngSwitch]="state">
+    <div class="node-execute" (click)="execute()" [ngSwitch]="currentState">
       <i *ngSwitchCase="NodeState.busy" class="fa fa-hourglass"></i>
       <i *ngSwitchCase="NodeState.ready" class="fa fa-play"></i>
     </div>

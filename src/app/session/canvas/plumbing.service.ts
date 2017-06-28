@@ -1,4 +1,4 @@
-import { ElementRef, Injectable } from '@angular/core';
+import { Injectable } from '@angular/core';
 
 declare const jsPlumb;
 
@@ -6,13 +6,13 @@ declare const jsPlumb;
 export class PlumbingService {
   private jsPlumb = jsPlumb.getInstance();
 
-  makeDraggable(element: ElementRef): void {
-    this.jsPlumb.draggable(element, {
+  makeDraggable(elementId: string): void {
+    this.jsPlumb.draggable(elementId, {
       containment: true,
     })
   }
 
-  makeInput(element: ElementRef): void {
+  makeInput(elementId: string): void {
     const inputEndpointOptions = {
       anchor: 'Left',
       maxConnections: 1,
@@ -20,21 +20,21 @@ export class PlumbingService {
         fill: 'transparent',
       },
     };
-    this.jsPlumb.makeTarget(element, inputEndpointOptions)
+    this.jsPlumb.makeTarget(elementId, inputEndpointOptions)
   }
 
-  makeOutput(element: ElementRef): void {
+  makeOutput(elementId: string): void {
     const outputEndpointOptions = {
       anchor: 'Right',
       paintStyle: {
         fill: 'transparent',
       },
     };
-    this.jsPlumb.makeSource(element, outputEndpointOptions);
+    this.jsPlumb.makeSource(elementId, outputEndpointOptions);
   }
 
-  setContainer(element: ElementRef): void {
-    this.jsPlumb.setContainer(element);
+  setContainer(elementId: string): void {
+    this.jsPlumb.setContainer(elementId);
   }
 
   onConnection(callback): void {
