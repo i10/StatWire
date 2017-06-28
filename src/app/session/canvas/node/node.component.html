@@ -1,0 +1,33 @@
+<div id="node-{{statlet.id}}"
+     class="node"
+     (mousedown)="setActiveStatlet(statlet)">
+  <div class="node-header">
+    <div class="node-title">
+      {{statlet.title}}
+    </div>
+    <div class="node-execute" (click)="execute()" [ngSwitch]="state">
+      <i *ngSwitchCase="NodeState.busy" class="fa fa-hourglass"></i>
+      <i *ngSwitchCase="NodeState.ready" class="fa fa-play"></i>
+    </div>
+  </div>
+  <div class="node-body">
+    <div class="node-inputs">
+      <sl-parameter
+        *ngFor="let inputParameter of statlet.inputList"
+        parameterType="input"
+        [parameter]="inputParameter"
+        [statletId]="statlet.id"
+        [index]="index">
+      </sl-parameter>
+    </div>
+    <div class="node-outputs">
+      <sl-parameter
+        *ngFor="let outputParameter of statlet.outputList"
+        parameterType="output"
+        [parameter]="outputParameter"
+        [statletId]="statlet.id"
+        [index]="index">
+      </sl-parameter>
+    </div>
+  </div>
+</div>

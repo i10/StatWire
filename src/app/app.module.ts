@@ -9,6 +9,7 @@ import { StatletManagerService } from './model/statlet-manager.service';
 import { CanvasComponent } from './session/canvas/canvas.component';
 import { EditorComponent } from './session/editor/editor.component';
 import { SessionComponent } from './session/session.component';
+import { NodeComponent } from './session/canvas/node/node.component';
 
 @NgModule({
   declarations: [
@@ -16,6 +17,7 @@ import { SessionComponent } from './session/session.component';
     SessionComponent,
     EditorComponent,
     CanvasComponent,
+    NodeComponent,
   ],
   imports: [
     BrowserModule,
