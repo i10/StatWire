@@ -1,7 +1,8 @@
 {
-  "name": "stat-lets",
-  "version": "0.0.0",
-  "license": "MIT",
+  "name": "statlets",
+  "version": "2.0.0",
+  "license": "UNLICENSED",
+  "private": true,
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
@@ -10,7 +11,6 @@
     "lint": "ng lint",
     "e2e": "ng e2e"
   },
-  "private": true,
   "dependencies": {
     "@angular/animations": "^4.0.0",
     "@angular/common": "^4.0.0",
