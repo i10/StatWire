@@ -1,6 +1,6 @@
 import { Component, ElementRef, Input, OnInit, Output, EventEmitter } from '@angular/core';
 
-import { RemoteR } from '../../remote-r.service';
+import { RemoteRService } from '../../../remote-r.service';
 import { PlumbingService } from '../plumbing.service';
 import { Statlet } from '../../../model/statlet';
 import { CanvasPosition } from '../../../model/canvas-position';
@@ -13,7 +13,7 @@ const enum NodeState {
 @Component({
   selector: 'sl-node',
   templateUrl: './node.component.html',
-  styleUrls: ['./node.component.sass']
+  styleUrls: ['./node.component.sass'],
 })
 export class NodeComponent implements OnInit {
   nodeState: NodeState = NodeState.ready;
@@ -22,7 +22,7 @@ export class NodeComponent implements OnInit {
 
   constructor(
     private plumbing: PlumbingService,
-    private remoteR: RemoteR,
+    private remoteR: RemoteRService,
     private element: ElementRef,
   ) { }
 
@@ -43,7 +43,7 @@ export class NodeComponent implements OnInit {
   }
 
   execute(): void {
-    this.nodeState = NodeState.busy
+    this.nodeState = NodeState.busy;
     this.remoteR.execute(
       this.statlet.code,
       this.statlet.inputList,

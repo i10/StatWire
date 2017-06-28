@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
-import { ParameterList } from '../model/parameter-list';
+import { ParameterList } from './model/parameter-list';
 
 declare const ocpu;
 
 @Injectable()
-export class RemoteR {
+export class RemoteRService {
   private opencpu = ocpu;
 
   constructor() {

@@ -1,10 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { StatletManagerService } from './model/statlet-manager.service';
 import { CanvasPosition } from 'app/model/canvas-position';
+import {RemoteRService} from './remote-r.service';
 
 @Component({
   selector: 'sl-root',
   templateUrl: './app.component.html',
+  providers: [RemoteRService],
 })
 export class AppComponent implements OnInit {
   constructor(
