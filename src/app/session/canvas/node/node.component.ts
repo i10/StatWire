@@ -3,6 +3,7 @@ import { AfterViewInit, Component, EventEmitter, HostBinding, Input, OnInit, Out
 import { RemoteRService } from '../../../remote-r.service';
 import { PlumbingService } from '../plumbing.service';
 import { Statlet } from '../../../model/statlet';
+import { DomSanitizer, SafeStyle } from '@angular/platform-browser';
 
 enum NodeState {
   ready,
@@ -20,14 +21,17 @@ export class NodeComponent implements OnInit, AfterViewInit {
   @Input() statlet: Statlet;
   @Output() onSelected: EventEmitter<Statlet> = new EventEmitter();
   @HostBinding('id') htmlId: string;
+  @HostBinding('style') cssStyle: SafeStyle;
 
   constructor(
     private plumbing: PlumbingService,
     private remoteR: RemoteRService,
+    private domSanitizer: DomSanitizer,
   ) { }
 
   ngOnInit() {
     this.htmlId = `node-${this.statlet.id}`;
+    this.cssStyle = this.domSanitizer.bypassSecurityTrustStyle(`left: ${this.statlet.position.x}px; top: ${this.statlet.position.y}px;`);
   }
 
   ngAfterViewInit() {
