@@ -8,7 +8,7 @@ import { StatletManagerService } from '../model/statlet-manager.service';
   styleUrls: ['./session.component.sass'],
 })
 export class SessionComponent implements OnInit {
-  private activeStatlet: Statlet;
+  activeStatlet: Statlet;
 
   constructor(
     private statletManager: StatletManagerService,
