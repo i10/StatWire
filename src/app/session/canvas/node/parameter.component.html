@@ -1,0 +1,10 @@
+<div class="parameter parameter-{{parameterType}}">
+  <div class="parameter-endpoint" [ngSwitch]="parameterType">
+    <i *ngSwitchCase="'input'" class="fa fa-sign-in"></i>
+    <i *ngSwitchCase="'output'" class="fa fa-sign-out"></i>
+  </div>
+  <div class="parameter-label">
+    <span class="parameter-name">{{parameter.name}}:</span>
+    <span class="parameter-value">{{parameter.value}}</span>
+  </div>
+</div>

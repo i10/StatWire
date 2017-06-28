@@ -10,6 +10,7 @@ import { CanvasComponent } from './session/canvas/canvas.component';
 import { EditorComponent } from './session/editor/editor.component';
 import { SessionComponent } from './session/session.component';
 import { NodeComponent } from './session/canvas/node/node.component';
+import { ParameterComponent } from './session/canvas/node/parameter.component';
 
 @NgModule({
   declarations: [
@@ -18,6 +19,7 @@ import { NodeComponent } from './session/canvas/node/node.component';
     EditorComponent,
     CanvasComponent,
     NodeComponent,
+    ParameterComponent,
   ],
   imports: [
     BrowserModule,
