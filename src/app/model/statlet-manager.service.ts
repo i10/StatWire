@@ -5,7 +5,7 @@ import { ParameterList } from './parameter-list';
 
 @Injectable()
 export class StatletManagerService {
-  private statlets: Statlet[];
+  private statlets: Statlet[] = [];
 
   constructor() { }
 
