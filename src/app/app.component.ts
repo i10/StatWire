@@ -3,7 +3,7 @@ import { StatletManagerService } from './model/statlet-manager.service';
 import { CanvasPosition } from 'app/model/canvas-position';
 
 @Component({
-  selector: 'app-root',
+  selector: 'sl-root',
   templateUrl: './app.component.html',
 })
 export class AppComponent implements OnInit {

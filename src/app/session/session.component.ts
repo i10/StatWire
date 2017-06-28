@@ -3,7 +3,7 @@ import { Statlet } from '../model/statlet';
 import { StatletManagerService } from '../model/statlet-manager.service';
 
 @Component({
-  selector: 'app-session',
+  selector: 'sl-session',
   templateUrl: './session.component.html',
   styleUrls: ['./session.component.sass'],
 })
