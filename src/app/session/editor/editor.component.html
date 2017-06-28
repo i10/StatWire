@@ -10,10 +10,7 @@
   </div>
   <div class="editor-code">
     <code class="editor-code-inputParameters">function({{statlet.inputList.printParameters()}}) {{ '{' }}</code>
-    <div class="editor" [(ngModel)]="statlet.code" ui-ace="{
-      mode: 'r',
-      onLoad: onAceLoad
-    }"></div>
+    <l-ace-editor [mode]="aceMode" [options]="aceOptions" [(ngModel)]="statlet.code"></l-ace-editor>
     <code class="editor-code-outputParameters">return({{statlet.outputList.printParameters()}})<br/>{{ '}' }}</code>
   </div>
   <div class="editor-outputs">

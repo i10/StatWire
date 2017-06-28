@@ -9,9 +9,10 @@ import { Statlet } from '../../model/statlet';
 })
 export class EditorComponent {
   @Input() statlet: Statlet;
-
-  onAceLoaded(editor): void {
-    editor.$blockScrolling = Infinity;
-  }
-
+  aceMode = 'r';
+  aceOptions = {
+    onLoaded: editor => {
+      editor.$blockScrolling = Infinity;
+    }
+  };
 }
