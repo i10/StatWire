@@ -13,20 +13,20 @@
   <div class="node-body">
     <div class="node-inputs">
       <sl-parameter
-        *ngFor="let inputParameter of statlet.inputList"
+        *ngFor="let inputParameter of statlet.inputList; let parameterIndex = index"
         parameterType="input"
         [parameter]="inputParameter"
         [statletId]="statlet.id"
-        [index]="index">
+        [index]="parameterIndex">
       </sl-parameter>
     </div>
     <div class="node-outputs">
       <sl-parameter
-        *ngFor="let outputParameter of statlet.outputList"
+        *ngFor="let outputParameter of statlet.outputList; let parameterIndex = index"
         parameterType="output"
         [parameter]="outputParameter"
         [statletId]="statlet.id"
-        [index]="index">
+        [index]="parameterIndex">
       </sl-parameter>
     </div>
   </div>

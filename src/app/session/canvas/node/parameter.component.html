@@ -1,5 +1,5 @@
 <div class="parameter parameter-{{parameterType}}">
-  <div class="parameter-endpoint" [ngSwitch]="parameterType">
+  <div id="{{htmlId}}" class="parameter-endpoint" [ngSwitch]="parameterType">
     <i *ngSwitchCase="'input'" class="fa fa-sign-in"></i>
     <i *ngSwitchCase="'output'" class="fa fa-sign-out"></i>
   </div>

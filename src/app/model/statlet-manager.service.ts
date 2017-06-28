@@ -34,4 +34,17 @@ export class StatletManagerService {
     return this.statlets;
   }
 
+  linkParameters(
+    sourceStatletId: number,
+    sourceParameterIndex: number,
+    targetStatletId: number,
+    targetParameterIndex: number
+  ): void {
+    const sourceStatlet = this.getStatlet(sourceStatletId);
+    const sourceParameter = sourceStatlet.outputList.get(sourceParameterIndex);
+    const targetStatlet = this.getStatlet(targetStatletId);
+    const targetParameter = targetStatlet.inputList.get(targetParameterIndex);
+    sourceParameter.linkTo(targetParameter);
+  }
+
 }
