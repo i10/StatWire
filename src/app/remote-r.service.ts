@@ -15,7 +15,7 @@ export class RemoteRService {
     this.opencpu.seturl('//localhost:5656/ocpu/library/statlets/R')
   }
 
-  execute(code, args: ParameterList): Promise<any> {
+  execute(code: string, args: ParameterList): Promise<any> {
     return new Promise((resolve, reject) => {
         const snippet = new this.opencpu.Snippet(code);
         const openCpuArgs = this.convertParameterListToOpenCpuArgs(args);
@@ -36,7 +36,7 @@ export class RemoteRService {
     );
   }
 
-  private convertParameterListToOpenCpuArgs(parameterList): any {
+  private convertParameterListToOpenCpuArgs(parameterList: ParameterList): any {
     const openCpuArgs = {};
     for (const parameter of parameterList) {
       openCpuArgs[parameter.name] = parameter.value;
