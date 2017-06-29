@@ -48,7 +48,7 @@ export class ParameterComponent implements OnInit, AfterViewInit {
     })
   }
 
-  connectParameters(sourceId: string, targetId: string): void {
+  private connectParameters(sourceId: string, targetId: string): void {
     const sourceIds = this.parseHtmlId(sourceId);
     const targetIds = this.parseHtmlId(targetId);
     this.linkParameters(
@@ -57,6 +57,14 @@ export class ParameterComponent implements OnInit, AfterViewInit {
       targetIds.statletId,
       targetIds.parameterIndex,
     );
+  }
+
+  private parseHtmlId(htmlId: string): { statletId: number, parameterIndex: number } {
+    const regex = /statletId:(\d+)-(?:input|output)-parameterIndex:(\d+)/;
+    const matches = regex.exec(htmlId);
+    const statletId = parseInt(matches[1], 10);
+    const parameterIndex = parseInt(matches[2], 10);
+    return {statletId: statletId, parameterIndex: parameterIndex};
   }
 
   private linkParameters(
@@ -71,13 +79,4 @@ export class ParameterComponent implements OnInit, AfterViewInit {
     const targetParameter = targetStatlet.inputList.get(targetParameterIndex);
     sourceParameter.linkTo(targetParameter);
   }
-
-  private parseHtmlId(htmlId: string): { statletId: number, parameterIndex: number } {
-    const regex = /statletId:(\d+)-(?:input|output)-parameterIndex:(\d+)/;
-    const matches = regex.exec(htmlId);
-    const statletId = parseInt(matches[1], 10);
-    const parameterIndex = parseInt(matches[2], 10);
-    return {statletId: statletId, parameterIndex: parameterIndex};
-  }
-
 }
