@@ -44,8 +44,9 @@ export class NodeComponent implements OnInit, AfterViewInit {
 
   execute(): void {
     this.currentState = NodeState.busy;
+    const completeCode = this.getCompleteCode();
     this.remoteR.execute(
-      this.statlet.code,
+      completeCode,
       this.statlet.inputList,
     ).then(outputs => {
       this.updateStatletOutputsWithOpenCpuOutput(outputs);
@@ -53,6 +54,13 @@ export class NodeComponent implements OnInit, AfterViewInit {
     }).catch(() => {
       this.currentState = NodeState.ready;
     })
+  }
+
+  private getCompleteCode(): string {
+    const functionHeader = `function (${this.statlet.inputList.printParameters()}) {`;
+    const functionFooter = `  return(${this.statlet.outputList.printParameters()})\n}`;
+    const completedCode = [functionHeader, this.statlet.code, functionFooter].join('\n');
+    return completedCode;
   }
 
   private updateStatletOutputsWithOpenCpuOutput(outputs: any[]): void {
