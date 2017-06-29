@@ -8,6 +8,7 @@ import { StatletManagerService } from '../model/statlet-manager.service';
   styleUrls: ['./session.component.sass'],
 })
 export class SessionComponent implements OnInit {
+  allStatlets: Statlet[];
   activeStatlet: Statlet;
 
   constructor(
@@ -15,7 +16,8 @@ export class SessionComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.activeStatlet = this.statletManager.getAllStatlets()[0];
+    this.allStatlets = this.statletManager.getAllStatlets();
+    this.activeStatlet = this.allStatlets[0];
   }
 
 }
