@@ -1,9 +1,9 @@
 import { AfterViewInit, Component, EventEmitter, HostBinding, Input, OnInit, Output } from '@angular/core';
+import { DomSanitizer, SafeStyle } from '@angular/platform-browser';
 
+import { Statlet } from '../../../model/statlet';
 import { RemoteRService } from '../../../remote-r.service';
 import { PlumbingService } from '../plumbing.service';
-import { Statlet } from '../../../model/statlet';
-import { DomSanitizer, SafeStyle } from '@angular/platform-browser';
 
 enum NodeState {
   ready,
@@ -20,6 +20,7 @@ export class NodeComponent implements OnInit, AfterViewInit {
   currentState: NodeState = NodeState.ready;
   @Input() statlet: Statlet;
   @Output() onSelected: EventEmitter<Statlet> = new EventEmitter();
+
   @HostBinding('id') htmlId: string;
   @HostBinding('style') cssStyle: SafeStyle;
 
@@ -31,15 +32,12 @@ export class NodeComponent implements OnInit, AfterViewInit {
 
   ngOnInit() {
     this.htmlId = `node-${this.statlet.id}`;
-    this.cssStyle = this.domSanitizer.bypassSecurityTrustStyle(`left: ${this.statlet.position.x}px; top: ${this.statlet.position.y}px;`);
+    this.cssStyle = this.domSanitizer.bypassSecurityTrustStyle(
+      `left: ${this.statlet.position.x}px; top: ${this.statlet.position.y}px;`);
   }
 
   ngAfterViewInit() {
-    this.makeDraggable(this.htmlId);
-  }
-
-  private makeDraggable(elementId: string): void {
-    this.plumbing.makeDraggable(elementId);
+    this.plumbing.makeDraggable(this.htmlId);
   }
 
   execute(): void {
@@ -50,10 +48,10 @@ export class NodeComponent implements OnInit, AfterViewInit {
       this.statlet.inputList,
     ).then(outputs => {
       this.updateStatletOutputsWithOpenCpuOutput(outputs);
-      this.currentState = NodeState.ready;
     }).catch(() => {
+    }).then(() => {
       this.currentState = NodeState.ready;
-    })
+    });
   }
 
   private getCompleteCode(): string {
