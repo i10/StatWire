@@ -1,0 +1,6 @@
+Package: statlets
+Type: Package
+Title: A Base Package for Use with OpenCPU
+Version: 0.1.0
+Encoding: UTF-8
+LazyData: true

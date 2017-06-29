@@ -40,3 +40,8 @@ testem.log
 # System Files
 .DS_Store
 Thumbs.db
+
+# RStudio
+/R-package/.Rproj.user/
+/R-package/.Rhistory
+/R-package/StatLets2.0.Rproj
