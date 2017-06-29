@@ -1,7 +1,7 @@
-import { AfterViewInit, Component, HostBinding, Input, OnInit } from '@angular/core';
-import { PlumbingService } from '../plumbing.service';
-import { StatletManagerService } from '../../../model/statlet-manager.service';
+import { AfterViewInit, Component, Input, OnInit } from '@angular/core';
 import { Parameter } from '../../../model/parameter';
+import { StatletManagerService } from '../../../model/statlet-manager.service';
+import { PlumbingService } from '../plumbing.service';
 
 @Component({
   selector: 'sl-parameter',
@@ -51,12 +51,25 @@ export class ParameterComponent implements OnInit, AfterViewInit {
   connectParameters(sourceId: string, targetId: string): void {
     const sourceIds = this.parseHtmlId(sourceId);
     const targetIds = this.parseHtmlId(targetId);
-    this.statletManager.linkParameters(
+    this.linkParameters(
       sourceIds.statletId,
       sourceIds.parameterIndex,
       targetIds.statletId,
       targetIds.parameterIndex,
     );
+  }
+
+  private linkParameters(
+    sourceStatletId: number,
+    sourceParameterIndex: number,
+    targetStatletId: number,
+    targetParameterIndex: number
+  ): void {
+    const sourceStatlet = this.statletManager.getStatlet(sourceStatletId);
+    const sourceParameter = sourceStatlet.outputList.get(sourceParameterIndex);
+    const targetStatlet = this.statletManager.getStatlet(targetStatletId);
+    const targetParameter = targetStatlet.inputList.get(targetParameterIndex);
+    sourceParameter.linkTo(targetParameter);
   }
 
   private parseHtmlId(htmlId: string): { statletId: number, parameterIndex: number } {
