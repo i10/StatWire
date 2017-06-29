@@ -1,2 +1,4 @@
-<sl-canvas [allStatlets]="allStatlets" [activeStatlet]="activeStatlet"></sl-canvas>
+<sl-canvas [allStatlets]="allStatlets"
+           [activeStatlet]="activeStatlet"
+           (onActiveStatletChanged)="activeStatlet = $event"></sl-canvas>
 <sl-editor [statlet]="activeStatlet"></sl-editor>

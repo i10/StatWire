@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, HostBinding, Input } from '@angular/core';
+import { AfterViewInit, Component, EventEmitter, HostBinding, Input, Output } from '@angular/core';
 
 import { Statlet } from '../../model/statlet';
 import { PlumbingService } from './plumbing.service';
@@ -11,6 +11,8 @@ import { PlumbingService } from './plumbing.service';
 export class CanvasComponent implements AfterViewInit {
   @Input() activeStatlet: Statlet;
   @Input() allStatlets: Statlet[];
+  @Output() onActiveStatletChanged: EventEmitter<Statlet> = new EventEmitter();
+
   @HostBinding('id') htmlId = 'sl-canvas';
 
   constructor(
@@ -25,7 +27,7 @@ export class CanvasComponent implements AfterViewInit {
     this.plumbing.setContainer(this.htmlId);
   }
 
-  setActiveStatlet(selectedStatlet: Statlet): void {
-    this.activeStatlet = selectedStatlet;
+  changeActiveStatlet(selectedStatlet: Statlet): void {
+    this.onActiveStatletChanged.emit(selectedStatlet);
   }
 }
