@@ -12,7 +12,7 @@ export class RemoteRService {
   }
 
   private initializeOpenCPU(): void {
-    this.opencpu.seturl('//localhost:5656/ocpu/library/statlets/R')
+    this.opencpu.seturl('//localhost:5656/ocpu/library/statlets/R');
   }
 
   execute(code: string, args: ParameterList): Promise<any> {
@@ -27,12 +27,12 @@ export class RemoteRService {
           },
           outputs => {
             resolve(outputs);
-          }
+          },
         );
         req.fail(() => {
           reject();
-        })
-      }
+        });
+      },
     );
   }
 
