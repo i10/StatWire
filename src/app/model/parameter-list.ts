@@ -1,6 +1,6 @@
 import { Parameter } from './parameter';
 
-export class ParameterList {
+export class ParameterList implements Iterable<Parameter> {
   private parameters: Parameter[] = [];
 
   addParameter(name: string): ParameterList {
@@ -16,7 +16,7 @@ export class ParameterList {
     return this.parameters[Symbol.iterator]();
   }
 
-  printParameters(): string {
+  print(): string {
     const names = this.parameters.map(parameter => parameter.name);
     return names.join(', ');
   }

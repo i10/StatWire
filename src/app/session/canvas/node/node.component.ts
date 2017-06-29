@@ -57,8 +57,8 @@ export class NodeComponent implements OnInit, AfterViewInit {
   }
 
   private getCompleteCode(): string {
-    const functionHeader = `function (${this.statlet.inputList.printParameters()}) {`;
-    const functionFooter = `  return(${this.statlet.outputList.printParameters()})\n}`;
+    const functionHeader = `function (${this.statlet.inputList.print()}) {`;
+    const functionFooter = `  return(${this.statlet.outputList.print()})\n}`;
     const completedCode = [functionHeader, this.statlet.code, functionFooter].join('\n');
     return completedCode;
   }
