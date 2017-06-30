@@ -4,6 +4,14 @@ import { browser } from 'protractor';
 describe('Editor', () => {
   let page: StatLetsPage;
 
+  beforeAll(() => {
+    browser.waitForAngularEnabled(false);  // Ace is blocking Angular
+  });
+
+  afterAll(() => {
+    browser.waitForAngularEnabled(true);
+  });
+
   beforeEach(() => {
     page = new StatLetsPage();
     page.navigateTo();
