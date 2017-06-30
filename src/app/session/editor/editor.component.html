@@ -10,7 +10,7 @@
   </div>
   <div class="editor-body">
     <div class="editor-code">
-      <l-ace-editor [mode]="aceMode" [options]="aceOptions" [(ngModel)]="statlet.code"></l-ace-editor>
+      <ace-editor [(text)]="statlet.code" [mode]="'r'" [theme]="'chrome'"></ace-editor>
     </div>
     <div class="editor-console">
       <div class="editor-toolbar">

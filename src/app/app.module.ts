@@ -3,7 +3,7 @@ import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 import { BrowserModule } from '@angular/platform-browser';
 
-import { LAceEditorModule } from 'angular2-ace';
+import { AceEditorModule } from 'ng2-ace-editor';
 
 import { AppComponent } from './app.component';
 import { StatletManagerService } from './model/statlet-manager.service';
@@ -32,7 +32,7 @@ import { SessionStorageService } from './sessionStorage.service';
   imports: [
     BrowserModule,
     FormsModule,
-    LAceEditorModule,
+    AceEditorModule,
     HttpModule,
   ],
   providers: [
