@@ -8,13 +8,18 @@ Other browsers might cause issues.
 This project was generated with [Angular CLI] version 1.1.3.
 
 ## Prerequisites
-The following should be installed:
-1. The app's dependencies, using `npm install`. 
-2. The [OpenCPU] R package in an R terminal, using
+Install the following dependencies before you begin developing for StatLets:
+1. R: Install [R](https://cran.r-project.org/mirrors.html) or [RStudio](https://www.rstudio.com/products/rstudio/#Desktop). (Note: Installing RStudio also installs R). 
+2. Install [Node](https://https://nodejs.org/en/) and [npm](https://www.npmjs.com). (Note: Installing Node also installs npm.)
+3. Install the [Angular Command-Line Interface (CLI)](https://github.com/angular/angular-cli) in the Terminal using
+   `npm install -g @angular/cli`.
+4. Install the [OpenCPU] R package in an R terminal, using
    `install.packages("opencpu")`.
-3. This project's own R package, found in `./R-package`,
+5. Install the app's dependencies, using `npm install`.
+6. Install the StatLets R package, found in `./R-package`,
    using `install.packages(".", repos = NULL, type="source")`.
-   (Make sure the working directory is `./R-package`.
+   (Make sure the working directory is set to `./R-package`.
+  - Repeate this step every time the StatLets R package is changed (e.g., a new R function is added).
 
 ## Development server
 The app consists of two parts:
