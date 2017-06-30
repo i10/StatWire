@@ -1,0 +1,8 @@
+image: node:6.11.0
+pipelines:
+  default:
+    - step:
+        script:
+          - npm install -g @angular/cli
+          - npm install
+          - npm test
