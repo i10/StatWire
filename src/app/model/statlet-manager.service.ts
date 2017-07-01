@@ -18,7 +18,6 @@ export class StatletManagerService {
       new ParameterList(),
       new ParameterList(),
     );
-    this.addStatlet(statlet);
     return statlet;
   }
 
