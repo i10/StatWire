@@ -33,10 +33,10 @@ module.exports = function (config) {
       ChromeHeadless: {
         base: 'Chrome',
         flags: [
+          '--no-sandbox',  // Works around permission problems in Docker
           '--headless',
           '--disable-gpu',
-          // Without a remote debugging port, Google Chrome exits immediately.
-          '--remote-debugging-port=9222',
+          '--remote-debugging-port=9222',  // Without a remote debugging port, Google Chrome exits immediately.
         ],
       }
     }
