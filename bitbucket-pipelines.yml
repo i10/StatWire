@@ -1,0 +1,7 @@
+image: blackholegalaxy/node-chrome-angular-cli
+pipelines:
+  default:
+    - step:
+        script:
+          - npm install
+          - npm test
