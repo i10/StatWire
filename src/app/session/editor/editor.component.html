@@ -1,24 +1,4 @@
 <h1 class="editor-title">{{ statlet.title }}</h1>
-<div class="editor-body">
-  <div class="editor-inputs">
-    <ul>
-      <li *ngFor="let input of statlet.inputList">
-        <span class="editor-parameter-name">{{input.name}}:</span>
-        <span class="editor-parameter-value">{{input.value}}</span>
-      </li>
-    </ul>
-  </div>
-  <div class="editor-code">
-    <code class="editor-code-inputParameters">function({{statlet.inputList.print()}}) {{ '{' }}</code>
-    <l-ace-editor [mode]="aceMode" [options]="aceOptions" [(ngModel)]="statlet.code"></l-ace-editor>
-    <code class="editor-code-outputParameters">return({{statlet.outputList.print()}})<br/>{{ '}' }}</code>
-  </div>
-  <div class="editor-outputs">
-    <ul>
-      <li *ngFor="let output of statlet.outputList">
-        <span class="editor-parameter-name">{{output.name}}:</span>
-        <span class="editor-parameter-value">{{output.value}}</span>
-      </li>
-    </ul>
-  </div>
+<div class="editor-code">
+  <l-ace-editor [mode]="aceMode" [options]="aceOptions" [(ngModel)]="statlet.code"></l-ace-editor>
 </div>
