@@ -1,4 +1,5 @@
 <h1 class="editor-title">{{ statlet.title }}</h1>
 <div class="editor-code">
   <l-ace-editor [mode]="aceMode" [options]="aceOptions" [(ngModel)]="statlet.code"></l-ace-editor>
+  <button (click)="synchronizeStatlet()">Synchronize</button>
 </div>
