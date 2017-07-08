@@ -38,4 +38,8 @@ export class PlumbingService {
   onConnection(callback): void {
     this.jsPlumb.bind('connection', callback);
   }
+
+  onDisconnect(callback): void {
+    this.jsPlumb.bind('connectionDetached', callback);
+  }
 }
