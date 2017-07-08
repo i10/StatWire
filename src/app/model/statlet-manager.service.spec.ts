@@ -54,7 +54,7 @@ describe('StatletManagerService', () => {
       statlet1.outputList.addParameter('ignoreMe');
       statlet2.inputList.addParameter('findMe');
       const expectedParameter = statlet2.inputList.get(0);
-      const actualParameter = statletManager.getParameter(expectedParameter.id);
+      const actualParameter = statletManager.getParameter(expectedParameter.uuid);
       expect(actualParameter).toBe(expectedParameter);
     });
 

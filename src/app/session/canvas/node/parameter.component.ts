@@ -21,7 +21,7 @@ export class ParameterComponent implements OnInit, AfterViewInit {
   ) { }
 
   ngOnInit() {
-    this.htmlId = this.parameter.id;
+    this.htmlId = this.parameter.uuid;
   }
 
   ngAfterViewInit() {

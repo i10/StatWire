@@ -38,12 +38,12 @@ export class StatletManagerService {
   getParameter(uuid: string): Parameter {
     for (const statlet of this.statlets) {
       for (const parameter of statlet.inputList) {
-        if (parameter.id === uuid) {
+        if (parameter.uuid === uuid) {
           return parameter;
         }
       }
       for (const parameter of statlet.outputList) {
-        if (parameter.id === uuid) {
+        if (parameter.uuid === uuid) {
           return parameter;
         }
       }

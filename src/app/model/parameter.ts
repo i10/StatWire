@@ -1,13 +1,13 @@
 import { UUID } from 'angular2-uuid';
 
 export class Parameter {
-  id: string;
+  uuid: string;
   private reference = {value: undefined};
 
   constructor(
     public name: string,
   ) {
-    this.id = UUID.UUID();
+    this.uuid = UUID.UUID();
   }
 
   get value(): any {

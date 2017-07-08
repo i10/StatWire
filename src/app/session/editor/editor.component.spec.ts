@@ -29,7 +29,7 @@ describe('EditorComponent', () => {
 
   function removeIds(list: ParameterList): void {
     for (const parameter of list) {
-      delete parameter.id;
+      delete parameter.uuid;
     }
   }
 
