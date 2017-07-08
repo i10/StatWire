@@ -14,4 +14,8 @@ export class Parameter {
   linkTo(target: Parameter): void {
     target.reference = this.reference;
   }
+
+  unlink(target: Parameter): void {
+    target.reference = {value: this.reference.value};
+  }
 }
