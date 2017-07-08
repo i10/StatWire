@@ -15,10 +15,9 @@ export class PlumbingService {
   makeInput(elementId: string): void {
     const inputEndpointOptions = {
       anchor: 'Left',
+      endpoint: ['Dot', {radius: 5}],
+      paintStyle: { fill: 'rgba(66,139,202,1)' },
       maxConnections: 1,
-      paintStyle: {
-        fill: 'transparent',
-      },
     };
     this.jsPlumb.makeTarget(elementId, inputEndpointOptions)
   }
@@ -26,9 +25,8 @@ export class PlumbingService {
   makeOutput(elementId: string): void {
     const outputEndpointOptions = {
       anchor: 'Right',
-      paintStyle: {
-        fill: 'transparent',
-      },
+      endpoint: ['Dot', {radius: 5}],
+      paintStyle: { fill: 'rgba(66,139,202,1)' },
     };
     this.jsPlumb.makeSource(elementId, outputEndpointOptions);
   }
