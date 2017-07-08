@@ -11,8 +11,6 @@ import { PlumbingService } from '../plumbing.service';
 export class ParameterComponent implements OnInit, AfterViewInit {
   @Input() parameterType: string;
   @Input() parameter: Parameter;
-  @Input() statletId: number;
-  @Input() index: number;
   htmlId: string;
 
   constructor(
