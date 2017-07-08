@@ -22,9 +22,9 @@ export class EditorComponent {
 
   synchronizeStatlet(): void {
     const updatedInputList = this.getInputList(this.statlet.code);
-    this.statlet.inputList = updatedInputList;
+    this.statlet.inputList.updateWith(updatedInputList);
     const updatedOutputList = this.getOutputList(this.statlet.code);
-    this.statlet.outputList = updatedOutputList;
+    this.statlet.outputList.updateWith(updatedOutputList);
   }
 
   private getInputList(code: string): ParameterList {
