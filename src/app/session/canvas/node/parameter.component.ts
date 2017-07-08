@@ -21,7 +21,7 @@ export class ParameterComponent implements OnInit, AfterViewInit {
   ) { }
 
   ngOnInit() {
-    this.htmlId = `statletId:${this.statletId}-${this.parameterType}-parameterIndex:${this.index}`;
+    this.htmlId = this.parameter.id;
   }
 
   ngAfterViewInit() {
@@ -49,36 +49,10 @@ export class ParameterComponent implements OnInit, AfterViewInit {
     });
   }
 
-  private connectParameters(sourceHtmlId: string, targetHtmlId: string): void {
-    const sourceIds = this.parseHtmlId(sourceHtmlId);
-    const targetIds = this.parseHtmlId(targetHtmlId);
-    this.linkParameters(
-      sourceIds.statletId,
-      sourceIds.parameterIndex,
-      targetIds.statletId,
-      targetIds.parameterIndex,
-    );
-  }
-
-  private parseHtmlId(htmlId: string): { statletId: number, parameterIndex: number } {
-    const regex = /statletId:(\d+)-(?:input|output)-parameterIndex:(\d+)/;
-    const matches = regex.exec(htmlId);
-    const statletId = parseInt(matches[1], 10);
-    const parameterIndex = parseInt(matches[2], 10);
-    return {statletId: statletId, parameterIndex: parameterIndex};
-  }
-
-  private linkParameters(
-    sourceStatletId: number,
-    sourceParameterIndex: number,
-    targetStatletId: number,
-    targetParameterIndex: number,
-  ): void {
-    const sourceStatlet = this.statletManager.getStatlet(sourceStatletId);
-    const sourceParameter = sourceStatlet.outputList.get(sourceParameterIndex);
-    const targetStatlet = this.statletManager.getStatlet(targetStatletId);
-    const targetParameter = targetStatlet.inputList.get(targetParameterIndex);
-    sourceParameter.linkTo(targetParameter);
+  private connectParameters(sourceId: string, targetId: string): void {
+    const source = this.statletManager.getParameter(sourceId);
+    const target = this.statletManager.getParameter(targetId);
+    source.linkTo(target);
   }
 
   private setOnDisconnectCallback(): void {
@@ -89,27 +63,9 @@ export class ParameterComponent implements OnInit, AfterViewInit {
     });
   }
 
-  disconnectParameters(sourceHtmlId: string, targetHtmlId: string): void {
-    const sourceIds = this.parseHtmlId(sourceHtmlId);
-    const targetIds = this.parseHtmlId(targetHtmlId);
-    this.unlinkParameters(
-      sourceIds.statletId,
-      sourceIds.parameterIndex,
-      targetIds.statletId,
-      targetIds.parameterIndex,
-    );
-  }
-
-  private unlinkParameters(
-    sourceStatletId: number,
-    sourceParameterIndex: number,
-    targetStatletId: number,
-    targetParameterIndex: number,
-  ): void {
-    const sourceStatlet = this.statletManager.getStatlet(sourceStatletId);
-    const sourceParameter = sourceStatlet.outputList.get(sourceParameterIndex);
-    const targetStatlet = this.statletManager.getStatlet(targetStatletId);
-    const targetParameter = targetStatlet.inputList.get(targetParameterIndex);
-    sourceParameter.unlink(targetParameter);
+  disconnectParameters(sourceId: string, targetId: string): void {
+    const source = this.statletManager.getParameter(sourceId);
+    const target = this.statletManager.getParameter(targetId);
+    source.unlink(target);
   }
 }
