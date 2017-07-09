@@ -22,8 +22,16 @@ describe('EditorComponent', () => {
     expectedInputList.addParameter('first')
       .addParameter('second')
       .addParameter('third');
+    removeIds(actualInputList);
+    removeIds(expectedInputList);
     expect(actualInputList).toEqual(expectedInputList);
   });
+
+  function removeIds(list: ParameterList): void {
+    for (const parameter of list) {
+      delete parameter.uuid;
+    }
+  }
 
   it('#getInputList should return empty ParameterList when no inputs are given', () => {
     const testCode = `function(){
@@ -46,6 +54,8 @@ describe('EditorComponent', () => {
     expectedOutputList.addParameter('first')
       .addParameter('second')
       .addParameter('third');
+    removeIds(actualOutputList);
+    removeIds(expectedOutputList);
     expect(actualOutputList).toEqual(expectedOutputList);
   });
 

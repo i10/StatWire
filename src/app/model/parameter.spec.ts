@@ -16,5 +16,16 @@ describe('Parameter', () => {
     target.value = 2;
     source.linkTo(target);
     expect(target.value).toEqual(1);
-  })
+  });
+
+  it('#unlink should stop updates from the source', () => {
+    const source = new Parameter('source');
+    const target = new Parameter('target');
+    source.linkTo(target);
+    source.value = 2;
+    expect(target.value).toEqual(2);
+    source.unlink(target);
+    source.value = 3;
+    expect(target.value).toEqual(2);
+  });
 });

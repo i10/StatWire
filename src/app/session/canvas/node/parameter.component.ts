@@ -3,17 +3,24 @@ import { Parameter } from '../../../model/parameter';
 import { StatletManagerService } from '../../../model/statlet-manager.service';
 import { PlumbingService } from '../plumbing.service';
 
+export enum ParameterType {
+  Input,
+  Output,
+}
+
 @Component({
   selector: 'sl-parameter',
   templateUrl: './parameter.component.html',
-  styleUrls: ['./parameter.component.sass']
+  styleUrls: ['./parameter.component.sass'],
 })
 export class ParameterComponent implements OnInit, AfterViewInit {
-  @Input() parameterType: string;
+  static callbacksAreSet = false;
+
+  @Input() parameterType: ParameterType;
   @Input() parameter: Parameter;
-  @Input() statletId: number;
-  @Input() index: number;
   htmlId: string;
+
+  ParameterType = ParameterType;
 
   constructor(
     private plumbing: PlumbingService,
@@ -21,20 +28,24 @@ export class ParameterComponent implements OnInit, AfterViewInit {
   ) { }
 
   ngOnInit() {
-    this.htmlId = `statletId:${this.statletId}-${this.parameterType}-parameterIndex:${this.index}`;
+    this.htmlId = this.parameter.uuid;
   }
 
   ngAfterViewInit() {
     this.makeEndpoint(this.htmlId);
-    this.setOnConnectionCallback();
+    if (!ParameterComponent.callbacksAreSet) {
+      this.setOnConnectionCallback();
+      this.setOnDisconnectCallback();
+      ParameterComponent.callbacksAreSet = true;
+    }
   }
 
   private makeEndpoint(id: string) {
     switch (this.parameterType) {
-      case 'input':
+      case ParameterType.Input:
         this.plumbing.makeInput(id);
         break;
-      case 'output':
+      case ParameterType.Output:
         this.plumbing.makeOutput(id);
         break;
     }
@@ -45,38 +56,26 @@ export class ParameterComponent implements OnInit, AfterViewInit {
       const sourceId = info.sourceId;
       const targetId = info.targetId;
       this.connectParameters(sourceId, targetId);
-    })
+    });
   }
 
   private connectParameters(sourceId: string, targetId: string): void {
-    const sourceIds = this.parseHtmlId(sourceId);
-    const targetIds = this.parseHtmlId(targetId);
-    this.linkParameters(
-      sourceIds.statletId,
-      sourceIds.parameterIndex,
-      targetIds.statletId,
-      targetIds.parameterIndex,
-    );
+    const source = this.statletManager.getParameter(sourceId);
+    const target = this.statletManager.getParameter(targetId);
+    source.linkTo(target);
   }
 
-  private parseHtmlId(htmlId: string): { statletId: number, parameterIndex: number } {
-    const regex = /statletId:(\d+)-(?:input|output)-parameterIndex:(\d+)/;
-    const matches = regex.exec(htmlId);
-    const statletId = parseInt(matches[1], 10);
-    const parameterIndex = parseInt(matches[2], 10);
-    return {statletId: statletId, parameterIndex: parameterIndex};
+  private setOnDisconnectCallback(): void {
+    this.plumbing.onDisconnect((info) => {
+      const sourceId = info.sourceId;
+      const targetId = info.targetId;
+      this.disconnectParameters(sourceId, targetId);
+    });
   }
 
-  private linkParameters(
-    sourceStatletId: number,
-    sourceParameterIndex: number,
-    targetStatletId: number,
-    targetParameterIndex: number
-  ): void {
-    const sourceStatlet = this.statletManager.getStatlet(sourceStatletId);
-    const sourceParameter = sourceStatlet.outputList.get(sourceParameterIndex);
-    const targetStatlet = this.statletManager.getStatlet(targetStatletId);
-    const targetParameter = targetStatlet.inputList.get(targetParameterIndex);
-    sourceParameter.linkTo(targetParameter);
+  disconnectParameters(sourceId: string, targetId: string): void {
+    const source = this.statletManager.getParameter(sourceId);
+    const target = this.statletManager.getParameter(targetId);
+    source.unlink(target);
   }
 }

@@ -1,7 +1,7 @@
-<div class="parameter parameter-{{parameterType}}">
+<div class="parameter parameter-{{ParameterType[parameterType] | lowercase}}">
   <div id="{{htmlId}}" class="parameter-endpoint" [ngSwitch]="parameterType">
-    <i *ngSwitchCase="'input'" class="fa fa-sign-in"></i>
-    <i *ngSwitchCase="'output'" class="fa fa-sign-out"></i>
+    <i *ngSwitchCase="ParameterType.Input" class="fa fa-sign-in"></i>
+    <i *ngSwitchCase="ParameterType.Output" class="fa fa-sign-out"></i>
   </div>
   <div class="parameter-label">
     <span class="parameter-name">{{parameter.name}}:</span>

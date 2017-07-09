@@ -49,5 +49,18 @@ describe('StatletManagerService', () => {
       const actual2 = statletManager.getStatlet(statlet2.id);
       expect(actual2).toBe(statlet2);
     });
+
+    it('#getParameter should find among its Statlets the parameter that matches the uuid', () => {
+      statlet1.outputList.addParameter('ignoreMe');
+      statlet2.inputList.addParameter('findMe');
+      const expectedParameter = statlet2.inputList.get(0);
+      const actualParameter = statletManager.getParameter(expectedParameter.uuid);
+      expect(actualParameter).toBe(expectedParameter);
+    });
+
+    it('#getParameter should return null when no Parameter with matching uuid is found', () => {
+      const actual = statletManager.getParameter('you will not find me');
+      expect(actual).toBeNull();
+    });
   });
 });

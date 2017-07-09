@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Statlet } from 'app/model/statlet';
 import { CanvasPosition } from './canvas-position';
 import { ParameterList } from './parameter-list';
+import { Parameter } from './parameter';
 
 @Injectable()
 export class StatletManagerService {
@@ -32,5 +33,21 @@ export class StatletManagerService {
 
   getAllStatlets(): Statlet[] {
     return this.statlets;
+  }
+
+  getParameter(uuid: string): Parameter {
+    for (const statlet of this.statlets) {
+      for (const parameter of statlet.inputList) {
+        if (parameter.uuid === uuid) {
+          return parameter;
+        }
+      }
+      for (const parameter of statlet.outputList) {
+        if (parameter.uuid === uuid) {
+          return parameter;
+        }
+      }
+    }
+    return null;
   }
 }

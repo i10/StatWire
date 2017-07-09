@@ -11,6 +11,7 @@ import { EditorComponent } from './session/editor/editor.component';
 import { SessionComponent } from './session/session.component';
 import { NodeComponent } from './session/canvas/node/node.component';
 import { ParameterComponent } from './session/canvas/node/parameter.component';
+import { UuidService } from './uuid.service';
 
 @NgModule({
   declarations: [
@@ -26,7 +27,10 @@ import { ParameterComponent } from './session/canvas/node/parameter.component';
     FormsModule,
     LAceEditorModule,
   ],
-  providers: [StatletManagerService],
+  providers: [
+    StatletManagerService,
+    UuidService,
+  ],
   bootstrap: [AppComponent],
 })
 export class AppModule { }
