@@ -26,9 +26,11 @@ export class Statlet {
     this.remoteR.execute(
       this.code,
       this.inputList,
-    ).then(outputs => {
-      this.updateStatletOutputsWithOpenCpuOutput(outputs);
-    }).catch(() => {
+    ).then(result => {
+      this.updateStatletOutputsWithOpenCpuOutput(result.returnValue);
+      this.consoleOutput = result.consoleOutput;
+    }).catch((error) => {
+      this.consoleOutput = error;
     }).then(() => {
       this.currentState = StatletState.ready;
     });
