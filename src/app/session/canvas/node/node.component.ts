@@ -1,15 +1,9 @@
 import { AfterViewInit, Component, EventEmitter, HostBinding, Input, OnInit, Output } from '@angular/core';
 import { DomSanitizer, SafeStyle } from '@angular/platform-browser';
 
-import { Statlet } from '../../../model/statlet';
-import { RemoteRService } from '../../../remote-r.service';
+import { Statlet, StatletState } from '../../../model/statlet';
 import { PlumbingService } from '../plumbing.service';
 import { ParameterType } from './parameter.component';
-
-enum NodeState {
-  ready,
-  busy,
-}
 
 @Component({
   selector: 'sl-node',
@@ -17,19 +11,17 @@ enum NodeState {
   styleUrls: ['./node.component.sass'],
 })
 export class NodeComponent implements OnInit, AfterViewInit {
-  currentState: NodeState = NodeState.ready;
   @Input() statlet: Statlet;
   @Output() onSelected: EventEmitter<Statlet> = new EventEmitter();
 
   @HostBinding('id') htmlId: string;
   @HostBinding('style') cssStyle: SafeStyle;
 
-  NodeState = NodeState;  // Make enums available in template
+  StatletState = StatletState;  // expose enums to template
   ParameterType = ParameterType;
 
   constructor(
     private plumbing: PlumbingService,
-    private remoteR: RemoteRService,
     private domSanitizer: DomSanitizer,
   ) { }
 
@@ -41,25 +33,6 @@ export class NodeComponent implements OnInit, AfterViewInit {
 
   ngAfterViewInit() {
     this.plumbing.makeDraggable(this.htmlId);
-  }
-
-  execute(): void {
-    this.currentState = NodeState.busy;
-    this.remoteR.execute(
-      this.statlet.code,
-      this.statlet.inputList,
-    ).then(outputs => {
-      this.updateStatletOutputsWithOpenCpuOutput(outputs);
-    }).catch(() => {
-    }).then(() => {
-      this.currentState = NodeState.ready;
-    });
-  }
-
-  private updateStatletOutputsWithOpenCpuOutput(outputs: any[]): void {
-    for (let index = 0; index < outputs.length; index++) {
-      this.statlet.outputList.get(index).value = outputs[index];
-    }
   }
 
   selected(): void {

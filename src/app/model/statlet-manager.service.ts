@@ -3,12 +3,13 @@ import { Statlet } from 'app/model/statlet';
 import { CanvasPosition } from './canvas-position';
 import { ParameterList } from './parameter-list';
 import { Parameter } from './parameter';
+import { RemoteRService } from '../remote-r.service';
 
 @Injectable()
 export class StatletManagerService {
   private statlets: Statlet[] = [];
 
-  constructor() { }
+  constructor(private remoteR: RemoteRService) { }
 
   createStatlet(title: string, position: CanvasPosition): Statlet {
     const statlet = new Statlet(
@@ -18,6 +19,7 @@ export class StatletManagerService {
       position,
       new ParameterList(),
       new ParameterList(),
+      this.remoteR,
     );
     this.addStatlet(statlet);
     return statlet;
