@@ -14,6 +14,8 @@ export enum ParameterType {
   styleUrls: ['./parameter.component.sass'],
 })
 export class ParameterComponent implements OnInit, AfterViewInit {
+  static callbacksAreSet = false;
+
   @Input() parameterType: ParameterType;
   @Input() parameter: Parameter;
   htmlId: string;
@@ -31,8 +33,11 @@ export class ParameterComponent implements OnInit, AfterViewInit {
 
   ngAfterViewInit() {
     this.makeEndpoint(this.htmlId);
-    this.setOnConnectionCallback();
-    this.setOnDisconnectCallback();
+    if (!ParameterComponent.callbacksAreSet) {
+      this.setOnConnectionCallback();
+      this.setOnDisconnectCallback();
+      ParameterComponent.callbacksAreSet = true;
+    }
   }
 
   private makeEndpoint(id: string) {
