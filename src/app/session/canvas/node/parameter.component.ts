@@ -3,15 +3,22 @@ import { Parameter } from '../../../model/parameter';
 import { StatletManagerService } from '../../../model/statlet-manager.service';
 import { PlumbingService } from '../plumbing.service';
 
+export enum ParameterType {
+  Input,
+  Output,
+}
+
 @Component({
   selector: 'sl-parameter',
   templateUrl: './parameter.component.html',
   styleUrls: ['./parameter.component.sass'],
 })
 export class ParameterComponent implements OnInit, AfterViewInit {
-  @Input() parameterType: string;
+  @Input() parameterType: ParameterType;
   @Input() parameter: Parameter;
   htmlId: string;
+
+  ParameterType = ParameterType;
 
   constructor(
     private plumbing: PlumbingService,
@@ -30,10 +37,10 @@ export class ParameterComponent implements OnInit, AfterViewInit {
 
   private makeEndpoint(id: string) {
     switch (this.parameterType) {
-      case 'input':
+      case ParameterType.Input:
         this.plumbing.makeInput(id);
         break;
-      case 'output':
+      case ParameterType.Output:
         this.plumbing.makeOutput(id);
         break;
     }

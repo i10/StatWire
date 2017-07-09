@@ -14,14 +14,14 @@
     <div class="node-inputs">
       <sl-parameter
         *ngFor="let inputParameter of statlet.inputList"
-        [parameterType]="'input'"
+        [parameterType]="ParameterType.Input"
         [parameter]="inputParameter">
       </sl-parameter>
     </div>
     <div class="node-outputs">
       <sl-parameter
         *ngFor="let outputParameter of statlet.outputList"
-        [parameterType]="'output'"
+        [parameterType]="ParameterType.Output"
         [parameter]="outputParameter">
       </sl-parameter>
     </div>

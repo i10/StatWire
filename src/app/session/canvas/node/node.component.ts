@@ -4,6 +4,7 @@ import { DomSanitizer, SafeStyle } from '@angular/platform-browser';
 import { Statlet } from '../../../model/statlet';
 import { RemoteRService } from '../../../remote-r.service';
 import { PlumbingService } from '../plumbing.service';
+import { ParameterType } from './parameter.component';
 
 enum NodeState {
   ready,
@@ -16,13 +17,15 @@ enum NodeState {
   styleUrls: ['./node.component.sass'],
 })
 export class NodeComponent implements OnInit, AfterViewInit {
-  NodeState = NodeState;  // Make enum available in template
   currentState: NodeState = NodeState.ready;
   @Input() statlet: Statlet;
   @Output() onSelected: EventEmitter<Statlet> = new EventEmitter();
 
   @HostBinding('id') htmlId: string;
   @HostBinding('style') cssStyle: SafeStyle;
+
+  NodeState = NodeState;  // Make enums available in template
+  ParameterType = ParameterType;
 
   constructor(
     private plumbing: PlumbingService,
