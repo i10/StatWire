@@ -16,6 +16,7 @@ export class StatletManagerService {
       this.statlets.length + 1,
       title,
       'function() {\n\treturn()\n}',
+      '',
       position,
       new ParameterList(),
       new ParameterList(),

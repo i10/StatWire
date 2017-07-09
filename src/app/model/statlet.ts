@@ -14,6 +14,7 @@ export class Statlet {
     public id: number,
     public title: string,
     public code: string,
+    public consoleOutput: string,
     public position: CanvasPosition,
     public inputList: ParameterList,
     public outputList: ParameterList,
