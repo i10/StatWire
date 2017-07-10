@@ -12,6 +12,7 @@ import { SessionComponent } from './session/session.component';
 import { NodeComponent } from './session/canvas/node/node.component';
 import { ParameterComponent } from './session/canvas/node/parameter.component';
 import { UuidService } from './uuid.service';
+import { RemoteRService } from './remote-r.service';
 
 @NgModule({
   declarations: [
@@ -30,6 +31,7 @@ import { UuidService } from './uuid.service';
   providers: [
     StatletManagerService,
     UuidService,
+    RemoteRService,
   ],
   bootstrap: [AppComponent],
 })

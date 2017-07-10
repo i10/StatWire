@@ -15,22 +15,29 @@ export class RemoteRService {
     this.opencpu.seturl('//localhost:5656/ocpu/library/statlets/R');
   }
 
-  execute(code: string, args: ParameterList): Promise<any> {
+  execute(code: string, args: ParameterList): Promise<{returnValue: any, consoleOutput: string}> {
     return new Promise((resolve, reject) => {
         const snippet = new this.opencpu.Snippet(code);
         const openCpuArgs = this.convertParameterListToOpenCpuArgs(args);
-        const req = this.opencpu.rpc(
+        const req = this.opencpu.call(
           'do.call',
           {
             what: snippet,
             args: openCpuArgs,
           },
-          outputs => {
-            resolve(outputs);
+          session => {
+            let returnValue, consoleOutput;
+            session.getObject().done(newReturnValue => {
+              returnValue = newReturnValue;
+              return session.getConsole();
+            }).done(newConsoleOutput => {
+              consoleOutput = newConsoleOutput;
+              resolve({returnValue: returnValue, consoleOutput: consoleOutput});
+            });
           },
         );
         req.fail(() => {
-          reject();
+          reject(req.responseText);
         });
       },
     );

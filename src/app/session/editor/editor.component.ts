@@ -1,6 +1,6 @@
 import { Component, Input } from '@angular/core';
 
-import { Statlet } from '../../model/statlet';
+import { Statlet, StatletState } from '../../model/statlet';
 import { ParameterList } from '../../model/parameter-list';
 
 @Component({
@@ -16,6 +16,8 @@ export class EditorComponent {
       editor.$blockScrolling = Infinity;
     },
   };
+
+  StatletState = StatletState;
 
   private functionHeaderPattern = /function\(([^)]*?)\)/;
   private returnStatementPattern = /return\(([^)]*?)\)/;

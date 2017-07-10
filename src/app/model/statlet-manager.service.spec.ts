@@ -1,10 +1,12 @@
 import { CanvasPosition } from './canvas-position';
 import { StatletManagerService } from './statlet-manager.service';
+import { RemoteRService } from '../remote-r.service';
 
 describe('StatletManagerService', () => {
   let statletManager: StatletManagerService;
   beforeEach(() => {
-    statletManager = new StatletManagerService();
+    const remoteRStub = {} as RemoteRService;
+    statletManager = new StatletManagerService(remoteRStub);
   });
 
   it('#createStatlet should save a Statlet when one is created', () => {
