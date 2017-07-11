@@ -64,5 +64,10 @@ describe('StatletManagerService', () => {
       const actual = statletManager.getParameter('you will not find me');
       expect(actual).toBeNull();
     });
+
+    it('#delete should remove the Statlet', () => {
+      statletManager.deleteStatlet(statlet2.id);
+      expect(statletManager['statlets'].length).toEqual(1);
+    })
   });
 });

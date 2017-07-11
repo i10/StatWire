@@ -30,6 +30,11 @@ export class StatletManagerService {
     this.statlets.push(statlet);
   }
 
+  deleteStatlet(statletId: number): void {
+    const indexToDelete = this.statlets.findIndex(statlet => statlet.id === statletId);
+    this.statlets.splice(indexToDelete, 1);
+  }
+
   getStatlet(statletId: number): Statlet {
     return this.statlets.find(statlet => statlet.id === statletId);
   }
