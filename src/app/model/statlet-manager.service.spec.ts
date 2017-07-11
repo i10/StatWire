@@ -1,6 +1,6 @@
+import { RemoteRService } from '../remote-r.service';
 import { CanvasPosition } from './canvas-position';
 import { StatletManagerService } from './statlet-manager.service';
-import { RemoteRService } from '../remote-r.service';
 
 describe('StatletManagerService', () => {
   let statletManager: StatletManagerService;
