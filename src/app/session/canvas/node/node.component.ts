@@ -1,13 +1,10 @@
-import {
-  AfterViewInit, Component, EventEmitter, HostBinding, HostListener, Input, OnInit,
-  Output,
-} from '@angular/core';
+import { AfterViewInit, Component, HostBinding, HostListener, Input, OnInit } from '@angular/core';
 import { DomSanitizer, SafeStyle } from '@angular/platform-browser';
 
 import { Statlet, StatletState } from '../../../model/statlet';
+import { StatletManagerService } from '../../../model/statlet-manager.service';
 import { PlumbingService } from '../plumbing.service';
 import { ParameterType } from './parameter.component';
-import { StatletManagerService } from '../../../model/statlet-manager.service';
 
 @Component({
   selector: 'sl-node',
@@ -19,7 +16,6 @@ export class NodeComponent implements OnInit, AfterViewInit {
   ParameterType = ParameterType;
 
   @Input() statlet: Statlet;
-  @Output() onSelected: EventEmitter<Statlet> = new EventEmitter();
 
   @HostBinding('id') htmlId: string;
   @HostBinding('style') cssStyle: SafeStyle;
@@ -47,6 +43,6 @@ export class NodeComponent implements OnInit, AfterViewInit {
   }
 
   selected(): void {
-    this.onSelected.emit(this.statlet);
+    this.statletManager.setActiveStatlet(this.statlet.id);
   }
 }

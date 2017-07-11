@@ -14,7 +14,7 @@ describe('StatletManagerService', () => {
       'saveMe',
       new CanvasPosition(10, 10),
     );
-    const allStatlets = statletManager.getAllStatlets();
+    const allStatlets = statletManager.allStatlets;
     expect(allStatlets).toContain(statlet);
   });
 
@@ -41,7 +41,7 @@ describe('StatletManagerService', () => {
     });
 
     it('should retrieve all created nodes', () => {
-      const allStatlets = statletManager.getAllStatlets();
+      const allStatlets = statletManager.allStatlets;
       expect(allStatlets).toEqual([statlet1, statlet2]);
     });
 
@@ -67,7 +67,7 @@ describe('StatletManagerService', () => {
 
     it('#delete should remove the Statlet', () => {
       statletManager.deleteStatlet(statlet2.id);
-      expect(statletManager['statlets'].length).toEqual(1);
+      expect(statletManager.allStatlets.length).toEqual(1);
     })
   });
 });

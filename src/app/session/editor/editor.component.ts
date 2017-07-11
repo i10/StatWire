@@ -1,9 +1,10 @@
-import { Component, Input } from '@angular/core';
+import { Component } from '@angular/core';
 
 import { isNullOrUndefined } from 'util';
 
-import { Statlet, StatletState } from '../../model/statlet';
 import { ParameterList } from '../../model/parameter-list';
+import { Statlet, StatletState } from '../../model/statlet';
+import { StatletManagerService } from '../../model/statlet-manager.service';
 
 @Component({
   selector: 'sl-editor',
@@ -11,7 +12,6 @@ import { ParameterList } from '../../model/parameter-list';
   styleUrls: ['./editor.component.sass'],
 })
 export class EditorComponent {
-  @Input() statlet: Statlet;
   aceMode = 'r';
   aceOptions = {
     onLoaded: editor => {
@@ -19,10 +19,18 @@ export class EditorComponent {
     },
   };
 
-  StatletState = StatletState;
+  StatletState = StatletState;  // expose enum to template
 
   private functionHeaderPattern = /function\(([^)]*?)\)/;
   private returnStatementPattern = /return\(([^)]*?)\)/;
+
+  constructor(
+    private statletManager: StatletManagerService,
+  ) { }
+
+  get statlet(): Statlet {
+    return this.statletManager.activeStatlet;
+  }
 
   isStatletPresent(): boolean {
     return !isNullOrUndefined(this.statlet);
