@@ -1,7 +1,9 @@
-import { AfterViewInit, Component, EventEmitter, HostBinding, Input, Output } from '@angular/core';
+import { AfterViewInit, Component, EventEmitter, HostBinding, HostListener, Input, Output } from '@angular/core';
 
 import { Statlet } from '../../model/statlet';
 import { PlumbingService } from './plumbing.service';
+import { StatletManagerService } from '../../model/statlet-manager.service';
+import { CanvasPosition } from '../../model/canvas-position';
 
 @Component({
   selector: 'sl-canvas',
@@ -15,8 +17,15 @@ export class CanvasComponent implements AfterViewInit {
 
   @HostBinding('id') htmlId = 'sl-canvas';
 
+  @HostListener('contextmenu', ['$event']) onRightClick($event: MouseEvent): void {
+    $event.preventDefault();
+    const [posX, posY] = [$event.pageX, $event.pageY];
+    this.statletManager.createStatlet('New StatLet', new CanvasPosition(posX, posY))
+  }
+
   constructor(
     private plumbing: PlumbingService,
+    private statletManager: StatletManagerService,
   ) { }
 
   ngAfterViewInit() {
