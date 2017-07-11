@@ -1,9 +1,13 @@
-import { AfterViewInit, Component, EventEmitter, HostBinding, Input, OnInit, Output } from '@angular/core';
+import {
+  AfterViewInit, Component, EventEmitter, HostBinding, HostListener, Input, OnInit,
+  Output,
+} from '@angular/core';
 import { DomSanitizer, SafeStyle } from '@angular/platform-browser';
 
 import { Statlet, StatletState } from '../../../model/statlet';
 import { PlumbingService } from '../plumbing.service';
 import { ParameterType } from './parameter.component';
+import { StatletManagerService } from '../../../model/statlet-manager.service';
 
 @Component({
   selector: 'sl-node',
@@ -11,17 +15,24 @@ import { ParameterType } from './parameter.component';
   styleUrls: ['./node.component.sass'],
 })
 export class NodeComponent implements OnInit, AfterViewInit {
+  StatletState = StatletState;  // expose enums to template
+  ParameterType = ParameterType;
+
   @Input() statlet: Statlet;
   @Output() onSelected: EventEmitter<Statlet> = new EventEmitter();
 
   @HostBinding('id') htmlId: string;
   @HostBinding('style') cssStyle: SafeStyle;
 
-  StatletState = StatletState;  // expose enums to template
-  ParameterType = ParameterType;
+  @HostListener('contextmenu', ['$event']) onRightClick($event: MouseEvent): void {
+    $event.preventDefault();
+    $event.stopPropagation();
+    this.statletManager.deleteStatlet(this.statlet.id);
+  }
 
   constructor(
     private plumbing: PlumbingService,
+    private statletManager: StatletManagerService,
     private domSanitizer: DomSanitizer,
   ) { }
 
