@@ -1,5 +1,7 @@
 import { Component, Input } from '@angular/core';
 
+import { isNullOrUndefined } from 'util';
+
 import { Statlet, StatletState } from '../../model/statlet';
 import { ParameterList } from '../../model/parameter-list';
 
@@ -21,6 +23,10 @@ export class EditorComponent {
 
   private functionHeaderPattern = /function\(([^)]*?)\)/;
   private returnStatementPattern = /return\(([^)]*?)\)/;
+
+  isStatletPresent(): boolean {
+    return !isNullOrUndefined(this.statlet);
+  }
 
   synchronizeStatlet(): void {
     const updatedInputList = this.getInputList(this.statlet.code);

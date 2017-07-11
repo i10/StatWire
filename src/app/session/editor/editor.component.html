@@ -1,16 +1,21 @@
-<div class="editor-header">
-  <h1 class="editor-title">{{ statlet.title }}</h1>
-</div>
-<div class="editor-body">
-  <div class="editor-code">
-    <button (click)="statlet.execute()" [ngSwitch]="statlet.currentState">
-      <i *ngSwitchCase="StatletState.ready" class="fa fa-play"></i>
-      <i *ngSwitchCase="StatletState.busy" class="fa fa-hourglass"></i>
-    </button>
-    <l-ace-editor [mode]="aceMode" [options]="aceOptions" [(ngModel)]="statlet.code"></l-ace-editor>
-    <button (click)="synchronizeStatlet()">Synchronize</button>
+<ng-template #placeholder class="editor-placeholder">
+  No StatLet is selected.
+</ng-template>
+<div *ngIf="isStatletPresent(); else placeholder">
+  <div class="editor-header">
+    <h1 class="editor-title">{{ statlet.title }}</h1>
   </div>
-  <div class="editor-console">
-    <textarea readonly [(ngModel)]="statlet.consoleOutput"></textarea>
+  <div class="editor-body">
+    <div class="editor-code">
+      <button (click)="statlet.execute()" [ngSwitch]="statlet.currentState">
+        <i *ngSwitchCase="StatletState.ready" class="fa fa-play"></i>
+        <i *ngSwitchCase="StatletState.busy" class="fa fa-hourglass"></i>
+      </button>
+      <l-ace-editor [mode]="aceMode" [options]="aceOptions" [(ngModel)]="statlet.code"></l-ace-editor>
+      <button (click)="synchronizeStatlet()">Synchronize</button>
+    </div>
+    <div class="editor-console">
+      <textarea readonly [(ngModel)]="statlet.consoleOutput"></textarea>
+    </div>
   </div>
 </div>
