@@ -1,4 +1,4 @@
-.editor-statlet
+.editor-container
   display: flex
   flex-direction: column
   height: 100%
@@ -14,6 +14,19 @@
   display: flex
   flex-direction: row
   flex: 1
+
+.editor-toolbar
+  display: flex
+  flex-shrink: 0
+  flex-direction: row
+  align-items: center
+  justify-content: space-between
+  margin: 12px
+
+  button
+    height: 48px
+    width: 48px
+    margin: 0
 
 .editor-code
   display: flex
@@ -36,10 +49,10 @@ button
 
 .editor-placeholder
   display: flex
+  flex-direction: column
+  justify-content: center
   align-items: center
   height: 100%
 
   p
-    width: 100%
-    text-align: center
     font-size: larger

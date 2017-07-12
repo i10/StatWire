@@ -3,18 +3,22 @@
     <p>No StatLet is selected.</p>
   </div>
 </ng-template>
-<div class="editor-statlet" *ngIf="isStatletPresent(); else placeholder">
+<div class="editor-container" *ngIf="isStatletPresent(); else placeholder">
   <div class="editor-header">
     <input class="editor-title" [(ngModel)]="statlet.title"/>
   </div>
   <div class="editor-body">
     <div class="editor-code">
-      <button (click)="statlet.execute()" [ngSwitch]="statlet.currentState">
-        <i *ngSwitchCase="StatletState.ready" class="fa fa-play"></i>
-        <i *ngSwitchCase="StatletState.busy" class="fa fa-hourglass"></i>
-      </button>
       <l-ace-editor [mode]="aceMode" [options]="aceOptions" [(ngModel)]="statlet.code"></l-ace-editor>
-      <button (click)="synchronizeStatlet()">Synchronize</button>
+      <div class="editor-toolbar">
+        <button class="editor-button-sync" (click)="synchronizeStatlet()">
+          <i class="fa fa-refresh fa-2x"></i>
+        </button>
+        <button class="editor-button-execute" (click)="statlet.execute()" [ngSwitch]="statlet.currentState">
+          <i *ngSwitchCase="StatletState.ready" class="fa fa-play fa-2x"></i>
+          <i *ngSwitchCase="StatletState.busy" class="fa fa-hourglass fa-2x"></i>
+        </button>
+      </div>
     </div>
     <div class="editor-console">
       <textarea readonly [(ngModel)]="statlet.consoleOutput"></textarea>
