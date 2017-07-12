@@ -4,7 +4,9 @@ import { ParameterList } from '../../model/parameter-list';
 describe('EditorComponent', () => {
   let editorComponent: EditorComponent;
   beforeEach(() => {
-    editorComponent = new EditorComponent();
+    editorComponent = new EditorComponent(
+      null,
+    );
   });
 
   it('#parseParameters should return empty array if no parameters are found', () => {
@@ -66,5 +68,5 @@ describe('EditorComponent', () => {
     const actualOutputList = editorComponent['getOutputList'](testCode);
     const expectedOutputList = new ParameterList();
     expect(actualOutputList).toEqual(expectedOutputList);
-  })
+  });
 });
