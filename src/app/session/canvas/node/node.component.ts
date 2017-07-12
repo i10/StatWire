@@ -25,6 +25,14 @@ export class NodeComponent implements OnInit, AfterViewInit {
     $event.stopPropagation();
     this.statletManager.deleteStatlet(this.statlet.id);
   }
+  @HostListener('mousedown', ['$event']) onMouseDown($event: MouseEvent): void {
+    const rightMouseButton = 2;
+    if ($event.button === rightMouseButton) {
+      return;
+    } else {
+      this.selected();
+    }
+  }
 
   constructor(
     private plumbing: PlumbingService,
