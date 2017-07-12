@@ -1,7 +1,5 @@
 import { Injectable } from '@angular/core';
 
-import { isNullOrUndefined } from 'util';
-
 import { RemoteRService } from '../remote-r.service';
 import { CanvasPosition } from './canvas-position';
 import { Parameter } from './parameter';
@@ -13,12 +11,17 @@ export class StatletManagerService {
   allStatlets: Statlet[] = [];
   activeStatlet: Statlet;
 
+  private nextId = 1;
+
   constructor(private remoteR: RemoteRService) { }
 
-  createStatlet(title: string, position: CanvasPosition): Statlet {
+  createStatlet(position: CanvasPosition): Statlet {
+    const id = this.nextId;
+    this.nextId++;
+
     const statlet = new Statlet(
-      this.allStatlets.length + 1,
-      title,
+      id,
+      `New Statlet ${id}`,
       'function() {\n\treturn()\n}',
       '',
       position,
@@ -26,10 +29,10 @@ export class StatletManagerService {
       new ParameterList(),
       this.remoteR,
     );
+
     this.addStatlet(statlet);
-    if (isNullOrUndefined(this.activeStatlet)) {
-      this.setActiveStatlet(statlet.id);
-    }
+    this.setActiveStatlet(statlet.id);
+
     return statlet;
   }
 

@@ -10,10 +10,7 @@ describe('StatletManagerService', () => {
   });
 
   it('#createStatlet should save a Statlet when one is created', () => {
-    const statlet = statletManager.createStatlet(
-      'saveMe',
-      new CanvasPosition(10, 10),
-    );
+    const statlet = statletManager.createStatlet(new CanvasPosition(10, 10));
     const allStatlets = statletManager.allStatlets;
     expect(allStatlets).toContain(statlet);
   });
@@ -26,14 +23,8 @@ describe('StatletManagerService', () => {
   describe('with added statlets', () => {
     let statlet1, statlet2;
     beforeEach(() => {
-      statlet1 = statletManager.createStatlet(
-        'first',
-        new CanvasPosition(10, 10),
-      );
-      statlet2 = statletManager.createStatlet(
-        'second',
-        new CanvasPosition(10, 100),
-      );
+      statlet1 = statletManager.createStatlet(new CanvasPosition(10, 10));
+      statlet2 = statletManager.createStatlet(new CanvasPosition(10, 100));
     });
 
     it('#createStatlet should assign different ids to two created Statlets', () => {
@@ -68,6 +59,13 @@ describe('StatletManagerService', () => {
     it('#delete should remove the Statlet', () => {
       statletManager.deleteStatlet(statlet2.id);
       expect(statletManager.allStatlets.length).toEqual(1);
-    })
+    });
+
+    it('should ensure that after a StatLet was deleted the next one added gets a unique id', () => {
+      statletManager.deleteStatlet(statlet1.id);
+      const newStatlet = statletManager.createStatlet(new CanvasPosition(100, 100));
+      const sameId = statletManager.allStatlets.filter(statlet => statlet.id === newStatlet.id);
+      expect(sameId.length).toEqual(1);
+    });
   });
 });

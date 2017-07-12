@@ -16,7 +16,7 @@ export class CanvasComponent implements AfterViewInit {
   @HostListener('contextmenu', ['$event']) onRightClick($event: MouseEvent): void {
     $event.preventDefault();
     const [posX, posY] = [$event.pageX, $event.pageY];
-    this.statletManager.createStatlet('New StatLet', new CanvasPosition(posX, posY));
+    this.statletManager.createStatlet(new CanvasPosition(posX, posY));
   }
 
   constructor(
