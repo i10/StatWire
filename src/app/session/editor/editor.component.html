@@ -1,9 +1,11 @@
-<ng-template #placeholder class="editor-placeholder">
-  No StatLet is selected.
+<ng-template #placeholder>
+  <div class="editor-placeholder">
+    <p>No StatLet is selected.</p>
+  </div>
 </ng-template>
-<div *ngIf="isStatletPresent(); else placeholder">
+<div class="editor-statlet" *ngIf="isStatletPresent(); else placeholder">
   <div class="editor-header">
-    <h1 class="editor-title">{{ statlet.title }}</h1>
+    <input class="editor-title" [(ngModel)]="statlet.title"/>
   </div>
   <div class="editor-body">
     <div class="editor-code">
