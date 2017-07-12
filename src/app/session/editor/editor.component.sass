@@ -1,16 +1,33 @@
-\:host
+.editor-container
   display: flex
   flex-direction: column
+  height: 100%
 
 .editor-title
+  width: 100%
+  font-size: x-large
   padding-left: .5em
   padding-bottom: .2em
   box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.07)
+  border: none
 
 .editor-body
   display: flex
   flex-direction: row
-  height: 100%
+  flex: 1
+
+.editor-toolbar
+  display: flex
+  flex-shrink: 0
+  flex-direction: row
+  align-items: center
+  justify-content: space-between
+  margin: 12px
+
+  button
+    height: 48px
+    width: 48px
+    margin: 0
 
 .editor-code
   display: flex
@@ -30,3 +47,13 @@ l-ace-editor
 button
   align-self: flex-start
   margin-top: 8px
+
+.editor-placeholder
+  display: flex
+  flex-direction: column
+  justify-content: center
+  align-items: center
+  height: 100%
+
+  p
+    font-size: larger

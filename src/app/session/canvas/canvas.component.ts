@@ -1,6 +1,8 @@
-import { AfterViewInit, Component, EventEmitter, HostBinding, Input, Output } from '@angular/core';
+import { AfterViewInit, Component, HostBinding, HostListener } from '@angular/core';
 
+import { CanvasPosition } from '../../model/canvas-position';
 import { Statlet } from '../../model/statlet';
+import { StatletManagerService } from '../../model/statlet-manager.service';
 import { PlumbingService } from './plumbing.service';
 
 @Component({
@@ -9,15 +11,22 @@ import { PlumbingService } from './plumbing.service';
   providers: [PlumbingService],
 })
 export class CanvasComponent implements AfterViewInit {
-  @Input() activeStatlet: Statlet;
-  @Input() allStatlets: Statlet[];
-  @Output() onActiveStatletChanged: EventEmitter<Statlet> = new EventEmitter();
-
   @HostBinding('id') htmlId = 'sl-canvas';
+
+  @HostListener('contextmenu', ['$event']) onRightClick($event: MouseEvent): void {
+    $event.preventDefault();
+    const [posX, posY] = [$event.pageX, $event.pageY];
+    this.statletManager.createStatlet(new CanvasPosition(posX, posY));
+  }
 
   constructor(
     private plumbing: PlumbingService,
+    private statletManager: StatletManagerService,
   ) { }
+
+  get allStatlets(): Statlet[] {
+    return this.statletManager.allStatlets;
+  }
 
   ngAfterViewInit() {
     this.initializePlumbing();
@@ -25,9 +34,5 @@ export class CanvasComponent implements AfterViewInit {
 
   private initializePlumbing(): void {
     this.plumbing.setContainer(this.htmlId);
-  }
-
-  changeActiveStatlet(selectedStatlet: Statlet): void {
-    this.onActiveStatletChanged.emit(selectedStatlet);
   }
 }

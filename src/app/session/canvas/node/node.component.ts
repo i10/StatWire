@@ -1,7 +1,8 @@
-import { AfterViewInit, Component, EventEmitter, HostBinding, Input, OnInit, Output } from '@angular/core';
+import { AfterViewInit, Component, HostBinding, HostListener, Input, OnInit } from '@angular/core';
 import { DomSanitizer, SafeStyle } from '@angular/platform-browser';
 
 import { Statlet, StatletState } from '../../../model/statlet';
+import { StatletManagerService } from '../../../model/statlet-manager.service';
 import { PlumbingService } from '../plumbing.service';
 import { ParameterType } from './parameter.component';
 
@@ -11,17 +12,31 @@ import { ParameterType } from './parameter.component';
   styleUrls: ['./node.component.sass'],
 })
 export class NodeComponent implements OnInit, AfterViewInit {
+  StatletState = StatletState;  // expose enums to template
+  ParameterType = ParameterType;
+
   @Input() statlet: Statlet;
-  @Output() onSelected: EventEmitter<Statlet> = new EventEmitter();
 
   @HostBinding('id') htmlId: string;
   @HostBinding('style') cssStyle: SafeStyle;
 
-  StatletState = StatletState;  // expose enums to template
-  ParameterType = ParameterType;
+  @HostListener('contextmenu', ['$event']) onRightClick($event: MouseEvent): void {
+    $event.preventDefault();
+    $event.stopPropagation();
+    this.statletManager.deleteStatlet(this.statlet.id);
+  }
+  @HostListener('mousedown', ['$event']) onMouseDown($event: MouseEvent): void {
+    const rightMouseButton = 2;
+    if ($event.button === rightMouseButton) {
+      return;
+    } else {
+      this.selected();
+    }
+  }
 
   constructor(
     private plumbing: PlumbingService,
+    private statletManager: StatletManagerService,
     private domSanitizer: DomSanitizer,
   ) { }
 
@@ -36,6 +51,6 @@ export class NodeComponent implements OnInit, AfterViewInit {
   }
 
   selected(): void {
-    this.onSelected.emit(this.statlet);
+    this.statletManager.setActiveStatlet(this.statlet.id);
   }
 }

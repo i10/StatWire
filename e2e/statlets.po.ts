@@ -1,66 +1,53 @@
 import { browser, by, element, ElementFinder, protractor } from 'protractor';
 
+import { convertElementToSlNode, SlNode } from './sl-node.po';
+
 export class StatLetsPage {
-  private editor = element(by.tagName('sl-editor'));
-  private editorInput = this.editor.element(by.css('.ace_text-input'));
-  private editorOutput = this.editor.element(by.css('.ace_content'));
+  editor = new SlEditor();
+
+  nextId = 1;
 
   navigateTo() {
     return browser.get('/');
   }
 
-  getNode(id: number) {
-    return element(by.id(`node-${id}`));
+  addNodeAt(x: number, y: number): SlNode {
+    const canvas = element(by.tagName('sl-canvas'));
+    browser.actions()
+      .mouseMove(canvas, {x: x, y: y})
+      .click(protractor.Button.RIGHT)
+      .perform();
+
+    const id = this.nextId;
+    this.nextId++;
+    const addedNodeElement = element(by.id(`node-${id}`));
+    return convertElementToSlNode(addedNodeElement);
+  }
+}
+
+export class SlEditor {
+  private editor = element(by.tagName('sl-editor'));
+
+  replaceTitle(newTitle: string): void {
+    const editorTitle = this.editor.element(by.css('.editor-title'));
+    this.clear(editorTitle);
+    editorTitle.sendKeys(newTitle);
   }
 
-  getInputsOf(node: ElementFinder) {
-    return node.element(by.css('.node-inputs'))
-      .all(by.css('.parameter-input'));
-  }
-
-  getOutputsOf(node: ElementFinder) {
-    return node.element(by.css('.node-outputs'))
-      .all(by.css('.parameter-output'));
-  }
-
-  getEndpointOf(parameter: ElementFinder) {
-    return parameter.element(by.css('.parameter-endpoint'));
-  }
-
-  readTitleOf(node: ElementFinder) {
-    return node.element(by.css('.node-title')).getText();
-  }
-
-  getOutputEndpointOfNode1() {
-    return this.getEndpointOf(this.getOutputsOf(this.getNode(1)).get(0));
-  }
-
-  getInputEndpointOfNode2() {
-    return this.getEndpointOf(this.getInputsOf(this.getNode(2)).get(0));
-  }
-
-  getAllEndpoints() {
-    return element.all(by.css('.jtk-endpoint'));
-  }
-
-  readEditorTitle() {
-    return this.editor.element(by.css('.editor-title')).getText();
-  }
-
-  clearEditor() {
-    const selectAll = protractor.Key.chord(protractor.Key.CONTROL, 'a');
-    this.editorInput.sendKeys(
-      selectAll, protractor.Key.BACK_SPACE,
+  clear(inputElement: ElementFinder): void {
+    inputElement.sendKeys(
+      protractor.Key.CONTROL, 'a',
+      protractor.Key.BACK_SPACE,
     );
   }
 
-  inputIntoEditor(code: string) {
-    this.editorInput.sendKeys(
-      code,
-    );
+  replaceCode(newCode: string): void {
+    const editorInput = this.editor.element(by.css('.ace_text-input'));
+    this.clear(editorInput);
+    editorInput.sendKeys(newCode);
   }
 
-  readEditor() {
-    return this.editorOutput.getText();
+  syncButton(): ElementFinder {
+    return element(by.css('.editor-button-sync'));
   }
 }
