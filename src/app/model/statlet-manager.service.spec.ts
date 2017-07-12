@@ -67,5 +67,11 @@ describe('StatletManagerService', () => {
       const sameId = statletManager.allStatlets.filter(statlet => statlet.id === newStatlet.id);
       expect(sameId.length).toEqual(1);
     });
+
+    it('#delete should be able to delete Statlets if the activeStatlet is null', () => {
+      statletManager.deleteStatlet(statlet2.id);
+      expect(statletManager.activeStatlet).toBeNull();
+      statletManager.deleteStatlet(statlet1.id);
+    });
   });
 });

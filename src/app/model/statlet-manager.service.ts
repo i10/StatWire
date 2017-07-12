@@ -41,7 +41,7 @@ export class StatletManagerService {
   }
 
   deleteStatlet(statletId: number): void {
-    if (this.activeStatlet.id === statletId) {
+    if (this.activeStatlet && this.activeStatlet.id === statletId) {
       this.activeStatlet = null;
     }
     const indexToDelete = this.allStatlets.findIndex(statlet => statlet.id === statletId);
