@@ -1,4 +1,5 @@
 import { browser, by, element, ElementFinder, protractor } from 'protractor';
+import { promise } from 'selenium-webdriver';
 
 import { convertElementToSlNode, SlNode } from './sl-node.po';
 
@@ -27,11 +28,15 @@ export class StatLetsPage {
 
 export class SlEditor {
   private editor = element(by.tagName('sl-editor'));
+  private editorTitle = this.editor.element(by.css('.editor-title'));
+
+  getTitle(): promise.Promise<string> {
+    return this.editorTitle.getAttribute('value');
+  }
 
   replaceTitle(newTitle: string): void {
-    const editorTitle = this.editor.element(by.css('.editor-title'));
-    this.clear(editorTitle);
-    editorTitle.sendKeys(newTitle);
+    this.clear(this.editorTitle);
+    this.editorTitle.sendKeys(newTitle);
   }
 
   clear(inputElement: ElementFinder): void {
@@ -47,7 +52,7 @@ export class SlEditor {
     editorInput.sendKeys(newCode);
   }
 
-  syncButton(): ElementFinder {
-    return element(by.css('.editor-button-sync'));
+  clickSyncButton(): void {
+    element(by.css('.editor-button-sync')).click();
   }
 }

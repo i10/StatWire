@@ -1,6 +1,18 @@
 import { by, ElementFinder } from 'protractor';
+import { promise } from 'selenium-webdriver';
+
+export interface SlNode extends ElementFinder {
+  getTitle(): promise.Promise<string>;
+  input(place: number): SlParameter;
+  output(place: number): SlParameter;
+  clickExecuteButton(): void;
+}
 
 export function convertElementToSlNode(element: ElementFinder): SlNode {
+  element.getTitle = function (): promise.Promise<string> {
+    return this.element(by.css('.node-title')).getText();
+  };
+
   element.input = function (place: number): SlParameter {
     const inputElement = this.all(by.css('.parameter-input')).get(place - 1);
     return convertElementToSlParameter(inputElement);
@@ -11,28 +23,26 @@ export function convertElementToSlNode(element: ElementFinder): SlNode {
     return convertElementToSlParameter(outputElement);
   };
 
-  element.executeButton = function (): ElementFinder {
-    return this.element(by.css('.node-execute'));
+  element.clickExecuteButton = function (): void {
+    return this.element(by.css('.node-execute')).click();
   };
 
   return element as SlNode;
 }
 
+export interface SlParameter extends ElementFinder {
+  getName(): promise.Promise<string>;
+  getEndpoint(): ElementFinder;
+}
+
 export function convertElementToSlParameter(element: ElementFinder): SlParameter {
-  element.endpoint = function (): ElementFinder {
+  element.getName = function (): promise.Promise<string> {
+    return element.getText();
+  };
+
+  element.getEndpoint = function (): ElementFinder {
     return this.element(by.css('.parameter-endpoint'));
   };
 
   return element as SlParameter;
 }
-
-export interface SlNode extends ElementFinder {
-  input(place: number): SlParameter;
-  output(place: number): SlParameter;
-  executeButton(): ElementFinder;
-}
-
-export interface SlParameter extends ElementFinder {
-  endpoint(): ElementFinder;
-}
-
