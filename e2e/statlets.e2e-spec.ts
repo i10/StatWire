@@ -62,11 +62,11 @@ describe('StatLets', () => {
 
     // He executes each node and observes that a value gets displayed when the node finishes execution.
     node1.clickExecuteButton();
-    browser.wait(ExpectedConditions.presenceOf($('#node-1 .fa.fa-play')), 5000);
+    node1.waitWhileBusy();
     expect(node1.output(1).getName()).toContain('11');
     expect(node2.input(1).getName()).toContain('11');
     node2.clickExecuteButton();
-    browser.wait(ExpectedConditions.presenceOf($('#node-2 .fa.fa-play')), 5000);
+    node2.waitWhileBusy();
     expect(node2.output(1).getName()).toContain('22');
 
     // Frank is very impressed with StatLets. But he is mean and will try to break it. To be continued...

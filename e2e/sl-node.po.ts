@@ -1,4 +1,4 @@
-import { by, ElementFinder } from 'protractor';
+import { browser, by, ElementFinder, ExpectedConditions } from 'protractor';
 import { promise } from 'selenium-webdriver';
 
 export interface SlNode extends ElementFinder {
@@ -6,6 +6,7 @@ export interface SlNode extends ElementFinder {
   input(place: number): SlParameter;
   output(place: number): SlParameter;
   clickExecuteButton(): void;
+  waitWhileBusy(): ElementFinder;
 }
 
 export function convertElementToSlNode(element: ElementFinder): SlNode {
@@ -25,6 +26,11 @@ export function convertElementToSlNode(element: ElementFinder): SlNode {
 
   element.clickExecuteButton = function (): void {
     return this.element(by.css('.node-execute')).click();
+  };
+
+  element.waitWhileBusy = function () {
+    const readyIndicator = this.element(by.css('.node-ready'));
+    browser.wait(ExpectedConditions.presenceOf(readyIndicator), 5000);
   };
 
   return element as SlNode;
