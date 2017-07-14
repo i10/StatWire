@@ -18,22 +18,35 @@ export class Statlet {
   constructor(
     public id: number,
     public position: CanvasPosition,
-    public remoteR: RemoteRService,
+    private remoteR: RemoteRService,
   ) { }
 
-  execute(): void {
-    this.currentState = StatletState.busy;
-    this.remoteR.execute(this.code, this.inputList)
-      .then(result => {
-        this.updateOutputsFromRawValues(result.returnValue);
-        this.consoleOutput = result.consoleOutput;
-      })
-      .catch((error) => {
-        this.consoleOutput = error;
-      })
-      .then(() => {
-        this.currentState = StatletState.ready;
-      });
+  execute(): Promise<never> {
+    return new Promise((resolve, reject) => {
+      this.currentState = StatletState.busy;
+      const rCode = this.convertStatletCodeToRCode(this.code);
+
+      this.remoteR.execute(rCode, this.inputList)
+        .then(result => {
+          this.updateOutputsFromRawValues(result.returnValue);
+          this.consoleOutput = result.consoleOutput;
+        })
+        .catch((error) => {
+          this.consoleOutput = error;
+          reject();
+        })
+        .then(() => {
+          this.currentState = StatletState.ready;
+          resolve();
+        });
+    });
+  };
+
+  private convertStatletCodeToRCode(statletCode: string): string {
+    const returnStatementPattern = /return\(([^)]*)\)/;
+    const rCode = statletCode.replace(returnStatementPattern, 'return(c($1))');
+    return rCode;
+
   }
 
   private updateOutputsFromRawValues(outputs: any[]): void {
