@@ -8,35 +8,35 @@ export enum StatletState {
 }
 
 export class Statlet {
-  currentState: StatletState = StatletState.ready;
+  title = '';
+  code = '';
+  consoleOutput = '';
+  inputList = new ParameterList();
+  outputList = new ParameterList();
+  currentState = StatletState.ready;
 
   constructor(
     public id: number,
-    public title: string,
-    public code: string,
-    public consoleOutput: string,
     public position: CanvasPosition,
-    public inputList: ParameterList,
-    public outputList: ParameterList,
-    private remoteR: RemoteRService,
+    public remoteR: RemoteRService,
   ) { }
 
   execute(): void {
     this.currentState = StatletState.busy;
-    this.remoteR.execute(
-      this.code,
-      this.inputList,
-    ).then(result => {
-      this.updateStatletOutputsWithOpenCpuOutput(result.returnValue);
-      this.consoleOutput = result.consoleOutput;
-    }).catch((error) => {
-      this.consoleOutput = error;
-    }).then(() => {
-      this.currentState = StatletState.ready;
-    });
+    this.remoteR.execute(this.code, this.inputList)
+      .then(result => {
+        this.updateOutputsFromRawValues(result.returnValue);
+        this.consoleOutput = result.consoleOutput;
+      })
+      .catch((error) => {
+        this.consoleOutput = error;
+      })
+      .then(() => {
+        this.currentState = StatletState.ready;
+      });
   }
 
-  private updateStatletOutputsWithOpenCpuOutput(outputs: any[]): void {
+  private updateOutputsFromRawValues(outputs: any[]): void {
     for (let index = 0; index < outputs.length; index++) {
       this.outputList.get(index).value = outputs[index];
     }
