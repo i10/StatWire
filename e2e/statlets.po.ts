@@ -24,6 +24,10 @@ export class StatLetsPage {
     const addedNodeElement = element(by.id(`node-${id}`));
     return convertElementToSlNode(addedNodeElement);
   }
+
+  getNumberOfConnectionEndpoints(): promise.Promise<number> {
+    return element.all(by.css('.jtk-endpoint')).count();
+  }
 }
 
 export class SlEditor {

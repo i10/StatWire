@@ -1,4 +1,4 @@
-import { browser } from 'protractor';
+import { browser, protractor } from 'protractor';
 
 import { StatLetsPage } from './statlets.po';
 
@@ -135,11 +135,31 @@ describe('StatLets', () => {
 
     // He executes the nodes and watches the parameters.
     node1.clickExecuteButton();
+    node1.waitWhileBusy();
+    expect(node1.output(1).getName()).toContain('Me,He,She,It');
+    expect(node1.output(2).getName()).toContain('100,200,150,300');
     node2.clickExecuteButton();
+    node2.waitWhileBusy();
+    expect(node2.output(1).getName()).toContain('10000,20000,15000,30000');
     node3.clickExecuteButton();
+    node3.waitWhileBusy();
+    expect(node3.output(1).getName()).toContain((10000 + 20000 + 15000 + 30000) / 4);
 
     // Frank now decides, that he does not want the transformation anymore and removes it. All its connections are automatically deleted.
+    expect(page.getNumberOfConnectionEndpoints()).toEqual(6);
+    browser.actions()
+      .click(node2, protractor.Button.RIGHT)
+      .perform();
+    expect(page.getNumberOfConnectionEndpoints()).toEqual(4);
+
     // He re-links the nodes and executes them.
+    browser.actions()
+      .dragAndDrop(node1.output(2).getEndpoint(), node3.input(2).getEndpoint())
+      .perform();
+    node3.clickExecuteButton();
+    node3.waitWhileBusy();
+    expect(node3.output(1).getName()).toContain((100 + 200 + 150 + 300) / 4);
+
     // Frank, while annoyed that StatLets can handle this, won't give up just now...
   });
 });
