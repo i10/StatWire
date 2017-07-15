@@ -44,7 +44,7 @@ export class Statlet {
 
   private convertStatletCodeToRCode(statletCode: string): string {
     const returnStatementPattern = /return\(([^)]*)\)/;
-    const rCode = statletCode.replace(returnStatementPattern, 'return(c($1))');
+    const rCode = statletCode.replace(returnStatementPattern, 'return(list($1))');
     return rCode;
 
   }
