@@ -150,7 +150,7 @@ describe('StatLets', () => {
     browser.actions()
       .click(node2, protractor.Button.RIGHT)
       .perform();
-    expect(page.getNumberOfConnectionEndpoints()).toEqual(4);
+    expect(page.getNumberOfConnectionEndpoints()).toEqual(2);
 
     // He re-links the nodes and executes them.
     browser.actions()
