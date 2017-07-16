@@ -10,13 +10,15 @@ export class StatletManagerService {
   allStatlets: Statlet[] = [];
   activeStatlet: Statlet;
 
-  private nextId = 1;
+  private nextStatletId = 1;
 
-  constructor(private remoteR: RemoteRService) { }
+  constructor(
+    private remoteR: RemoteRService
+  ) { }
 
   createStatlet(position: CanvasPosition): Statlet {
-    const id = this.nextId;
-    this.nextId++;
+    const id = this.nextStatletId;
+    this.nextStatletId++;
 
     const statlet = new Statlet(
       id,
@@ -37,11 +39,15 @@ export class StatletManagerService {
   }
 
   deleteStatlet(statletId: number): void {
+    this.resetIfActive(statletId);
+    const indexToDelete = this.allStatlets.findIndex(statlet => statlet.id === statletId);
+    this.allStatlets.splice(indexToDelete, 1);
+  }
+
+  private resetIfActive(statletId: number): void {
     if (this.activeStatlet && this.activeStatlet.id === statletId) {
       this.activeStatlet = null;
     }
-    const indexToDelete = this.allStatlets.findIndex(statlet => statlet.id === statletId);
-    this.allStatlets.splice(indexToDelete, 1);
   }
 
   getStatlet(statletId: number): Statlet {
