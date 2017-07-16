@@ -21,14 +21,11 @@ export class StatletManagerService {
 
     const statlet = new Statlet(
       id,
-      `New Statlet ${id}`,
-      'function() {\n\treturn()\n}',
-      '',
       position,
-      new ParameterList(),
-      new ParameterList(),
-      this.remoteR,
+      this.remoteR
     );
+    statlet.title = `New Statlet ${id}`;
+    statlet.code = 'function() {\n\treturn()\n}';
 
     this.addStatlet(statlet);
     this.setActiveStatlet(statlet.id);

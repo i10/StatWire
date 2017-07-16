@@ -42,4 +42,8 @@ export class PlumbingService {
   onDisconnect(callback): void {
     this.jsPlumb.bind('connectionDetached', callback);
   }
+
+  removeAllConnectionsFrom(id: string): void {
+    this.jsPlumb.removeAllEndpoints(id);
+  }
 }

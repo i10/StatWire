@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, Input, OnInit } from '@angular/core';
+import { AfterViewInit, Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { Parameter } from '../../../model/parameter';
 import { StatletManagerService } from '../../../model/statlet-manager.service';
 import { PlumbingService } from '../plumbing.service';
@@ -13,7 +13,7 @@ export enum ParameterType {
   templateUrl: './parameter.component.html',
   styleUrls: ['./parameter.component.sass'],
 })
-export class ParameterComponent implements OnInit, AfterViewInit {
+export class ParameterComponent implements OnInit, AfterViewInit, OnDestroy {
   static callbacksAreSet = false;
 
   @Input() parameterType: ParameterType;
@@ -27,17 +27,21 @@ export class ParameterComponent implements OnInit, AfterViewInit {
     private statletManager: StatletManagerService,
   ) { }
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.htmlId = this.parameter.uuid;
   }
 
-  ngAfterViewInit() {
+  ngAfterViewInit(): void {
     this.makeEndpoint(this.htmlId);
     if (!ParameterComponent.callbacksAreSet) {
       this.setOnConnectionCallback();
       this.setOnDisconnectCallback();
       ParameterComponent.callbacksAreSet = true;
     }
+  }
+
+  ngOnDestroy(): void {
+    this.removeAllConnections();
   }
 
   private makeEndpoint(id: string) {
@@ -77,5 +81,9 @@ export class ParameterComponent implements OnInit, AfterViewInit {
     const source = this.statletManager.getParameter(sourceId);
     const target = this.statletManager.getParameter(targetId);
     source.unlink(target);
+  }
+
+  removeAllConnections(): void {
+    this.plumbing.removeAllConnectionsFrom(this.htmlId);
   }
 }
