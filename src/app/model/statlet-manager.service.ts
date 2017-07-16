@@ -3,7 +3,6 @@ import { Injectable } from '@angular/core';
 import { RemoteRService } from '../remote-r.service';
 import { CanvasPosition } from './canvas-position';
 import { Parameter } from './parameter';
-import { ParameterList } from './parameter-list';
 import { Statlet } from './statlet';
 
 @Injectable()
