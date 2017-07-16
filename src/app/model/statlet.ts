@@ -55,4 +55,44 @@ export class Statlet {
     }
   }
 
+  synchronizeParametersWithCode(): void {
+    const updatedInputList = this.getInputList(this.code);
+    this.inputList.updateWith(updatedInputList);
+    const updatedOutputList = this.getOutputList(this.code);
+    this.outputList.updateWith(updatedOutputList);
+  }
+
+  private getInputList(code: string): ParameterList {
+    const functionHeaderPattern = /function\(([^)]*?)\)/;
+    const inputNames = this.parseParameters(code, functionHeaderPattern);
+    return this.makeParameterList(inputNames);
+  }
+
+  private getOutputList(code: string): ParameterList {
+    const returnStatementPattern = /return\(([^)]*?)\)/;
+    const outputNames = this.parseParameters(code, returnStatementPattern);
+    return this.makeParameterList(outputNames);
+  }
+
+  private parseParameters(code: string, pattern: RegExp): string[] {
+    const match = pattern.exec(code);
+    if (!match) {
+      console.error('No match was found');
+      return [];
+    }
+    const allParameters = match[1];
+    if (allParameters === '') {
+      return [];
+    }
+    const parameterList = allParameters.split(/\s*,\s*/);
+    return parameterList;
+  }
+
+  private makeParameterList(parameterNames: string[]) {
+    const updatedParameterList = new ParameterList();
+    for (const parameter of parameterNames) {
+      updatedParameterList.addParameter(parameter);
+    }
+    return updatedParameterList;
+  }
 }
