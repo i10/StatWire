@@ -72,7 +72,7 @@ describe('StatLets', () => {
     // Frank is very impressed with StatLets. But he is mean and will try to break it. To be continued...
   });
 
-  fit('should allow nodes to be deleted', () => {
+  it('should allow nodes to be deleted', () => {
     // Frank decides to do a spontaneous analysis, but he suspects he might remove a step later on.
     // He first adds three nodes.
     const node1 = page.addNodeAt(10, 10);
