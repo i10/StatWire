@@ -23,6 +23,7 @@ To install the app itself:
 2. Install the app's dependencies, using `npm install`.
 3. Install the StatLets R package, found in `./R-package`, in an R terminal
    using `install.packages(".", repos = NULL, type="source")`.
+   
    - Make sure the working directory is set to `./R-package`.
    - Reinstall StatLets's R package whenever it is changed
      (e.g., a new R function is added).
