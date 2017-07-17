@@ -12,6 +12,37 @@ describe('Statlet', () => {
     );
   });
 
+  it('#getUpdatedParameters should add new parameters', () => {
+    const parameterNames = ['first', 'second', 'third'];
+    const actual = statlet['getUpdatedParameters']([], parameterNames);
+    expect(actual.map(parameter => parameter.name)).toEqual(parameterNames);
+  });
+
+  it('#getUpdatedParameters should remove parameters not present in new list', () => {
+    const parameterNames = ['first', 'second', 'third'];
+    const actual = statlet['getUpdatedParameters']([new Parameter('fourth')], parameterNames);
+    expect(actual.map(parameter => parameter.name)).toEqual(parameterNames)
+  });
+
+  it('#getUpdatedParameters should keep original if parameter with same name exists', () => {
+    const toKeep = new Parameter('keepMe');
+    const actual = statlet['getUpdatedParameters']([toKeep], [toKeep.name]);
+    expect(actual).toEqual([toKeep]);
+    expect(actual[0]).toBe(toKeep);
+  });
+
+  it('#setInputsUsingNames should make the inputs match the supplied names', () => {
+    const parameterNames = ['first', 'second', 'third'];
+    statlet.setInputsUsingNames(parameterNames);
+    expect(statlet.inputs.map(parameter => parameter.name)).toEqual(parameterNames);
+  });
+
+  it('#setOutputsUsingNames should make the outputs match the supplied names', () => {
+    const parameterNames = ['first', 'second', 'third'];
+    statlet.setOutputsUsingNames(parameterNames);
+    expect(statlet.outputs.map(parameter => parameter.name)).toEqual(parameterNames);
+  });
+
   describe('code execution', () => {
     it('#convertStatletsCodeToRCode should pack multiple return values into an R list', () => {
       const statletCode = 'function(){return(first, second, third)}';
@@ -88,6 +119,15 @@ describe('Statlet', () => {
       expect(actualParameterNames).toEqual([]);
     });
 
+    it('#getInputNames should parse valid inputs', () => {
+      const testCode = (
+`function(first, second, third){
+  return(first + second + third)
+}`);
+      const actualInputList = statlet['getInputNames'](testCode);
+      expect(actualInputList).toEqual(['first', 'second', 'third']);
+    });
+
     it('#getInputList should parse valid inputs', () => {
       const testCode = (
 `function(first, second, third){
@@ -109,6 +149,15 @@ describe('Statlet', () => {
       }
     }
 
+    it('#getInputNames should return empty ParameterList when no inputs are given', () => {
+      const testCode = (
+`function(){
+  return(first, second, third)
+}`);
+      const actualInputList = statlet['getInputNames'](testCode);
+      expect(actualInputList).toEqual([]);
+    });
+
     it('#getInputList should return empty ParameterList when no inputs are given', () => {
       const testCode = (
 `function(){
@@ -117,6 +166,18 @@ describe('Statlet', () => {
       const actualInputList = statlet['getInputList'](testCode);
       const expectedInputList = new ParameterList();
       expect(actualInputList).toEqual(expectedInputList);
+    });
+
+    it('#getOutputNames should parse valid outputs', () => {
+      const testCode = (
+`function(ignoreMe){
+  first <- 1
+  second <- 'string'
+  third <- ignoreMe + 1
+  return(first, second, third)
+}`);
+      const actualOutputList = statlet['getOutputNames'](testCode);
+      expect(actualOutputList).toEqual(['first', 'second', 'third']);
     });
 
     it('#getOutputList should parse valid outputs', () => {
@@ -135,6 +196,15 @@ describe('Statlet', () => {
       removeIds(actualOutputList);
       removeIds(expectedOutputList);
       expect(actualOutputList).toEqual(expectedOutputList);
+    });
+
+    it('#getOutputNames should return empty ParameterList when no outputs are given', () => {
+      const testCode = (
+        `function(first, second, third){
+  return()
+}`);
+      const actualOutputList = statlet['getOutputNames'](testCode);
+      expect(actualOutputList).toEqual([]);
     });
 
     it('#getOutputList should return empty ParameterList when no outputs are given', () => {

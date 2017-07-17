@@ -1,6 +1,7 @@
 import { RemoteRService } from '../remote-r.service';
 import { CanvasPosition } from './canvas-position';
 import { ParameterList } from './parameter-list';
+import { Parameter } from './parameter';
 
 export enum StatletState {
   ready,
@@ -11,6 +12,8 @@ export class Statlet {
   title = '';
   code = '';
   consoleOutput = '';
+  inputs: Array<Parameter> = [];
+  outputs: Array<Parameter> = [];
   inputList = new ParameterList();
   outputList = new ParameterList();
   currentState = StatletState.ready;
@@ -20,6 +23,27 @@ export class Statlet {
     public position: CanvasPosition,
     private remoteR: RemoteRService,
   ) { }
+
+  setInputsUsingNames(names: Array<string>): void {
+    this.inputs = this.getUpdatedParameters(this.inputs, names);
+  }
+
+  setOutputsUsingNames(names: Array<string>): void {
+    this.outputs = this.getUpdatedParameters(this.outputs, names);
+  }
+
+  private getUpdatedParameters(params: Array<Parameter>, newNames: Array<string>): Array<Parameter> {
+    const newParams = [];
+    const oldNames = params.map(parameter => parameter.name);
+    for (const name of newNames) {
+      let toAdd = new Parameter(name);
+      if (oldNames.includes(name)) {
+        toAdd = params.find(parameter => parameter.name === name);
+      }
+      newParams.push(toAdd);
+    }
+    return newParams;
+  }
 
   execute(): Promise<never> {
     return new Promise((resolve, reject) => {
@@ -46,12 +70,11 @@ export class Statlet {
     const returnStatementPattern = /return\(([^)]*)\)/;
     const rCode = statletCode.replace(returnStatementPattern, 'return(list($1))');
     return rCode;
-
   }
 
   private updateOutputsFromRawValues(outputs: any[]): void {
     for (let index = 0; index < outputs.length; index++) {
-      this.outputList.get(index).value = outputs[index];
+      this.outputs[index].value = outputs[index];
     }
   }
 
@@ -74,7 +97,7 @@ export class Statlet {
     return this.makeParameterList(outputNames);
   }
 
-  private parseParameters(code: string, pattern: RegExp): string[] {
+  private parseParameters(code: string, pattern: RegExp): Array<string> {
     const match = pattern.exec(code);
     if (!match) {
       console.error('No match was found');

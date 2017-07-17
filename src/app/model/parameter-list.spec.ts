@@ -49,36 +49,4 @@ describe('ParameterList', () => {
     expect(result).toEqual(false);
   });
 
-  it('#updateWith should keep original if parameter with same name exists', () => {
-    const originalList = new ParameterList();
-    originalList.addParameter('first');
-    const newList = new ParameterList();
-    newList.addParameter('first');
-
-    const originalFirst = originalList.get(0);
-    originalList.updateWith(newList);
-    expect(originalList.count()).toEqual(1);
-    expect(originalList.get(0)).toBe(originalFirst);
-  });
-
-  it('#updateWith should add new parameters', () => {
-    const originalList = new ParameterList();
-    originalList.addParameter('first');
-    const newList = new ParameterList();
-    newList.addParameter('first')
-      .addParameter('second');
-
-    originalList.updateWith(newList);
-    expect(originalList.count()).toEqual(2);
-    expect(originalList.get(1)).toBe(newList.get(1));
-  });
-
-  it('#updateWith should remove parameters not present in new list', () => {
-    const originalList = new ParameterList();
-    originalList.addParameter('first');
-    const toUpdate = new ParameterList();
-
-    parameterList.updateWith(toUpdate);
-    expect(parameterList.count()).toEqual(0);
-  });
 });
