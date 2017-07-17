@@ -61,12 +61,12 @@ export class StatletManagerService {
 
   getParameter(uuid: string): Parameter {
     for (const statlet of this.allStatlets) {
-      for (const parameter of statlet.inputList) {
+      for (const parameter of statlet.inputs) {
         if (parameter.uuid === uuid) {
           return parameter;
         }
       }
-      for (const parameter of statlet.outputList) {
+      for (const parameter of statlet.outputs) {
         if (parameter.uuid === uuid) {
           return parameter;
         }

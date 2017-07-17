@@ -44,9 +44,9 @@ describe('StatletManagerService', () => {
     });
 
     it('#getParameter should find among its Statlets the parameter that matches the uuid', () => {
-      statlet1.outputList.addParameter('ignoreMe');
-      statlet2.inputList.addParameter('findMe');
-      const expectedParameter = statlet2.inputList.get(0);
+      statlet1.setOutputsUsingNames(['ignoreMe']);
+      statlet2.setInputsUsingNames(['findMe']);
+      const expectedParameter = statlet2.inputs[0];
       const actualParameter = statletManager.getParameter(expectedParameter.uuid);
       expect(actualParameter).toBe(expectedParameter);
     });

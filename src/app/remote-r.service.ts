@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { ParameterList } from './model/parameter-list';
+import { Parameter } from './model/parameter';
 
 declare const ocpu;
 
@@ -15,10 +15,10 @@ export class RemoteRService {
     this.opencpu.seturl('//localhost:5656/ocpu/library/statlets/R');
   }
 
-  execute(code: string, args: ParameterList): Promise<{ returnValue: any, consoleOutput: string }> {
+  execute(code: string, args: Array<Parameter>): Promise<{ returnValue: any, consoleOutput: string }> {
     return new Promise((resolve, reject) => {
         const snippet = new this.opencpu.Snippet(code);
-        const openCpuArgs = this.convertParameterListToOpenCpuArgs(args);
+        const openCpuArgs = this.convertParametersToOpenCpuArgs(args);
         const req = this.opencpu.call(
           'do.call',
           {
@@ -45,7 +45,7 @@ export class RemoteRService {
     );
   }
 
-  private convertParameterListToOpenCpuArgs(parameterList: ParameterList): any {
+  private convertParametersToOpenCpuArgs(parameterList: Array<Parameter>): any {
     const openCpuArgs = {};
     for (const parameter of parameterList) {
       openCpuArgs[parameter.name] = parameter.value;

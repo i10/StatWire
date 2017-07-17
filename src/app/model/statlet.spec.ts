@@ -1,6 +1,5 @@
 import { Parameter } from './parameter';
 import { Statlet } from './statlet';
-import { ParameterList } from './parameter-list';
 
 describe('Statlet', () => {
   let statlet: Statlet;
@@ -51,19 +50,14 @@ describe('Statlet', () => {
     });
 
     it('#updateOutputsFromRawValues should write the values to the parameters while keeping their links', () => {
-      statlet.outputList
-        .addParameter('first')
-        .addParameter('second')
-        .addParameter('third');
+      statlet.setOutputsUsingNames(['first', 'second', 'third']);
 
       const linkedParameter = new Parameter('linkToSecond');
-      statlet.outputList.get(1).linkTo(linkedParameter);
+      statlet.outputs[1].linkTo(linkedParameter);
 
       statlet['updateOutputsFromRawValues']([1, 2, 3]);
-      expect(statlet.outputList.get(0).value).toEqual(1);
-      expect(statlet.outputList.get(1).value).toEqual(2);
-      expect(statlet.outputList.get(2).value).toEqual(3);
-      expect(linkedParameter.value).toEqual(statlet.outputList.get(1).value);
+      expect(statlet.outputs.map(parameter => parameter.value)).toEqual([1, 2, 3]);
+      expect(linkedParameter.value).toEqual(statlet.outputs[1].value);
     });
 
     describe('with remoteRStub', () => {
@@ -77,17 +71,12 @@ describe('Statlet', () => {
           resolve({returnValue: [1, 2, 3], consoleOutput: ''});
         }));
 
-        statlet.outputList
-          .addParameter('first')
-          .addParameter('second')
-          .addParameter('third');
+        statlet.setOutputsUsingNames(['first', 'second', 'third']);
 
         statlet.execute()
           .then(() => {
             expect(remoteRStub.execute).toHaveBeenCalled();
-            expect(statlet.outputList.get(0).value).toEqual(1);
-            expect(statlet.outputList.get(1).value).toEqual(2);
-            expect(statlet.outputList.get(2).value).toEqual(3);
+            expect(statlet.outputs.map(parameter => parameter.value)).toEqual([1, 2, 3]);
           });
       });
 
@@ -96,17 +85,17 @@ describe('Statlet', () => {
           resolve({returnValue: [[1, 2, 3], [4, 5, 6], [7, 8, 9]], consoleOutput: ''});
         }));
 
-        statlet.outputList
-          .addParameter('first')
-          .addParameter('second')
-          .addParameter('third');
+        statlet.setOutputsUsingNames(['first', 'second', 'third']);
 
         statlet.execute()
           .then(() => {
             expect(remoteRStub.execute).toHaveBeenCalled();
-            expect(statlet.outputList.get(0).value).toEqual([1, 2, 3]);
-            expect(statlet.outputList.get(1).value).toEqual([4, 5, 6]);
-            expect(statlet.outputList.get(2).value).toEqual([7, 8, 9]);
+            expect(statlet.outputs.map(parameter => parameter.value)).toEqual(
+              [
+                [1, 2, 3],
+                [4, 5, 6],
+                [7, 8, 9]
+              ]);
           });
       });
     });
@@ -119,56 +108,25 @@ describe('Statlet', () => {
       expect(actualParameterNames).toEqual([]);
     });
 
-    it('#getInputNames should parse valid inputs', () => {
+    it('#getInputNamesFromCode should parse valid inputs', () => {
       const testCode = (
 `function(first, second, third){
   return(first + second + third)
 }`);
-      const actualInputList = statlet['getInputNames'](testCode);
+      const actualInputList = statlet['getInputNamesFromCode'](testCode);
       expect(actualInputList).toEqual(['first', 'second', 'third']);
     });
 
-    it('#getInputList should parse valid inputs', () => {
-      const testCode = (
-`function(first, second, third){
-  return(first + second + third)
-}`);
-      const actualInputList = statlet['getInputList'](testCode);
-      const expectedInputList = new ParameterList();
-      expectedInputList.addParameter('first')
-        .addParameter('second')
-        .addParameter('third');
-      removeIds(actualInputList);
-      removeIds(expectedInputList);
-      expect(actualInputList).toEqual(expectedInputList);
-    });
-
-    function removeIds(list: ParameterList): void {
-      for (const parameter of list) {
-        delete parameter.uuid;
-      }
-    }
-
-    it('#getInputNames should return empty ParameterList when no inputs are given', () => {
+    it('#getInputNamesFromCode should return empty ParameterList when no inputs are given', () => {
       const testCode = (
 `function(){
   return(first, second, third)
 }`);
-      const actualInputList = statlet['getInputNames'](testCode);
+      const actualInputList = statlet['getInputNamesFromCode'](testCode);
       expect(actualInputList).toEqual([]);
     });
 
-    it('#getInputList should return empty ParameterList when no inputs are given', () => {
-      const testCode = (
-`function(){
-  return(first, second, third)
-}`);
-      const actualInputList = statlet['getInputList'](testCode);
-      const expectedInputList = new ParameterList();
-      expect(actualInputList).toEqual(expectedInputList);
-    });
-
-    it('#getOutputNames should parse valid outputs', () => {
+    it('#getOutputNamesFromCode should parse valid outputs', () => {
       const testCode = (
 `function(ignoreMe){
   first <- 1
@@ -176,45 +134,17 @@ describe('Statlet', () => {
   third <- ignoreMe + 1
   return(first, second, third)
 }`);
-      const actualOutputList = statlet['getOutputNames'](testCode);
+      const actualOutputList = statlet['getOutputNamesFromCode'](testCode);
       expect(actualOutputList).toEqual(['first', 'second', 'third']);
     });
 
-    it('#getOutputList should parse valid outputs', () => {
-      const testCode = (
-`function(ignoreMe){
-  first <- 1
-  second <- 'string'
-  third <- ignoreMe + 1
-  return(first, second, third)
-}`);
-      const actualOutputList = statlet['getOutputList'](testCode);
-      const expectedOutputList = new ParameterList();
-      expectedOutputList.addParameter('first')
-        .addParameter('second')
-        .addParameter('third');
-      removeIds(actualOutputList);
-      removeIds(expectedOutputList);
-      expect(actualOutputList).toEqual(expectedOutputList);
-    });
-
-    it('#getOutputNames should return empty ParameterList when no outputs are given', () => {
-      const testCode = (
-        `function(first, second, third){
-  return()
-}`);
-      const actualOutputList = statlet['getOutputNames'](testCode);
-      expect(actualOutputList).toEqual([]);
-    });
-
-    it('#getOutputList should return empty ParameterList when no outputs are given', () => {
+    it('#getOutputNamesFromCode should return empty ParameterList when no outputs are given', () => {
       const testCode = (
 `function(first, second, third){
   return()
 }`);
-      const actualOutputList = statlet['getOutputList'](testCode);
-      const expectedOutputList = new ParameterList();
-      expect(actualOutputList).toEqual(expectedOutputList);
+      const actualOutputList = statlet['getOutputNamesFromCode'](testCode);
+      expect(actualOutputList).toEqual([]);
     });
   });
 });

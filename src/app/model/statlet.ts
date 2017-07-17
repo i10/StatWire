@@ -1,6 +1,5 @@
 import { RemoteRService } from '../remote-r.service';
 import { CanvasPosition } from './canvas-position';
-import { ParameterList } from './parameter-list';
 import { Parameter } from './parameter';
 
 export enum StatletState {
@@ -14,8 +13,6 @@ export class Statlet {
   consoleOutput = '';
   inputs: Array<Parameter> = [];
   outputs: Array<Parameter> = [];
-  inputList = new ParameterList();
-  outputList = new ParameterList();
   currentState = StatletState.ready;
 
   constructor(
@@ -50,7 +47,7 @@ export class Statlet {
       this.currentState = StatletState.busy;
       const rCode = this.convertStatletCodeToRCode(this.code);
 
-      this.remoteR.execute(rCode, this.inputList)
+      this.remoteR.execute(rCode, this.inputs)
         .then(result => {
           this.updateOutputsFromRawValues(result.returnValue);
           this.consoleOutput = result.consoleOutput;
@@ -79,22 +76,22 @@ export class Statlet {
   }
 
   synchronizeParametersWithCode(): void {
-    const updatedInputList = this.getInputList(this.code);
-    this.inputList.updateWith(updatedInputList);
-    const updatedOutputList = this.getOutputList(this.code);
-    this.outputList.updateWith(updatedOutputList);
+    const updatedInputNames = this.getInputNamesFromCode(this.code);
+    this.setInputsUsingNames(updatedInputNames);
+    const updatedOutputNames = this.getOutputNamesFromCode(this.code);
+    this.setOutputsUsingNames(updatedOutputNames);
   }
 
-  private getInputList(code: string): ParameterList {
+  private getInputNamesFromCode(code: string): Array<string> {
     const functionHeaderPattern = /function\(([^)]*?)\)/;
     const inputNames = this.parseParameters(code, functionHeaderPattern);
-    return this.makeParameterList(inputNames);
+    return inputNames;
   }
 
-  private getOutputList(code: string): ParameterList {
+  private getOutputNamesFromCode(code: string): Array<string> {
     const returnStatementPattern = /return\(([^)]*?)\)/;
     const outputNames = this.parseParameters(code, returnStatementPattern);
-    return this.makeParameterList(outputNames);
+    return outputNames;
   }
 
   private parseParameters(code: string, pattern: RegExp): Array<string> {
@@ -109,13 +106,5 @@ export class Statlet {
     }
     const parameterList = allParameters.split(/\s*,\s*/);
     return parameterList;
-  }
-
-  private makeParameterList(parameterNames: string[]) {
-    const updatedParameterList = new ParameterList();
-    for (const parameter of parameterNames) {
-      updatedParameterList.addParameter(parameter);
-    }
-    return updatedParameterList;
   }
 }
