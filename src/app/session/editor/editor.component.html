@@ -12,7 +12,7 @@
     <div class="editor-code">
       <l-ace-editor [mode]="aceMode" [options]="aceOptions" [(ngModel)]="statlet.code"></l-ace-editor>
       <div class="editor-toolbar">
-        <button class="editor-button-sync" (click)="synchronizeStatlet()">
+        <button class="editor-button-sync" (click)="statlet.synchronizeParametersWithCode()">
           <i class="fa fa-refresh fa-2x"></i>
         </button>
         <button class="editor-button-execute" (click)="statlet.execute()" [ngSwitch]="statlet.currentState">

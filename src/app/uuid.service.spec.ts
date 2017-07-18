@@ -1,4 +1,3 @@
-
 import { UuidService } from './uuid.service';
 
 describe('UuidService', () => {
@@ -7,9 +6,9 @@ describe('UuidService', () => {
     uuidService = new UuidService();
   });
 
-  it('should generate 1000 unique UUIDs', () => {
+  it('should generate 100 unique UUIDs', () => {
     const allUuids = new Set();
-    for (let i = 0; i < 1000; i++) {
+    for (let i = 0; i < 100; i++) {
       allUuids.add(uuidService.generate());
       expect(allUuids.size).toEqual(i + 1);
     }
