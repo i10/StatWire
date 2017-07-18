@@ -20,7 +20,6 @@ export class EditorComponent {
 
   StatletState = StatletState;  // expose enum to template
 
-
   constructor(
     private statletManager: StatletManagerService,
   ) { }
