@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, Input, OnDestroy, OnInit } from '@angular/core';
+import { AfterViewInit, Component, DoCheck, Input, OnChanges, OnDestroy, OnInit, SimpleChanges } from '@angular/core';
 import { Parameter } from '../../../model/parameter';
 import { StatletManagerService } from '../../../model/statlet-manager.service';
 import { PlumbingService } from '../plumbing.service';
@@ -13,7 +13,7 @@ export enum ParameterType {
   templateUrl: './parameter.component.html',
   styleUrls: ['./parameter.component.sass'],
 })
-export class ParameterComponent implements OnInit, AfterViewInit, OnDestroy {
+export class ParameterComponent implements OnInit, AfterViewInit, OnDestroy, DoCheck {
   static callbacksAreSet = false;
 
   @Input() parameterType: ParameterType;
@@ -21,6 +21,8 @@ export class ParameterComponent implements OnInit, AfterViewInit, OnDestroy {
   htmlId: string;
 
   ParameterType = ParameterType;
+
+  private oldValue: any = undefined;
 
   constructor(
     private plumbing: PlumbingService,
@@ -38,10 +40,6 @@ export class ParameterComponent implements OnInit, AfterViewInit, OnDestroy {
       this.setOnDisconnectCallback();
       ParameterComponent.callbacksAreSet = true;
     }
-  }
-
-  ngOnDestroy(): void {
-    this.removeAllConnections();
   }
 
   private makeEndpoint(id: string) {
@@ -77,13 +75,29 @@ export class ParameterComponent implements OnInit, AfterViewInit, OnDestroy {
     });
   }
 
-  disconnectParameters(sourceId: string, targetId: string): void {
+  private disconnectParameters(sourceId: string, targetId: string): void {
     const source = this.statletManager.getParameter(sourceId);
     const target = this.statletManager.getParameter(targetId);
     source.unlink(target);
   }
 
+
+  ngOnDestroy(): void {
+    this.removeAllConnections();
+  }
+
   removeAllConnections(): void {
     this.plumbing.removeAllConnectionsFrom(this.htmlId);
+  }
+
+  ngDoCheck(): void {
+    if (this.parameter.value !== this.oldValue) {
+      this.parameterValueChanged();
+      this.oldValue = this.parameter.value;
+    }
+  }
+
+  private parameterValueChanged(): void {
+    this.plumbing.updateEndpoints(this.htmlId);
   }
 }
