@@ -44,6 +44,8 @@ export class Statlet {
 
   execute(): Promise<never> {
     return new Promise((resolve, reject) => {
+      this.synchronizeParametersWithCode();
+
       this.currentState = StatletState.busy;
       const rCode = this.convertStatletCodeToRCode(this.code);
 
