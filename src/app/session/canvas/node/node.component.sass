@@ -15,24 +15,24 @@
 .node-header
   display: flex
   flex-direction: row
-  flex-basis: 32px
+  align-items: center
+  background-color: rgba(66,139,202,1)
+  color: white
 
   > *
-    background-color: rgba(66,139,202,1)
-    color: white
-    font-weight: bold
+    padding: 4px
     text-align: center
-    border-right: 1px solid rgba(255, 255, 255, .25)
     flex-basis: 36px
+    height: 100%
 
-    &:last-child
-      border: none
+    &:not(:last-child)
+      border-right: 1px solid rgba(255, 255, 255, .25)
 
   .node-title
-    flex-grow: 1
+    flex: 1
     padding-left: .5em
     text-align: left
-    min-width: 0
+    font-weight: bold
     white-space: nowrap
     overflow: hidden
     text-overflow: ellipsis
