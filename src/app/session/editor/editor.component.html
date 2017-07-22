@@ -11,17 +11,17 @@
   <div class="editor-body">
     <div class="editor-code">
       <l-ace-editor [mode]="aceMode" [options]="aceOptions" [(ngModel)]="statlet.code"></l-ace-editor>
-      <div class="editor-toolbar">
-        <button class="editor-button-sync" (click)="statlet.synchronizeParametersWithCode()">
-          <i class="fa fa-refresh fa-2x"></i>
-        </button>
-        <button class="editor-button-execute" (click)="statlet.execute()" [ngSwitch]="statlet.currentState">
-          <i *ngSwitchCase="StatletState.ready" class="fa fa-play fa-2x"></i>
-          <i *ngSwitchCase="StatletState.busy" class="fa fa-hourglass fa-2x"></i>
-        </button>
-      </div>
     </div>
     <div class="editor-console">
+      <div class="editor-toolbar">
+        <button class="editor-button-execute" (click)="statlet.execute()" [ngSwitch]="statlet.currentState">
+          <i *ngSwitchCase="StatletState.ready" class="fa fa-play"></i>
+          <i *ngSwitchCase="StatletState.busy" class="fa fa-hourglass"></i>
+        </button>
+        <button class="editor-button-sync" (click)="statlet.synchronizeParametersWithCode()">
+          <i class="fa fa-refresh"></i>
+        </button>
+      </div>
       <textarea readonly [(ngModel)]="statlet.consoleOutput"></textarea>
     </div>
   </div>
