@@ -165,7 +165,7 @@ describe('StatLets', () => {
     // Frank, while annoyed that StatLets can handle this, won't give up just now...
   });
 
-  fit('should allow the user to upload a file', () => {
+  it('should allow the user to upload a file', () => {
     // Frank want's to calculate the mean of a csv file's entries.
     // He adds a node to load the csv file.
     const node1 = page.addNodeAt(10, 10);
@@ -175,13 +175,14 @@ describe('StatLets', () => {
     expect(node1.getTitle()).toEqual(page.editor.getTitle());
     page.editor.replaceCode(
 `function(file) {
-  data <- read.csv(file)
-  return(data)
+  data <- read.csv(file=file, header=FALSE)
+  column <- data$V1
+  return(column)
 }`,
     );
     page.editor.clickSyncButton();
     expect(node1.input(1).getName()).toContain('file');
-    expect(node1.output(1).getName()).toContain('data');
+    expect(node1.output(1).getName()).toContain('column');
 
     // Frank adds a node to calculate the mean.
     const node2 = page.addNodeAt(300, 10);
@@ -198,6 +199,11 @@ describe('StatLets', () => {
     page.editor.clickSyncButton();
     expect(node2.input(1).getName()).toContain('column');
     expect(node2.output(1).getName()).toContain('average');
+
+    // Frank links the nodes together.
+    browser.actions()
+      .dragAndDrop(node1.output(1).getEndpoint(), node2.input(1).getEndpoint())
+      .perform();
 
     // He chooses a file to upload.
     const fileToUpload = './dummy.csv';
