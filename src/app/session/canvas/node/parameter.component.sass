@@ -1,14 +1,24 @@
-.parameter
+.parameter, .parameter-label
   display: flex
+  margin: 1px 0 1px 0
 
-$padding: .5em
+.parameter-label
+  display: flex
+  min-width: 0
+
+  .parameter-name
+    padding-right: 8px
+
+  .parameter-value
+    overflow: hidden
+    text-overflow: ellipsis
 
 .parameter-input
-  span
-    padding-left: $padding
+  .parameter-endpoint
+    margin-right: 8px
 
 .parameter-output
   flex-direction: row-reverse
 
-  span
-    padding-right: $padding
+  .parameter-endpoint
+    margin-left: 8px

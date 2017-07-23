@@ -5,9 +5,9 @@
   </div>
   <div class="parameter-label">
     <span class="parameter-name">{{parameter.name}}:</span>
-    <span *ngIf="!isLinked(); else fileUpload" class="parameter-value">{{parameter.value}}</span>
-    <ng-template #fileUpload>
-      <input type="file" (change)="fileChanged($event)">
-    </ng-template>
+    <div class="parameter-value">
+      <input *ngIf="!isLinked()" type="file" (change)="fileChanged($event)">
+      {{parameter.value}}
+    </div>
   </div>
 </div>

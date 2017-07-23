@@ -103,7 +103,7 @@ export class ParameterComponent implements OnInit, AfterViewInit, OnDestroy, DoC
   }
 
   isLinked(): boolean {
-    return this.parameter.value === undefined;
+    return this.parameter.value !== undefined;
   }
 
   fileChanged($event: Event): void {
