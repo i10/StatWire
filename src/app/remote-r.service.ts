@@ -26,16 +26,10 @@ export class RemoteRService {
             args: openCpuArgs,
           },
           session => {
-            let returnValue, consoleOutput;
-            session.getObject()
-              .done(newReturnValue => {
-                returnValue = newReturnValue;
-                return session.getConsole();
-              })
-              .done(newConsoleOutput => {
-                consoleOutput = newConsoleOutput;
-                resolve({returnValue: returnValue, consoleOutput: consoleOutput});
-              });
+            const returnValuePromise = session.getObject();
+            const consoleOutputPromise = session.getConsole();
+            Promise.all([returnValuePromise, consoleOutputPromise])
+              .then(values => resolve({returnValue: values[0], consoleOutput: values[1]}));
           },
         );
         req.fail(() => {
