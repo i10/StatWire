@@ -1,4 +1,5 @@
-import { AfterViewInit, Component, DoCheck, Input, OnChanges, OnDestroy, OnInit, SimpleChanges } from '@angular/core';
+import { AfterViewInit, Component, DoCheck, Input, OnDestroy, OnInit } from '@angular/core';
+
 import { Parameter } from '../../../model/parameter';
 import { StatletManagerService } from '../../../model/statlet-manager.service';
 import { PlumbingService } from '../plumbing.service';
@@ -99,5 +100,15 @@ export class ParameterComponent implements OnInit, AfterViewInit, OnDestroy, DoC
 
   private parameterValueChanged(): void {
     this.plumbing.updateEndpoints(this.htmlId);
+  }
+
+  isLinked(): boolean {
+    return this.parameter.value === undefined;
+  }
+
+  fileChanged($event: Event): void {
+    const inputElement = $event.target as HTMLInputElement;
+    const selectedFile = inputElement.files[0];
+    this.parameter.value = selectedFile;
   }
 }

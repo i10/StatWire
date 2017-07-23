@@ -19,23 +19,15 @@ export class RemoteRService {
     return new Promise((resolve, reject) => {
         const snippet = new this.opencpu.Snippet(code);
         const openCpuArgs = this.convertParametersToOpenCpuArgs(args);
+        const functionCallArgs = Object.assign({}, openCpuArgs, { func: snippet });  // TODO: Resolve naming conflict. Make params called 'func' possible
         const req = this.opencpu.call(
-          'do.call',
-          {
-            what: snippet,
-            args: openCpuArgs,
-          },
+          'functionCall',
+          functionCallArgs,
           session => {
-            let returnValue, consoleOutput;
-            session.getObject()
-              .done(newReturnValue => {
-                returnValue = newReturnValue;
-                return session.getConsole();
-              })
-              .done(newConsoleOutput => {
-                consoleOutput = newConsoleOutput;
-                resolve({returnValue: returnValue, consoleOutput: consoleOutput});
-              });
+            const returnValuePromise = session.getObject();
+            const consoleOutputPromise = session.getConsole();
+            Promise.all([returnValuePromise, consoleOutputPromise])
+              .then(values => resolve({returnValue: values[0], consoleOutput: values[1]}));
           },
         );
         req.fail(() => {
@@ -48,6 +40,9 @@ export class RemoteRService {
   private convertParametersToOpenCpuArgs(parameterList: Array<Parameter>): any {
     const openCpuArgs = {};
     for (const parameter of parameterList) {
+      if (parameter.name === 'func') {
+        console.error('Parameters cannot be called func, currently.')
+      }
       openCpuArgs[parameter.name] = parameter.value;
     }
     return openCpuArgs;

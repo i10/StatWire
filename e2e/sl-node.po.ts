@@ -3,10 +3,16 @@ import { promise } from 'selenium-webdriver';
 
 export interface SlNode extends ElementFinder {
   getTitle(): promise.Promise<string>;
+
   input(place: number): SlParameter;
+
   output(place: number): SlParameter;
+
   clickExecuteButton(): void;
+
   waitWhileBusy(): ElementFinder;
+
+  enterFilePath(absolutePath: string): void;
 }
 
 export function convertElementToSlNode(element: ElementFinder): SlNode {
@@ -28,9 +34,14 @@ export function convertElementToSlNode(element: ElementFinder): SlNode {
     return this.element(by.css('.node-execute')).click();
   };
 
-  element.waitWhileBusy = function () {
+  element.waitWhileBusy = function (): void {
     const readyIndicator = this.element(by.css('.node-ready'));
     browser.wait(ExpectedConditions.presenceOf(readyIndicator), 5000);
+  };
+
+  element.enterFilePath = function (absolutePath: string): void {
+    const fileInput = this.element(by.css('input[type="file"]'));
+    fileInput.sendKeys(absolutePath);
   };
 
   return element as SlNode;
@@ -38,6 +49,7 @@ export function convertElementToSlNode(element: ElementFinder): SlNode {
 
 export interface SlParameter extends ElementFinder {
   getName(): promise.Promise<string>;
+
   getEndpoint(): ElementFinder;
 }
 

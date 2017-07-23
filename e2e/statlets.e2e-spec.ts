@@ -1,5 +1,7 @@
 import { browser, protractor } from 'protractor';
 
+import * as path from 'path';
+
 import { StatLetsPage } from './statlets.po';
 
 describe('StatLets', () => {
@@ -30,7 +32,7 @@ describe('StatLets', () => {
     page.editor.replaceTitle('generatePrime');
     expect(node1.getTitle()).toEqual(page.editor.getTitle());
     page.editor.replaceCode(
-`function() {
+      `function() {
   prime <- 11
   return(prime)
 }`,
@@ -45,7 +47,7 @@ describe('StatLets', () => {
     page.editor.replaceTitle('double');
     expect(node2.getTitle()).toEqual(page.editor.getTitle());
     page.editor.replaceCode(
-`function(number) {
+      `function(number) {
   double <- number * 2;
   return(double)
 }`,
@@ -85,7 +87,7 @@ describe('StatLets', () => {
     page.editor.replaceTitle('readData');
     expect(node1.getTitle()).toEqual(page.editor.getTitle());
     page.editor.replaceCode(
-`function() {
+      `function() {
   persons <- c('Me', 'He', 'She', 'It')
   expenses <- c(100, 200, 150, 300)
   return(persons, expenses)
@@ -101,7 +103,7 @@ describe('StatLets', () => {
     page.editor.replaceTitle('convertCurrency');
     expect(node2.getTitle()).toEqual(page.editor.getTitle());
     page.editor.replaceCode(
-`function(euro) {
+      `function(euro) {
   dollar <- euro * 100
   return(dollar)
 }`,
@@ -116,7 +118,7 @@ describe('StatLets', () => {
     page.editor.replaceTitle('average');
     expect(node3.getTitle()).toEqual(page.editor.getTitle());
     page.editor.replaceCode(
-`function(levels, values) {
+      `function(levels, values) {
   average <- sum(values) / length(levels)
   return(average)
 }`,
@@ -161,5 +163,61 @@ describe('StatLets', () => {
     expect(node3.output(1).getName()).toContain((100 + 200 + 150 + 300) / 4);
 
     // Frank, while annoyed that StatLets can handle this, won't give up just now...
+  });
+
+  it('should allow the user to upload a file', () => {
+    // Frank want's to calculate the mean of a csv file's entries.
+    // He adds a node to load the csv file.
+    const node1 = page.addNodeAt(10, 10);
+    node1.click();
+    expect(page.editor.getTitle()).toEqual(node1.getTitle());
+    page.editor.replaceTitle('loadCSVFile');
+    expect(node1.getTitle()).toEqual(page.editor.getTitle());
+    page.editor.replaceCode(
+`function(file) {
+  data <- read.csv(file=file, header=FALSE)
+  column <- data$V1
+  return(column)
+}`,
+    );
+    page.editor.clickSyncButton();
+    expect(node1.input(1).getName()).toContain('file');
+    expect(node1.output(1).getName()).toContain('column');
+
+    // Frank adds a node to calculate the mean.
+    const node2 = page.addNodeAt(300, 10);
+    node2.click();
+    expect(page.editor.getTitle()).toEqual(node2.getTitle());
+    page.editor.replaceTitle('average');
+    expect(node2.getTitle()).toEqual(page.editor.getTitle());
+    page.editor.replaceCode(
+`function(column) {
+  average <- mean(column)
+  return(average)
+}`,
+    );
+    page.editor.clickSyncButton();
+    expect(node2.input(1).getName()).toContain('column');
+    expect(node2.output(1).getName()).toContain('average');
+
+    // Frank links the nodes together.
+    browser.actions()
+      .dragAndDrop(node1.output(1).getEndpoint(), node2.input(1).getEndpoint())
+      .perform();
+
+    // He chooses a file to upload.
+    const fileToUpload = './dummy.csv';
+    const absolutePath = path.resolve(__dirname, fileToUpload);
+    node1.enterFilePath(absolutePath);
+
+    // Frank executes both nodes and watchs the output.
+    node1.clickExecuteButton();
+    node1.waitWhileBusy();
+    expect(node1.output(1).getName()).toContain('');
+    node2.clickExecuteButton();
+    node2.waitWhileBusy();
+    expect(node2.output(1).getName()).toContain('5.5');
+
+    // Frank might think StatLets is above average, but he will try out some more stuff later...
   });
 });
