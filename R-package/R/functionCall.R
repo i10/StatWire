@@ -1,3 +1,3 @@
 functionCall <- function(func, ...) {
-  return(do.call(func, list(...)))
+  invisible(do.call(func, list(...)))
 }

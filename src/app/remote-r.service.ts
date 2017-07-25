@@ -25,7 +25,7 @@ export class RemoteRService {
           functionCallArgs,
           session => {
             const returnValuePromise = session.getObject();
-            const consoleOutputPromise = session.getConsole();
+            const consoleOutputPromise = session.getStdout();
             Promise.all([returnValuePromise, consoleOutputPromise])
               .then(values => resolve({returnValue: values[0], consoleOutput: values[1]}));
           },
