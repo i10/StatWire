@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+
 import { Parameter } from './model/parameter';
 
 declare const ocpu;
@@ -19,18 +20,18 @@ export class RemoteRService {
     return new Promise((resolve, reject) => {
         const snippet = new this.opencpu.Snippet(code);
         const openCpuArgs = this.convertParametersToOpenCpuArgs(args);
-        const functionCallArgs = Object.assign({}, openCpuArgs, { func: snippet });  // TODO: Resolve naming conflict. Make params called 'func' possible
+        const functionCallArgs = Object.assign({}, openCpuArgs, {func: snippet});  // TODO: Resolve naming conflict. Make params called 'func' possible.
         const req = this.opencpu.call(
           'functionCall',
           functionCallArgs,
           session => {
-            const returnValuePromise = session.getObject();
+            const returnValuePromise = session.getObject()
+              .fail(jqXHR => reject(jqXHR.responseText + '\n(Note: You currently cannot pass S3 objects in StatLets.)'));
             const consoleOutputPromise = session.getStdout();
             Promise.all([returnValuePromise, consoleOutputPromise])
               .then(values => resolve({returnValue: values[0], consoleOutput: values[1]}));
           },
-        );
-        req.fail(() => {
+        ).fail(() => {
           reject(req.responseText);
         });
       },
@@ -41,7 +42,7 @@ export class RemoteRService {
     const openCpuArgs = {};
     for (const parameter of parameterList) {
       if (parameter.name === 'func') {
-        console.error('Parameters cannot be called func, currently.')
+        console.error('Parameters cannot be called func, currently.');
       }
       openCpuArgs[parameter.name] = parameter.value;
     }
