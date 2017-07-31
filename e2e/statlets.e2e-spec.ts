@@ -1,6 +1,5 @@
-import { browser, by, ExpectedConditions, protractor } from 'protractor';
-
 import * as path from 'path';
+import { browser, by, ExpectedConditions } from 'protractor';
 
 import { StatLetsPage } from './statlets.po';
 
@@ -149,9 +148,8 @@ describe('StatLets', () => {
 
     // Frank now decides, that he does not want the transformation anymore and removes it. All its connections are automatically deleted.
     expect(page.getNumberOfConnectionEndpoints()).toEqual(6);
-    browser.actions()
-      .click(node2, protractor.Button.RIGHT)
-      .perform();
+    node2.click();
+    page.editor.clickDeleteButton();
     expect(page.getNumberOfConnectionEndpoints()).toEqual(2);
 
     // He re-links the nodes and executes them.
