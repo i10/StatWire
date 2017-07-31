@@ -13,6 +13,7 @@ export class Statlet {
   consoleOutput = '';
   inputs: Array<Parameter> = [];
   outputs: Array<Parameter> = [];
+  graphicUrls: Array<string> = [];
   currentState = StatletState.ready;
 
   constructor(
@@ -53,6 +54,8 @@ export class Statlet {
         .then(result => {
           this.updateOutputsFromRawValues(result.returnValue);
           this.consoleOutput = result.consoleOutput;
+          this.graphicUrls = result.graphicUrls;
+          console.log(this.graphicUrls)
         })
         .catch((error) => {
           this.consoleOutput = error;

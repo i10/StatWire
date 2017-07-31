@@ -3,16 +3,12 @@ import { promise } from 'selenium-webdriver';
 
 export interface SlNode extends ElementFinder {
   getTitle(): promise.Promise<string>;
-
   input(place: number): SlParameter;
-
   output(place: number): SlParameter;
-
   clickExecuteButton(): void;
-
   waitWhileBusy(): ElementFinder;
-
   enterFilePath(absolutePath: string): void;
+  getGraphicSelection(): ElementFinder;
 }
 
 export function convertElementToSlNode(element: ElementFinder): SlNode {
@@ -42,6 +38,10 @@ export function convertElementToSlNode(element: ElementFinder): SlNode {
   element.enterFilePath = function (absolutePath: string): void {
     const fileInput = this.element(by.css('input[type="file"]'));
     fileInput.sendKeys(absolutePath);
+  };
+
+  element.getGraphicSelection = function (): ElementFinder {
+    return this.element(by.css('.graphics'));
   };
 
   return element as SlNode;

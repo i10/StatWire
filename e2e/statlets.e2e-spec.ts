@@ -1,4 +1,4 @@
-import { browser, protractor } from 'protractor';
+import { browser, by, ExpectedConditions, protractor } from 'protractor';
 
 import * as path from 'path';
 
@@ -219,5 +219,34 @@ describe('StatLets', () => {
     expect(node2.output(1).getName()).toContain('5.5');
 
     // Frank might think StatLets is above average, but he will try out some more stuff later...
+  });
+
+  fit('should show graphics generated during execution', () => {
+    // Frank would like to visualize some data.
+    // He creates a node that plots two sample datasets.
+    const node1 = page.addNodeAt(10, 10);
+    node1.click();
+    expect(page.editor.getTitle()).toEqual(node1.getTitle());
+    page.editor.replaceTitle('generatePlots');
+    expect(node1.getTitle()).toEqual(page.editor.getTitle());
+    page.editor.replaceCode(
+`function() {
+  data1 <- c(1,2,3)
+  data2 <- 1:10
+  plot(data1)
+  plot(data2)
+}`,
+    );
+    page.editor.clickSyncButton();
+
+    // He executes the node.
+    node1.clickExecuteButton();
+    node1.waitWhileBusy();
+    browser.wait(ExpectedConditions.visibilityOf(node1.getGraphicSelection()), 1000);
+
+    // Two links appear.
+    expect(node1.getGraphicSelection().all(by.tagName('a')).count()).toEqual(2);
+
+    // Frank is very proud to have generated such beautiful images. He is, however, not done with StatLets...
   });
 });
