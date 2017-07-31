@@ -1,11 +1,9 @@
-library(jsonlite)
-
 serializeS3SingleValue <- function(val) {
   serializedVal <- tryCatch({
-    toJSON(val)
+    jsonlite::toJSON(val)
     val
   }, error = function(e) {
-    serializeJSON(val)
+    jsonlite::serializeJSON(val)
   })
   return(serializedVal)
 }
@@ -18,7 +16,7 @@ serializeS3Values <- function(values) {
 unserializeS3SingleValue <- function(val) {
   charVal <- paste(val)
   unserializedVal <- tryCatch({
-    unserializeJSON(charVal)
+    jsonlite::unserializeJSON(charVal)
   }, error = function(e) {
     val
   })
