@@ -21,9 +21,7 @@ export class NodeComponent implements OnInit, AfterViewInit {
   @HostBinding('style') cssStyle: SafeStyle;
 
   @HostListener('contextmenu', ['$event']) onRightClick($event: MouseEvent): void {
-    $event.preventDefault();
     $event.stopPropagation();
-    this.statletManager.deleteStatlet(this.statlet.id);
   }
   @HostListener('mousedown', ['$event']) onMouseDown($event: MouseEvent): void {
     const rightMouseButton = 2;
