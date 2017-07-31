@@ -221,7 +221,7 @@ describe('StatLets', () => {
     // Frank might think StatLets is above average, but he will try out some more stuff later...
   });
 
-  fit('should show graphics generated during execution', () => {
+  it('should show graphics generated during execution', () => {
     // Frank would like to visualize some data.
     // He creates a node that plots two sample datasets.
     const node1 = page.addNodeAt(10, 10);
