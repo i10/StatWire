@@ -5,6 +5,7 @@ import { convertElementToSlNode, SlNode } from './sl-node.po';
 
 export class StatLetsPage {
   editor = new SlEditor();
+  canvas = element(by.tagName('sl-canvas'));
 
   nextId = 1;
 
@@ -13,9 +14,8 @@ export class StatLetsPage {
   }
 
   addNodeAt(x: number, y: number): SlNode {
-    const canvas = element(by.tagName('sl-canvas'));
     browser.actions()
-      .mouseMove(canvas, {x: x, y: y})
+      .mouseMove(this.canvas, {x: x, y: y})
       .click(protractor.Button.RIGHT)
       .perform();
 
@@ -23,6 +23,18 @@ export class StatLetsPage {
     this.nextId++;
     const addedNodeElement = element(by.id(`node-${id}`));
     return convertElementToSlNode(addedNodeElement);
+  }
+
+  addGroupAt(x: number, y: number): SlNode {
+    browser.actions()
+      .mouseMove(this.canvas, {x: x, y: y})
+      .click(protractor.Button.LEFT)
+      .perform();
+
+    const id = this.nextId;
+    this.nextId++;
+    const addedGroupElement = element(by.id(`group-${id}`));
+    return convertElementToSlNode(addedGroupElement);
   }
 
   getNumberOfConnectionEndpoints(): promise.Promise<number> {

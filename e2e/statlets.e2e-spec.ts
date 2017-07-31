@@ -247,4 +247,89 @@ describe('StatLets', () => {
 
     // Frank is very proud to have generated such beautiful images. He is, however, not done with StatLets...
   });
+
+  fit('should allow to group nodes together', () => {
+    // Frank wants to test out grouping nodes together.
+    // He adds four nodes that do a simple analysis.
+    const node1 = page.addNodeAt(10, 10);
+    node1.click();
+    expect(page.editor.getTitle()).toEqual(node1.getTitle());
+    page.editor.replaceTitle('generatePrime');
+    expect(node1.getTitle()).toEqual(page.editor.getTitle());
+    page.editor.replaceCode(
+`function() {
+  prime <- 11
+  return(prime)
+}`,
+    );
+    page.editor.clickSyncButton();
+    expect(node1.output(1).getName()).toContain('prime');
+
+    const node2 = page.addNodeAt(10, 110);
+    node2.click();
+    expect(page.editor.getTitle()).toEqual(node2.getTitle());
+    page.editor.replaceTitle('double');
+    expect(node2.getTitle()).toEqual(page.editor.getTitle());
+    page.editor.replaceCode(
+`function(number) {
+  double <- number * 2
+  return(double)
+}`,
+    );
+    page.editor.clickSyncButton();
+    expect(node2.input(1).getName()).toContain('number');
+    expect(node2.output(1).getName()).toContain('double');
+
+    const node3 = page.addNodeAt(10, 210);
+    node3.click();
+    expect(page.editor.getTitle()).toEqual(node3.getTitle());
+    page.editor.replaceTitle('increment');
+    expect(node3.getTitle()).toEqual(page.editor.getTitle());
+    page.editor.replaceCode(
+`function(number) {
+  increment <- number + 1
+  return(increment)
+}`,
+    );
+    page.editor.clickSyncButton();
+    expect(node3.input(1).getName()).toContain('number');
+    expect(node3.output(1).getName()).toContain('increment');
+
+    const node4 = page.addNodeAt(600, 210);
+    node4.click();
+    expect(page.editor.getTitle()).toEqual(node4.getTitle());
+    page.editor.replaceTitle('checkPrime');
+    expect(node4.getTitle()).toEqual(page.editor.getTitle());
+    page.editor.replaceCode(
+`function(number) {
+  isPrime <- number == 23
+  return(isPrime)
+}`,
+    );
+    page.editor.clickSyncButton();
+    expect(node4.input(1).getName()).toContain('number');
+    expect(node4.output(1).getName()).toContain('isPrime');
+
+    browser.actions()
+      .dragAndDrop(node1.output(1).getEndpoint(), node2.input(1).getEndpoint())
+      .dragAndDrop(node2.output(1).getEndpoint(), node3.input(1).getEndpoint())
+      .dragAndDrop(node3.output(1).getEndpoint(), node4.input(1).getEndpoint())
+      .perform();
+
+    // He groups the two middle nodes together.
+    const group = page.addGroupAt(300, 10);
+    browser.actions()
+      .dragAndDrop(node1, group)
+      .dragAndDrop(node2, group)
+      .perform();
+
+    // He executes the first node, the group and the final node.
+    node1.clickExecuteButton();
+    expect(node1.output(1).getText()).toContain('11');
+    group.clickExecuteButton();
+    expect(node2.output(1).getText()).toContain('22');
+    expect(node3.output(1).getText()).toContain('23');
+    node4.clickExecuteButton();
+    expect(node4.output(1).getText()).toContain('TRUE');
+  });
 });
