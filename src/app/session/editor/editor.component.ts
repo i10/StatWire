@@ -32,4 +32,7 @@ export class EditorComponent {
     return !isNullOrUndefined(this.statlet);
   }
 
+  onDelete(): void {
+    this.statletManager.deleteStatlet(this.statlet.id);
+  }
 }
