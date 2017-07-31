@@ -21,6 +21,9 @@
         <button class="editor-button-sync" (click)="statlet.synchronizeParametersWithCode()">
           <i class="fa fa-refresh"></i>
         </button>
+        <button class="editor-button-delete" (click)="onDelete()">
+          <i class="fa fa-trash"></i>
+        </button>
       </div>
       <textarea readonly [(ngModel)]="statlet.consoleOutput"></textarea>
     </div>

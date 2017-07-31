@@ -57,6 +57,10 @@ export class SlEditor {
   }
 
   clickSyncButton(): void {
-    element(by.css('.editor-button-sync')).click();
+    this.editor.element(by.css('.editor-button-sync')).click();
+  }
+
+  clickDeleteButton(): void {
+    this.editor.element(by.css('.editor-button-delete')).click();
   }
 }

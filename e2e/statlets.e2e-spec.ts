@@ -1,6 +1,5 @@
-import { browser, protractor } from 'protractor';
-
 import * as path from 'path';
+import { browser, by, ExpectedConditions } from 'protractor';
 
 import { StatLetsPage } from './statlets.po';
 
@@ -149,9 +148,8 @@ describe('StatLets', () => {
 
     // Frank now decides, that he does not want the transformation anymore and removes it. All its connections are automatically deleted.
     expect(page.getNumberOfConnectionEndpoints()).toEqual(6);
-    browser.actions()
-      .click(node2, protractor.Button.RIGHT)
-      .perform();
+    node2.click();
+    page.editor.clickDeleteButton();
     expect(page.getNumberOfConnectionEndpoints()).toEqual(2);
 
     // He re-links the nodes and executes them.
@@ -219,5 +217,34 @@ describe('StatLets', () => {
     expect(node2.output(1).getName()).toContain('5.5');
 
     // Frank might think StatLets is above average, but he will try out some more stuff later...
+  });
+
+  it('should show graphics generated during execution', () => {
+    // Frank would like to visualize some data.
+    // He creates a node that plots two sample datasets.
+    const node1 = page.addNodeAt(10, 10);
+    node1.click();
+    expect(page.editor.getTitle()).toEqual(node1.getTitle());
+    page.editor.replaceTitle('generatePlots');
+    expect(node1.getTitle()).toEqual(page.editor.getTitle());
+    page.editor.replaceCode(
+`function() {
+  data1 <- c(1,2,3)
+  data2 <- 1:10
+  plot(data1)
+  plot(data2)
+}`,
+    );
+    page.editor.clickSyncButton();
+
+    // He executes the node.
+    node1.clickExecuteButton();
+    node1.waitWhileBusy();
+    browser.wait(ExpectedConditions.visibilityOf(node1.getGraphicSelection()), 1000);
+
+    // Two links appear.
+    expect(node1.getGraphicSelection().all(by.tagName('a')).count()).toEqual(2);
+
+    // Frank is very proud to have generated such beautiful images. He is, however, not done with StatLets...
   });
 });
