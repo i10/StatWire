@@ -37,5 +37,5 @@ functionCall <- function(func, ...) {
   returnValues <- do.call(func, unserializedInputs)
 
   serializedReturnValues <- serializeS3Values(returnValues)
-  r(serializedReturnValues)
+  invisible(serializedReturnValues)
 }
