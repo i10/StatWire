@@ -20,9 +20,6 @@ export class NodeComponent implements OnInit, AfterViewInit {
   @HostBinding('id') htmlId: string;
   @HostBinding('style') cssStyle: SafeStyle;
 
-  @HostListener('contextmenu', ['$event']) onRightClick($event: MouseEvent): void {
-    $event.stopPropagation();
-  }
   @HostListener('mousedown', ['$event']) onMouseDown($event: MouseEvent): void {
     const rightMouseButton = 2;
     if ($event.button === rightMouseButton) {
