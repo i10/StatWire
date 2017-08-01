@@ -31,7 +31,7 @@ export class StatletGroupComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit() {
-    this.plumbing.makeDraggable(this.htmlId);
+    this.plumbing.makeGroup(this.htmlId);
   }
 
   onExecute(): void { }

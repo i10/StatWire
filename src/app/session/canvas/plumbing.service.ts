@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 
 declare const jsPlumb;
+declare const $;
 
 @Injectable()
 export class PlumbingService {
@@ -33,6 +34,12 @@ export class PlumbingService {
 
   setContainer(elementId: string): void {
     this.jsPlumb.setContainer(elementId);
+  }
+
+  makeGroup(elementId: string): void {
+    console.log(elementId)
+    const element = $('#'+elementId);
+    this.jsPlumb.addGroup({el: element, id: elementId, title: "test"});
   }
 
   onConnection(callback): void {
