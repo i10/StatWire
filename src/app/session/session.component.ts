@@ -16,4 +16,9 @@ export class SessionComponent implements OnInit {
     private statletManager: StatletManagerService
   ) { }
 
+  ngOnInit() {
+    if(this.sessionStorage.pop() != null) {
+      this.statletManager.overrideAllStatlets(this.sessionStorage.pop());
+    }
+  }
 }

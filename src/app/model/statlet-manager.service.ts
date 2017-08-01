@@ -33,6 +33,8 @@ export class StatletManagerService {
     this.addStatlet(statlet);
     this.setActiveStatlet(statlet.id);
 
+    this.updateSession();
+
     return statlet;
   }
 
@@ -44,6 +46,8 @@ export class StatletManagerService {
     this.resetIfActive(statletId);
     const indexToDelete = this.allStatlets.findIndex(statlet => statlet.id === statletId);
     this.allStatlets.splice(indexToDelete, 1);
+
+    this.updateSession();
   }
 
   private resetIfActive(statletId: number): void {
@@ -76,4 +80,24 @@ export class StatletManagerService {
     }
     return null;
   }
+
+  private updateSession(): void {
+    this.sessionStorage.update(this.allStatlets);
+  }
+
+  public overrideAllStatlets(allStatlets: Statlet[]): void {
+    this.allStatlets = allStatlets;
+
+    this.computeStatletId();
+  }
+
+  private computeStatletId(): void {
+    this.nextStatletId = -1;
+    for (let i = 0; i < this.allStatlets.length; ++i) {
+      if (this.allStatlets[i].id >= this.nextStatletId) {
+        this.nextStatletId = this.allStatlets[i].id + 1;
+      }
+    }
+  }
+
 }
