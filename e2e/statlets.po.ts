@@ -28,7 +28,8 @@ export class StatLetsPage {
   addGroupAt(x: number, y: number): SlNode {
     browser.actions()
       .mouseMove(this.canvas, {x: x, y: y})
-      .click(protractor.Button.LEFT)
+      .keyDown(protractor.Key.CONTROL)
+      .click(protractor.Button.RIGHT)
       .perform();
 
     const id = this.nextId;
