@@ -45,3 +45,6 @@ Thumbs.db
 /R-package/.Rproj.user/
 /R-package/.Rhistory
 /R-package/StatLets2.0.Rproj
+
+# Debug files
+debug.log
