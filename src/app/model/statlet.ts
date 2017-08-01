@@ -36,7 +36,7 @@ export class Statlet {
     const newParams = [];
     const oldNames = params.map(parameter => parameter.name);
     for (const name of newNames) {
-      let toAdd = new Parameter(name, this.id, this.statletManager);
+      let toAdd = new Parameter(name, this.statletManager);
       if (oldNames.includes(name)) {
         toAdd = params.find(parameter => parameter.name === name);
       }

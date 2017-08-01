@@ -9,8 +9,8 @@ describe('Parameter', () => {
       getParameter: id => [source, target].find(param => param.uuid === id)
     } as StatletManagerService;
 
-    source = new Parameter('source', 0, statletManagerMock);
-    target = new Parameter('target', 1, statletManagerMock);
+    source = new Parameter('source', statletManagerMock);
+    target = new Parameter('target', statletManagerMock);
   });
 
   it("#linkTo should update the target's value upon source's value change", () => {

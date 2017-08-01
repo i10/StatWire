@@ -21,12 +21,12 @@ describe('Statlet', () => {
 
   it('#getUpdatedParameters should remove parameters not present in new list', () => {
     const parameterNames = ['first', 'second', 'third'];
-    const actual = statlet['getUpdatedParameters']([new Parameter('fourth', statlet.id, null)], parameterNames);
+    const actual = statlet['getUpdatedParameters']([new Parameter('fourth', null)], parameterNames);
     expect(actual.map(parameter => parameter.name)).toEqual(parameterNames)
   });
 
   it('#getUpdatedParameters should keep original if parameter with same name exists', () => {
-    const toKeep = new Parameter('keepMe', statlet.id, null);
+    const toKeep = new Parameter('keepMe', null);
     const actual = statlet['getUpdatedParameters']([toKeep], [toKeep.name]);
     expect(actual).toEqual([toKeep]);
     expect(actual[0]).toBe(toKeep);
@@ -58,7 +58,7 @@ describe('Statlet', () => {
       const statletManagerMock: StatletManagerService = {
         getParameter: id => statlet.outputs.concat([linkedParameter]).find(param => param.uuid === id),
       } as any;
-      linkedParameter = new Parameter('linkToSecond', statlet.id, statletManagerMock);
+      linkedParameter = new Parameter('linkToSecond', statletManagerMock);
       statlet.outputs[1].linkTo(linkedParameter);
 
       statlet['updateOutputsFromRawValues']([1, 2, 3]);

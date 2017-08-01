@@ -11,7 +11,6 @@ export class Parameter {
 
   constructor(
     public name: string,
-    public statletId: number,
     private statletManager: StatletManagerService,
   ) {
     this.uuid = UUID.UUID();
