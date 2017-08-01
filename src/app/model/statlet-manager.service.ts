@@ -23,7 +23,8 @@ export class StatletManagerService {
     const statlet = new Statlet(
       id,
       position,
-      this.remoteR
+      this.remoteR,
+      this
     );
     statlet.title = `New Statlet ${id}`;
     statlet.code = 'function() {\n\treturn()\n}';

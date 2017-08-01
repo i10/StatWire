@@ -1,6 +1,7 @@
 import { RemoteRService } from '../remote-r.service';
 import { CanvasPosition } from './canvas-position';
 import { Parameter } from './parameter';
+import { StatletManagerService } from './statlet-manager.service';
 
 export enum StatletState {
   ready,
@@ -20,6 +21,7 @@ export class Statlet {
     public id: number,
     public position: CanvasPosition,
     private remoteR: RemoteRService,
+    private statletManager: StatletManagerService,
   ) { }
 
   setInputsUsingNames(names: Array<string>): void {
@@ -34,7 +36,7 @@ export class Statlet {
     const newParams = [];
     const oldNames = params.map(parameter => parameter.name);
     for (const name of newNames) {
-      let toAdd = new Parameter(name);
+      let toAdd = new Parameter(name, this.id, this.statletManager);
       if (oldNames.includes(name)) {
         toAdd = params.find(parameter => parameter.name === name);
       }
