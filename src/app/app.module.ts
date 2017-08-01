@@ -14,6 +14,7 @@ import { ParameterComponent } from './session/canvas/node/parameter.component';
 import { EditorComponent } from './session/editor/editor.component';
 import { SessionComponent } from './session/session.component';
 import { UuidService } from './uuid.service';
+import { SessionStorageService } from './sessionStorage.service';
 
 @NgModule({
   declarations: [
@@ -34,6 +35,7 @@ import { UuidService } from './uuid.service';
     StatletManagerService,
     UuidService,
     RemoteRService,
+    SessionStorageService,
   ],
   bootstrap: [AppComponent],
 })

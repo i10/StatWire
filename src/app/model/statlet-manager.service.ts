@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 
 import { RemoteRService } from '../remote-r.service';
+import { SessionStorageService } from '../sessionStorage.service';
 import { CanvasPosition } from './canvas-position';
 import { Parameter } from './parameter';
 import { Statlet } from './statlet';
@@ -13,7 +14,8 @@ export class StatletManagerService {
   private nextStatletId = 1;
 
   constructor(
-    private remoteR: RemoteRService
+    private remoteR: RemoteRService,
+    private sessionStorage: SessionStorageService,
   ) { }
 
   createStatlet(position: CanvasPosition): Statlet {
@@ -23,7 +25,7 @@ export class StatletManagerService {
     const statlet = new Statlet(
       id,
       position,
-      this.remoteR
+      this.remoteR,
     );
     statlet.title = `New Statlet ${id}`;
     statlet.code = 'function() {\n\treturn()\n}';
