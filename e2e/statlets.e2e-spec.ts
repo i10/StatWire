@@ -319,8 +319,8 @@ describe('StatLets', () => {
     // He groups the two middle nodes together.
     const group = page.addGroupAt(300, 10);
     browser.actions()
-      .dragAndDrop(node1, group)
       .dragAndDrop(node2, group)
+      .dragAndDrop(node3, group)
       .perform();
 
     // He executes the first node, the group and the final node.
