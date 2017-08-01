@@ -1,0 +1,13 @@
+<div class="statletgroup">
+  <div class="statletgroup-header">
+    <div class="statletgroup-title">
+      {{statletGroup.title}}
+    </div>
+    <div class="statletgroup-execute" (click)="onExecute()" [ngSwitch]="currentState">
+      <i *ngSwitchCase="StatletState.busy" class="fa fa-hourglass node-busy"></i>
+      <i *ngSwitchCase="StatletState.ready" class="fa fa-play node-ready"></i>
+    </div>
+  </div>
+  <div class="statletgroup-body" jtk-group-content="true">
+  </div>
+</div>
