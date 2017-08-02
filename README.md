@@ -22,7 +22,7 @@ To install the app itself:
    `install.packages("opencpu")`.
 2. Install the app's dependencies, using `npm install`.
 3. Install the StatLets R package, found in `./R-package`, in an R terminal
-   using `install.packages(".", repos = NULL, type="source")`.
+   using `library(devtools); install()`.
    
    - Make sure the working directory is set to `./R-package`.
    - Reinstall StatLets's R package whenever it is changed
@@ -32,11 +32,7 @@ To install the app itself:
 The app consists of two parts.
 
 1. To start the [OpenCPU] backend, which executes the R code,
-   open an R terminal and run
-   ```
-   library(opencpu)
-   ocpu_start_server()
-   ```
+   open an R terminal and run `Rscript scripts/startOpenCPU.R`.
 2. Run `ng serve` for a dev server. Navigate to http://localhost:4200/.
    The app will automatically reload if you change any of the source files.
 

@@ -1,8 +1,13 @@
 import { UUID } from 'angular2-uuid';
+import { Injectable } from '@angular/core';
 
+import { StatletManagerService } from './statlet-manager.service';
+
+@Injectable()
 export class Parameter {
   uuid: string;
-  private reference = {value: undefined};
+  manualInput = '';
+  linkedParameter: Parameter = null;
 
   constructor(
     public name: string,
@@ -11,18 +16,22 @@ export class Parameter {
   }
 
   get value(): any {
-    return this.reference.value;
+    if (this.linkedParameter) {
+      return this.linkedParameter.value;
+    } else {
+      return this.manualInput;
+    }
   }
 
   set value(newValue: any) {
-    this.reference.value = newValue;
+    this.manualInput = newValue;
   }
 
   linkTo(target: Parameter): void {
-    target.reference = this.reference;
+    target.linkedParameter = this;
   }
 
   unlink(target: Parameter): void {
-    target.reference = {value: this.reference.value};
+    target.linkedParameter = null;
   }
 }

@@ -1,6 +1,7 @@
 import { RemoteRService } from '../remote-r.service';
 import { CanvasPosition } from './canvas-position';
 import { Parameter } from './parameter';
+import { StatletManagerService } from './statlet-manager.service';
 
 export enum StatletState {
   ready,

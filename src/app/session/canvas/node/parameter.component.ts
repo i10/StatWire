@@ -14,7 +14,7 @@ export enum ParameterType {
   templateUrl: './parameter.component.html',
   styleUrls: ['./parameter.component.sass'],
 })
-export class ParameterComponent implements OnInit, AfterViewInit, OnDestroy, DoCheck {
+export class ParameterComponent implements OnInit, AfterViewInit, OnDestroy {
   static callbacksAreSet = false;
 
   @Input() parameterType: ParameterType;
@@ -22,8 +22,6 @@ export class ParameterComponent implements OnInit, AfterViewInit, OnDestroy, DoC
   htmlId: string;
 
   ParameterType = ParameterType;
-
-  private oldValue: any = undefined;
 
   constructor(
     private plumbing: PlumbingService,
@@ -82,7 +80,6 @@ export class ParameterComponent implements OnInit, AfterViewInit, OnDestroy, DoC
     source.unlink(target);
   }
 
-
   ngOnDestroy(): void {
     this.removeAllConnections();
   }
@@ -91,19 +88,12 @@ export class ParameterComponent implements OnInit, AfterViewInit, OnDestroy, DoC
     this.plumbing.removeAllConnectionsFrom(this.htmlId);
   }
 
-  ngDoCheck(): void {
-    if (this.parameter.value !== this.oldValue) {
-      this.parameterValueChanged();
-      this.oldValue = this.parameter.value;
-    }
-  }
-
-  private parameterValueChanged(): void {
-    this.plumbing.updateEndpoints(this.htmlId);
+  showFileInput(): boolean {
+    return !this.isLinked() && this.parameter.value === '';
   }
 
   isLinked(): boolean {
-    return this.parameter.value !== undefined;
+    return this.parameter.linkedParameter !== null;
   }
 
   fileChanged($event: Event): void {
