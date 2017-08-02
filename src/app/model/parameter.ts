@@ -7,18 +7,17 @@ import { StatletManagerService } from './statlet-manager.service';
 export class Parameter {
   uuid: string;
   manualInput = '';
-  linkedParameterId: string = null;
+  linkedParameter: Parameter = null;
 
   constructor(
     public name: string,
-    private statletManager: StatletManagerService,
   ) {
     this.uuid = UUID.UUID();
   }
 
   get value(): any {
-    if (this.linkedParameterId) {
-      return this.statletManager.getParameter(this.linkedParameterId).value;
+    if (this.linkedParameter) {
+      return this.linkedParameter.value;
     } else {
       return this.manualInput;
     }
@@ -29,10 +28,10 @@ export class Parameter {
   }
 
   linkTo(target: Parameter): void {
-    target.linkedParameterId = this.uuid;
+    target.linkedParameter = this;
   }
 
   unlink(target: Parameter): void {
-    target.linkedParameterId = null;
+    target.linkedParameter = null;
   }
 }
