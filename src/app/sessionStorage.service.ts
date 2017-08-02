@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Statlet } from './model/statlet';
+import { Parameter } from './model/parameter';
 import { CanvasPosition } from './model/canvas-position';
 import { RemoteRService } from './remote-r.service'
 
@@ -47,8 +48,17 @@ export class SessionStorageService {
     Object.assign(statlet, object);
     Object.assign(statlet, { remoteR: this.remoteR });
 
+    statlet.inputs = statlet.inputs.map((nakedParameter) => this.clotheGenericObjectToAParameter(nakedParameter));
+    statlet.outputs = statlet.outputs.map((nakedParameter) => this.clotheGenericObjectToAParameter(nakedParameter));
+
     return statlet;
   }
 
+  private clotheGenericObjectToAParameter(object: object): Parameter {
+    let parameter = new Parameter("naked");
 
+    Object.assign(parameter, object);
+
+    return parameter;
+  }
 }
