@@ -1,14 +1,18 @@
 import { Injectable } from '@angular/core';
 import { Statlet } from './model/statlet';
+import { CanvasPosition } from './model/canvas-position';
+import { RemoteRService } from './remote-r.service'
 
 @Injectable()
 export class SessionStorageService {
   private currentStatlets: Array<Statlet> = [];
 
-  constructor() {
-  }
+  constructor(
+    private remoteR: RemoteRService
+  ) { }
 
   update(currentStatlets: Array<Statlet>): void {
+    sessionStorage.clear();
     this.set('currentStatlets', currentStatlets);
   }
 
@@ -31,6 +35,20 @@ export class SessionStorageService {
   }
 
   private parseToJSON(JSONAsString: string): Array<Statlet> {
-    return JSON.parse(JSONAsString);
+    let nakedStatletArray = JSON.parse(JSONAsString);
+    const statletArray = nakedStatletArray.map((nakedObject) => this.clotheGenericObjectToAStatlet(nakedObject));
+
+    return statletArray;
   }
+
+  private clotheGenericObjectToAStatlet(object: object): Statlet {
+    let statlet = new Statlet(-1, new CanvasPosition(0, 0), this.remoteR);
+
+    Object.assign(statlet, object);
+    Object.assign(statlet, { remoteR: this.remoteR });
+
+    return statlet;
+  }
+
+
 }
