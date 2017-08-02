@@ -24,7 +24,6 @@ export class StatletManagerService {
       id,
       position,
       this.remoteR,
-      this
     );
     statlet.title = `New Statlet ${id}`;
     statlet.code = 'function() {\n\treturn()\n}';

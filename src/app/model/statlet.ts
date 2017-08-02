@@ -21,7 +21,6 @@ export class Statlet {
     public id: number,
     public position: CanvasPosition,
     private remoteR: RemoteRService,
-    private statletManager: StatletManagerService,
   ) { }
 
   setInputsUsingNames(names: Array<string>): void {
