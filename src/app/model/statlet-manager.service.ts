@@ -99,7 +99,7 @@ export class StatletManagerService {
   }
 
   private computeStatletId(): void {
-    this.nextStatletId = -1;
+    this.nextStatletId = 1;
     for (let i = 0; i < this.allStatlets.length; ++i) {
       if (this.allStatlets[i].id >= this.nextStatletId) {
         this.nextStatletId = this.allStatlets[i].id + 1;
