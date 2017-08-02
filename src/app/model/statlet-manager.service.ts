@@ -50,6 +50,13 @@ export class StatletManagerService {
     this.updateSession();
   }
 
+  executeStatlet(statletId: number): void {
+    const statlet = this.getStatlet(statletId);
+
+    this.updateSession();
+    statlet.execute();
+  }
+
   private resetIfActive(statletId: number): void {
     if (this.activeStatlet && this.activeStatlet.id === statletId) {
       this.activeStatlet = null;

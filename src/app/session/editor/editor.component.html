@@ -14,7 +14,7 @@
     </div>
     <div class="editor-console">
       <div class="editor-toolbar">
-        <button class="editor-button-execute" (click)="statlet.execute()" [ngSwitch]="statlet.currentState">
+        <button class="editor-button-execute" (click)="statletManager.executeStatlet(statlet.id)" [ngSwitch]="statlet.currentState">
           <i *ngSwitchCase="StatletState.ready" class="fa fa-play"></i>
           <i *ngSwitchCase="StatletState.busy" class="fa fa-hourglass"></i>
         </button>

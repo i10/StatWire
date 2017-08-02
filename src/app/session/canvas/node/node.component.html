@@ -3,7 +3,7 @@
     <div class="node-title">
       {{statlet.title}}
     </div>
-    <div class="node-execute" (click)="statlet.execute()" [ngSwitch]="statlet.currentState">
+    <div class="node-execute" (click)="statletManager.executeStatlet(statlet.id)" [ngSwitch]="statlet.currentState">
       <i *ngSwitchCase="StatletState.busy" class="fa fa-hourglass node-busy"></i>
       <i *ngSwitchCase="StatletState.ready" class="fa fa-play node-ready"></i>
     </div>
