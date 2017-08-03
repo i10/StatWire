@@ -19,6 +19,12 @@ export class CanvasComponent implements AfterViewInit {
     this.statletManager.createStatlet(new CanvasPosition(posX, posY));
   }
 
+  @HostListener('dblclick', ['$event']) onDoubleClick($event: MouseEvent): void {
+    $event.preventDefault();
+    const [posX, posY] = [$event.pageX, $event.pageY];
+    this.statletManager.showNodePool(new CanvasPosition(posX, posY));
+  }
+
   constructor(
     private plumbing: PlumbingService,
     private statletManager: StatletManagerService,
