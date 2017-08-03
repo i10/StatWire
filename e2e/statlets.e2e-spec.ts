@@ -247,4 +247,31 @@ describe('StatLets', () => {
 
     // Frank is very proud to have generated such beautiful images. He is, however, not done with StatLets...
   });
+
+  it('should allow manual input of parameter values', () => {
+    // Frank wants to configure the input parameters of a StatLet.
+    // He adds that StatLet and edits its code.
+    const node1 = page.addNodeAt(10, 10);
+    node1.click();
+    expect(page.editor.getTitle()).toEqual(node1.getTitle());
+    page.editor.replaceTitle('double');
+    expect(node1.getTitle()).toEqual(page.editor.getTitle());
+    page.editor.replaceCode(
+`function(number) {
+  doubled <- number * 2
+  return(doubled)
+}`,
+    );
+    page.editor.clickSyncButton();
+
+    // He specifies an input value manually.
+    node1.input(1).getInput().sendKeys('c(1,2,3)');
+
+    // Frank executes the code.
+    node1.clickExecuteButton();
+    node1.waitWhileBusy();
+    expect(node1.output(1).getText()).toContain('2,4,6');
+
+    // Frank feels confident that tweaking parameters will be easy. But he still has things to check...
+  });
 });

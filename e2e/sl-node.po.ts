@@ -49,8 +49,8 @@ export function convertElementToSlNode(element: ElementFinder): SlNode {
 
 export interface SlParameter extends ElementFinder {
   getName(): promise.Promise<string>;
-
   getEndpoint(): ElementFinder;
+  getInput(): ElementFinder;
 }
 
 export function convertElementToSlParameter(element: ElementFinder): SlParameter {
@@ -60,6 +60,10 @@ export function convertElementToSlParameter(element: ElementFinder): SlParameter
 
   element.getEndpoint = function (): ElementFinder {
     return this.element(by.css('.parameter-endpoint'));
+  };
+
+  element.getInput = function (): ElementFinder {
+    return this.element(by.css('.parameter-value-input'))
   };
 
   return element as SlParameter;
