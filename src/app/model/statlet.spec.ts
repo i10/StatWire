@@ -9,7 +9,6 @@ describe('Statlet', () => {
       0,
       null,
       null,
-      null
     );
   });
 
