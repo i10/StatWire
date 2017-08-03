@@ -206,6 +206,7 @@ describe('StatLets', () => {
     // He chooses a file to upload.
     const fileToUpload = './dummy.csv';
     const absolutePath = path.resolve(__dirname, fileToUpload);
+    node1.input(1).switchToFileInput();
     node1.enterFilePath(absolutePath);
 
     // Frank executes both nodes and watchs the output.

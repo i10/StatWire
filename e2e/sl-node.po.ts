@@ -51,6 +51,7 @@ export interface SlParameter extends ElementFinder {
   getName(): promise.Promise<string>;
   getEndpoint(): ElementFinder;
   getInput(): ElementFinder;
+  switchToFileInput(): void;
 }
 
 export function convertElementToSlParameter(element: ElementFinder): SlParameter {
@@ -64,6 +65,10 @@ export function convertElementToSlParameter(element: ElementFinder): SlParameter
 
   element.getInput = function (): ElementFinder {
     return this.element(by.css('.parameter-value-input'))
+  };
+
+  element.switchToFileInput = function (): void {
+    this.element(by.css('.parameter-button-input-file')).click();
   };
 
   return element as SlParameter;
