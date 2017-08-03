@@ -4,7 +4,6 @@ import { RemoteRService } from '../remote-r.service';
 import { CanvasPosition } from './canvas-position';
 import { Parameter } from './parameter';
 import { Statlet } from './statlet';
-import { NodePool } from './node-pool'
 
 @Injectable()
 export class StatletManagerService {
@@ -16,10 +15,6 @@ export class StatletManagerService {
   constructor(
     private remoteR: RemoteRService
   ) { }
-
-  showNodePool(position: CanvasPosition): void {
-    console.log("showNodePool()");
-  }
 
   createStatlet(position: CanvasPosition): Statlet {
     const id = this.nextStatletId;
