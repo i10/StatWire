@@ -1,5 +1,7 @@
 import { Injectable } from '@angular/core';
 
+import { Subject } from 'rxjs/Subject';
+
 import { RemoteRService } from '../remote-r.service';
 import { SessionStorageService } from '../sessionStorage.service';
 import { CanvasPosition } from './canvas-position';
@@ -11,12 +13,29 @@ export class StatletManagerService {
   allStatlets: Statlet[] = [];
   activeStatlet: Statlet;
 
+  onChange = new Subject<Statlet[]>();
+
   private nextStatletId = 1;
 
   constructor(
     private remoteR: RemoteRService,
-    private sessionStorage: SessionStorageService,
-  ) { }
+  ) {
+    /*const setInterceptor = {
+      get: (target, key) => {
+        if (typeof target[key] === 'object' && target[key] !== null) {
+          return new Proxy(target[key], setInterceptor)
+        } else {
+          return target[key];
+        }
+      },
+      set: (target, key, value) => {
+        target[key] = value;
+        this.onChange.next(this.allStatlets);
+        return true;
+      }
+    };
+    this.allStatlets = new Proxy(this.allStatlets, setInterceptor);*/
+  }
 
   createStatlet(position: CanvasPosition): Statlet {
     const id = this.nextStatletId;
@@ -89,7 +108,7 @@ export class StatletManagerService {
   }
 
   private updateSession(): void {
-    this.sessionStorage.update(this.allStatlets);
+    this.onChange.next(this.allStatlets);
   }
 
   public overrideAllStatlets(allStatlets: Statlet[]): void {
@@ -106,5 +125,4 @@ export class StatletManagerService {
       }
     }
   }
-
 }

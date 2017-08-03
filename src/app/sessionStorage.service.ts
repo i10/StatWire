@@ -3,6 +3,7 @@ import { Statlet } from './model/statlet';
 import { Parameter } from './model/parameter';
 import { CanvasPosition } from './model/canvas-position';
 import { RemoteRService } from './remote-r.service'
+import { Subject } from 'rxjs/Subject';
 
 @Injectable()
 export class SessionStorageService {
@@ -11,6 +12,10 @@ export class SessionStorageService {
   constructor(
     private remoteR: RemoteRService
   ) { }
+
+  subscribeTo(subject: Subject<Statlet[]>): void {
+    subject.subscribe(allStatlets => this.update(allStatlets))
+  }
 
   update(currentStatlets: Array<Statlet>): void {
     sessionStorage.clear();
@@ -36,14 +41,14 @@ export class SessionStorageService {
   }
 
   private parseToJSON(JSONAsString: string): Array<Statlet> {
-    let nakedStatletArray = JSON.parse(JSONAsString);
+    const nakedStatletArray = JSON.parse(JSONAsString);
     const statletArray = nakedStatletArray.map((nakedObject) => this.clotheGenericObjectToAStatlet(nakedObject));
 
     return statletArray;
   }
 
   private clotheGenericObjectToAStatlet(object: object): Statlet {
-    let statlet = new Statlet(-1, new CanvasPosition(0, 0), this.remoteR);
+    const statlet = new Statlet(-1, new CanvasPosition(0, 0), this.remoteR);
 
     Object.assign(statlet, object);
     Object.assign(statlet, { remoteR: this.remoteR });
@@ -55,7 +60,7 @@ export class SessionStorageService {
   }
 
   private clotheGenericObjectToAParameter(object: object): Parameter {
-    let parameter = new Parameter("naked");
+    const parameter = new Parameter('naked');
 
     Object.assign(parameter, object);
 

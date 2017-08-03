@@ -14,10 +14,12 @@ export class SessionComponent implements OnInit {
   constructor(
     private sessionStorage: SessionStorageService,
     private statletManager: StatletManagerService
-  ) { }
+  ) {
+    sessionStorage.subscribeTo(statletManager.onChange);
+  }
 
   ngOnInit() {
-    if(this.sessionStorage.pop() != null) {
+    if (this.sessionStorage.pop() != null) {
       this.statletManager.overrideAllStatlets(this.sessionStorage.pop());
     }
   }
