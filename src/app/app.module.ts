@@ -14,6 +14,8 @@ import { ParameterComponent } from './session/canvas/node/parameter.component';
 import { EditorComponent } from './session/editor/editor.component';
 import { SessionComponent } from './session/session.component';
 import { UuidService } from './uuid.service';
+import { NodePoolComponent } from './session/canvas/node-pool/node-pool.component';
+import { StatletNodeComponent } from './session/canvas/node-pool/statlet-node/statlet-node.component';
 
 @NgModule({
   declarations: [
@@ -23,6 +25,8 @@ import { UuidService } from './uuid.service';
     CanvasComponent,
     NodeComponent,
     ParameterComponent,
+    NodePoolComponent,
+    StatletNodeComponent,
   ],
   imports: [
     BrowserModule,

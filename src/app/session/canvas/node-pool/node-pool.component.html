@@ -1,0 +1,13 @@
+<div class="node-pool">
+  <div class="node-pool-header">
+    <div class="node-pool-title">
+      {{title}}
+    </div>
+    <div class="node-pool-close" (click)="close()">
+      <i class="fa fa-times"></i>
+    </div>
+  </div>
+  <div class="node-pool-body">
+    <sl-statlet-node *ngFor="let statletNode of statletNodes"></sl-statlet-node>
+  </div>
+</div>
