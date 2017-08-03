@@ -16,8 +16,10 @@
         <input class="parameter-value-input" type="text" [(ngModel)]="parameter.manualInput">
       </ng-template>
     </div>
-    <ng-template #valueDisplay class="parameter-value">
-      {{parameter.value}}
+    <ng-template #valueDisplay>
+      <span class="parameter-value">
+          {{parameter.value}}
+      </span>
     </ng-template>
   </div>
 </div>
