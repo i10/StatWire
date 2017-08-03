@@ -28,11 +28,19 @@ unserializeS3Values <- function(values) {
   return(unserializedValues)
 }
 
-functionCall <- function(func, ...) {
+evaluateArgList <- function(args) {
+  evaluated <- lapply(args, function(arg) { eval(parse(text=arg)) })
+  return(evaluated)
+}
+
+functionCall <- function(func, argsToEvaluate, ...) {
   inputs <- list(...)
   unserializedInputs <- unserializeS3Values(inputs)
 
-  returnValues <- do.call(func, unserializedInputs)
+  evaluated <- evaluateArgList(argsToEvaluate)
+  allArgs <- append(unserializedInputs, evaluated)
+
+  returnValues <- do.call(func, allArgs)
 
   serializedReturnValues <- serializeS3Values(returnValues)
   invisible(serializedReturnValues)
