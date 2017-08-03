@@ -5,12 +5,12 @@
   </div>
   <div class="parameter-label">
     <span class="parameter-name">{{parameter.name}}:</span>
-    <div *ngIf="!parameter.isLinked() && parameterType !== ParameterType.Output">
+    <div *ngIf="!parameter.isLinked() && parameterType !== ParameterType.Output; else valueDisplay">
       <input class="parameter-value-input" type="text" [(ngModel)]="parameter.manualInput">
       <!--<input *ngIf="showFileInput()" type="file" (change)="fileChanged($event)">-->
     </div>
-    <div class="parameter-value">
+    <ng-template #valueDisplay class="parameter-value">
       {{parameter.value}}
-    </div>
+    </ng-template>
   </div>
 </div>
