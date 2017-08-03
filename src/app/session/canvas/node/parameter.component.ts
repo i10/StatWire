@@ -87,4 +87,18 @@ export class ParameterComponent implements OnInit, AfterViewInit, OnDestroy {
   removeAllConnections(): void {
     this.plumbing.removeAllConnectionsFrom(this.htmlId);
   }
+
+  fileChanged($event: Event): void {
+    const inputElement = $event.target as HTMLInputElement;
+    const selectedFile = inputElement.files[0];
+    this.parameter.file = selectedFile;
+  }
+
+  useFile(newValue: boolean) {
+    this.parameter.useFile = newValue;
+  }
+
+  shouldDisplayManualInput(): boolean {
+    return !this.parameter.isLinked() && this.parameterType !== ParameterType.Output;
+  }
 }
