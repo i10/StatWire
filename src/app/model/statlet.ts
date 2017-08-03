@@ -56,7 +56,6 @@ export class Statlet {
           this.updateOutputsFromRawValues(result.returnValue);
           this.consoleOutput = result.consoleOutput;
           this.graphicUrls = result.graphicUrls;
-          console.log(this.graphicUrls)
         })
         .catch((error) => {
           this.consoleOutput = error;
