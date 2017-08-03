@@ -1,7 +1,5 @@
 import { Injectable } from '@angular/core';
 import { Http } from '@angular/http';
-
-import { Parameter } from './model/parameter';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/toPromise';
 
@@ -19,11 +17,10 @@ export class RemoteRService {
     this.opencpu.seturl('//localhost:5656/ocpu/library/statlets/R');
   }
 
-  execute(code: string, args: Array<Parameter>): Promise<{ returnValue: any, consoleOutput: string, graphicUrls: Array<string> }> {
+  execute(code: string, args: Array<any>): Promise<{ returnValue: any, consoleOutput: string, graphicUrls: Array<string> }> {
     return new Promise((resolve, reject) => {
         const snippet = new this.opencpu.Snippet(code);
-        const openCpuArgs = this.convertParametersToOpenCpuArgs(args);
-        const functionCallArgs = Object.assign({}, openCpuArgs, {func: snippet});  // TODO: Resolve naming conflict. Make params called 'func' possible.
+        const functionCallArgs = Object.assign({}, args, {func: snippet});  // TODO: Resolve naming conflict. Make params called 'func' possible.
         const req = this.opencpu.call(
           'functionCall',
           functionCallArgs,
@@ -44,17 +41,6 @@ export class RemoteRService {
         });
       },
     );
-  }
-
-  private convertParametersToOpenCpuArgs(parameterList: Array<Parameter>): any {
-    const openCpuArgs = {};
-    for (const parameter of parameterList) {
-      if (parameter.name === 'func') {
-        console.error('Parameters cannot be called func, currently.');
-      }
-      openCpuArgs[parameter.name] = parameter.value;
-    }
-    return openCpuArgs;
   }
 
   private getGraphics(session): Promise<Array<string>> {
