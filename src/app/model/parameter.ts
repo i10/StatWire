@@ -1,9 +1,6 @@
 import { UUID } from 'angular2-uuid';
 import { Injectable } from '@angular/core';
 
-import { StatletManagerService } from './statlet-manager.service';
-
-@Injectable()
 export class Parameter {
   uuid: string;
   manualInput = '';
@@ -25,6 +22,14 @@ export class Parameter {
 
   set value(newValue: any) {
     this.manualInput = newValue;
+  }
+
+  valueNeedsEvaluation(): boolean {
+    return !this.isLinked();
+  }
+
+  isLinked(): boolean {
+    return this.linkedParameter !== null;
   }
 
   linkTo(target: Parameter): void {
