@@ -1,10 +1,11 @@
 import { Injectable } from '@angular/core';
-import { Statlet } from './model/statlet';
-import { Parameter } from './model/parameter';
-import { CanvasPosition } from './model/canvas-position';
-import { RemoteRService } from './remote-r.service'
-import { Subject } from 'rxjs/Subject';
+
 import { Observable } from 'rxjs/Observable';
+
+import { CanvasPosition } from './model/canvas-position';
+import { Parameter } from './model/parameter';
+import { Statlet } from './model/statlet';
+import { RemoteRService } from './remote-r.service';
 
 @Injectable()
 export class SessionStorageService {
@@ -19,7 +20,6 @@ export class SessionStorageService {
   }
 
   update(currentStatlets: Array<Statlet>): void {
-    console.log('updating')
     sessionStorage.clear();
     this.set('currentStatlets', currentStatlets);
   }

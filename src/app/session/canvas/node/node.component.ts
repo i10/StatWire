@@ -50,9 +50,7 @@ export class NodeComponent implements OnInit, AfterViewInit {
   }
 
   onDragStop(position: CanvasPosition) {
-    console.log('Drag stopped')
     this.statlet.position = position;
-    console.log(position)
   }
 
   selected(): void {

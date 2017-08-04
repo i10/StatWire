@@ -48,11 +48,14 @@ export class PlumbingService {
     this.jsPlumb.bind('connectionDetached', callback);
   }
 
-  removeAllConnectionsFrom(id: string): void {
-    this.jsPlumb.removeAllEndpoints(id);
+  connect(sourceId: string, targetId: string) {
+    this.jsPlumb.connect({
+      source: sourceId,
+      target: targetId,
+    })
   }
 
-  updateEndpoints(id: string): void {
-    this.jsPlumb.revalidate(id);
+  removeAllConnectionsFrom(id: string): void {
+    this.jsPlumb.removeAllEndpoints(id);
   }
 }
