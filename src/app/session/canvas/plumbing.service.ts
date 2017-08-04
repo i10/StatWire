@@ -37,9 +37,18 @@ export class PlumbingService {
   }
 
   makeGroup(elementId: string): void {
-    console.log(elementId)
-    const element = $('#'+elementId);
-    this.jsPlumb.addGroup({el: element, id: elementId, title: "test"});
+    console.log("elementId: " + elementId);
+
+    let element = $('#'+elementId)[0];
+    console.dir(element);
+
+    this.jsPlumb.addGroup({
+      el: element,
+      id: "one"
+    });
+
+    // let statlet = $('#node-1')[0];
+    // this.jsPlumb.addToGroup("one", statlet);
   }
 
   onConnection(callback): void {
