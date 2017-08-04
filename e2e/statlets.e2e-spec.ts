@@ -15,6 +15,10 @@ describe('StatLets', () => {
     browser.waitForAngularEnabled(false);  // Ace blocks Angular
   });
 
+  afterEach(() => {
+    browser.executeScript('sessionStorage.clear();');
+  });
+
   it('should allow the execution of a two-node analysis', () => {
     // Frank wants to do a quick mock analysis, to get an impression of StatLets.
     // Fist, he adds two nodes to the canvas.
