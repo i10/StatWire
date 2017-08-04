@@ -5,6 +5,7 @@ import { Statlet, StatletState } from '../../../model/statlet';
 import { StatletManagerService } from '../../../model/statlet-manager.service';
 import { PlumbingService } from '../plumbing.service';
 import { ParameterType } from './parameter.component';
+import { CanvasPosition } from '../../../model/canvas-position';
 
 @Component({
   selector: 'sl-node',
@@ -45,7 +46,13 @@ export class NodeComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit() {
-    this.plumbing.makeDraggable(this.htmlId);
+    this.plumbing.makeDraggable(this.htmlId, (pos) => this.onDragStop(pos));
+  }
+
+  onDragStop(position: CanvasPosition) {
+    console.log('Drag stopped')
+    this.statlet.position = position;
+    console.log(position)
   }
 
   selected(): void {

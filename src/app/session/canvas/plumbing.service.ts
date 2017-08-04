@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { CanvasPosition } from '../../model/canvas-position';
 
 declare const jsPlumb;
 
@@ -6,9 +7,13 @@ declare const jsPlumb;
 export class PlumbingService {
   private jsPlumb = jsPlumb.getInstance();
 
-  makeDraggable(elementId: string): void {
+  makeDraggable(elementId: string, onStopCallback = null): void {
     this.jsPlumb.draggable(elementId, {
       containment: true,
+      stop: (params) => {
+        const element = params.el;
+        onStopCallback(new CanvasPosition(element.offsetLeft, element.offsetTop));
+      },
     })
   }
 
@@ -16,7 +21,7 @@ export class PlumbingService {
     const inputEndpointOptions = {
       anchor: 'Left',
       endpoint: ['Dot', {radius: 5}],
-      paintStyle: { fill: 'rgba(66,139,202,1)' },
+      paintStyle: {fill: 'rgba(66,139,202,1)'},
       maxConnections: 1,
     };
     this.jsPlumb.makeTarget(elementId, inputEndpointOptions)
@@ -26,7 +31,7 @@ export class PlumbingService {
     const outputEndpointOptions = {
       anchor: 'Right',
       endpoint: ['Dot', {radius: 5}],
-      paintStyle: { fill: 'rgba(66,139,202,1)' },
+      paintStyle: {fill: 'rgba(66,139,202,1)'},
     };
     this.jsPlumb.makeSource(elementId, outputEndpointOptions);
   }
