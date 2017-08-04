@@ -39,11 +39,21 @@ export class CanvasComponent implements AfterViewInit {
 
   ngAfterViewInit() {
     this.initializePlumbing();
+    this.updateConnections();
   }
 
   private initializePlumbing(): void {
     this.plumbing.setContainer(this.htmlId);
   }
+
+  private updateConnections(): void {
+    this.allStatlets.forEach(statlet => statlet.inputs.forEach(parameter => {
+      if (parameter.isLinked()) {
+        this.plumbing.connect(parameter.linkedParameter.uuid, parameter.uuid);
+      }
+    }))
+  }
+
 
   private setShow(event): void {
     this.show = event;

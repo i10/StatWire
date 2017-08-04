@@ -16,6 +16,7 @@ import { SessionComponent } from './session/session.component';
 import { UuidService } from './uuid.service';
 import { NodePoolComponent } from './session/canvas/node-pool/node-pool.component';
 import { StatletNodeComponent } from './session/canvas/node-pool/statlet-node/statlet-node.component';
+import { SessionStorageService } from './sessionStorage.service';
 
 @NgModule({
   declarations: [
@@ -38,6 +39,7 @@ import { StatletNodeComponent } from './session/canvas/node-pool/statlet-node/st
     StatletManagerService,
     UuidService,
     RemoteRService,
+    SessionStorageService,
   ],
   bootstrap: [AppComponent],
 })
