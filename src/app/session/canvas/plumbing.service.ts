@@ -17,6 +17,15 @@ export class PlumbingService {
   onDrag(event): void {
      this.jsPlumb.repaintEverything();
   }
+
+  // makeResizable(element): void {
+  //   element.resizable({
+  //     resize: function(event, ui) {
+  //       this.jsPlumb.repaint(ui.helper);
+  //     }
+  //   })
+  // }
+
   makeInput(elementId: string): void {
     const inputEndpointOptions = {
       anchor: 'Left',
@@ -53,6 +62,7 @@ export class PlumbingService {
     });
 
     this.makeDraggable(elementId);
+    // this.makeResizable(element);
   }
 
   onConnection(callback): void {
