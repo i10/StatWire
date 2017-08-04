@@ -9,10 +9,14 @@ export class PlumbingService {
 
   makeDraggable(elementId: string): void {
     this.jsPlumb.draggable(elementId, {
-      containment: true,
+      containment: false,
+      drag: (event) => this.onDrag(event)
     })
   }
 
+  onDrag(event): void {
+     this.jsPlumb.repaintEverything();
+  }
   makeInput(elementId: string): void {
     const inputEndpointOptions = {
       anchor: 'Left',
@@ -37,18 +41,18 @@ export class PlumbingService {
   }
 
   makeGroup(elementId: string): void {
-    console.log("elementId: " + elementId);
-
     let element = $('#'+elementId)[0];
-    console.dir(element);
 
     this.jsPlumb.addGroup({
+      draggable: false,
       el: element,
-      id: "one"
+      id: 'one',
+      revert: false,
+      orphan: true,
+      proxied: false
     });
 
-    // let statlet = $('#node-1')[0];
-    // this.jsPlumb.addToGroup("one", statlet);
+    this.makeDraggable(elementId);
   }
 
   onConnection(callback): void {
