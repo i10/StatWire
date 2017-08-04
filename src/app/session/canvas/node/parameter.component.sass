@@ -1,6 +1,8 @@
 .parameter, .parameter-label
   display: flex
+  align-items: center
   margin: 1px 0 1px 0
+  height: 30px
 
 .parameter-label
   display: flex
@@ -13,6 +15,12 @@
     overflow: hidden
     text-overflow: ellipsis
     white-space: nowrap
+
+.parameter-value-input-section
+  display: flex
+
+  input
+    width: 100%
 
 .parameter-input
   .parameter-endpoint

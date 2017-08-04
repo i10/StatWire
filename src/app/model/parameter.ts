@@ -1,12 +1,10 @@
 import { UUID } from 'angular2-uuid';
-import { Injectable } from '@angular/core';
 
-import { StatletManagerService } from './statlet-manager.service';
-
-@Injectable()
 export class Parameter {
   uuid: string;
   manualInput = '';
+  file: File = null;
+  useFile = false;
   linkedParameter: Parameter = null;
 
   constructor(
@@ -19,12 +17,24 @@ export class Parameter {
     if (this.linkedParameter) {
       return this.linkedParameter.value;
     } else {
-      return this.manualInput;
+      if (this.useFile) {
+        return this.file;
+      } else {
+        return this.manualInput;
+      }
     }
   }
 
   set value(newValue: any) {
     this.manualInput = newValue;
+  }
+
+  valueNeedsEvaluation(): boolean {
+    return !this.isLinked() && !this.useFile;
+  }
+
+  isLinked(): boolean {
+    return this.linkedParameter !== null;
   }
 
   linkTo(target: Parameter): void {

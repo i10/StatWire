@@ -5,9 +5,21 @@
   </div>
   <div class="parameter-label">
     <span class="parameter-name">{{parameter.name}}:</span>
-    <div class="parameter-value">
-      <input *ngIf="showFileInput()" type="file" (change)="fileChanged($event)">
-      {{parameter.value}}
+    <div *ngIf="shouldDisplayManualInput(); else valueDisplay" class="parameter-value-input-section">
+      <div *ngIf="parameter.useFile; then inputFile else inputText"></div>
+      <ng-template #inputFile>
+        <button (click)="useFile(false)" class="parameter-button-input-text"><i class="fa fa-file"></i></button>
+        <input type="file" (change)="fileChanged($event)">
+      </ng-template>
+      <ng-template #inputText>
+        <button (click)="useFile(true)" class="parameter-button-input-file"><i class="fa fa-terminal"></i></button>
+        <input class="parameter-value-input" type="text" [(ngModel)]="parameter.manualInput">
+      </ng-template>
     </div>
+    <ng-template #valueDisplay>
+      <span class="parameter-value">
+          {{parameter.value}}
+      </span>
+    </ng-template>
   </div>
 </div>
