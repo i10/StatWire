@@ -4,6 +4,7 @@ import { Parameter } from './model/parameter';
 import { CanvasPosition } from './model/canvas-position';
 import { RemoteRService } from './remote-r.service'
 import { Subject } from 'rxjs/Subject';
+import { Observable } from 'rxjs/Observable';
 
 @Injectable()
 export class SessionStorageService {
@@ -13,11 +14,12 @@ export class SessionStorageService {
     private remoteR: RemoteRService
   ) { }
 
-  subscribeTo(subject: Subject<Statlet[]>): void {
-    subject.subscribe(allStatlets => this.update(allStatlets))
+  subscribeTo(observable: Observable<Statlet[]>): void {
+    observable.subscribe(allStatlets => this.update(allStatlets))
   }
 
   update(currentStatlets: Array<Statlet>): void {
+    console.log('updating')
     sessionStorage.clear();
     this.set('currentStatlets', currentStatlets);
   }

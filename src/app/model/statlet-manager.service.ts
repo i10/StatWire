@@ -1,9 +1,10 @@
 import { Injectable } from '@angular/core';
 
+import 'rxjs/add/observable/timer';
+import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
 
 import { RemoteRService } from '../remote-r.service';
-import { SessionStorageService } from '../sessionStorage.service';
 import { CanvasPosition } from './canvas-position';
 import { Parameter } from './parameter';
 import { Statlet } from './statlet';
@@ -20,21 +21,8 @@ export class StatletManagerService {
   constructor(
     private remoteR: RemoteRService,
   ) {
-    /*const setInterceptor = {
-      get: (target, key) => {
-        if (typeof target[key] === 'object' && target[key] !== null) {
-          return new Proxy(target[key], setInterceptor)
-        } else {
-          return target[key];
-        }
-      },
-      set: (target, key, value) => {
-        target[key] = value;
-        this.onChange.next(this.allStatlets);
-        return true;
-      }
-    };
-    this.allStatlets = new Proxy(this.allStatlets, setInterceptor);*/
+    Observable.timer(0, 500).subscribe(
+      () => this.onChange.next(this.allStatlets));
   }
 
   createStatlet(position: CanvasPosition): Statlet {
@@ -67,13 +55,6 @@ export class StatletManagerService {
     this.allStatlets.splice(indexToDelete, 1);
 
     this.updateSession();
-  }
-
-  executeStatlet(statletId: number): void {
-    const statlet = this.getStatlet(statletId);
-
-    this.updateSession();
-    statlet.execute();
   }
 
   private resetIfActive(statletId: number): void {
