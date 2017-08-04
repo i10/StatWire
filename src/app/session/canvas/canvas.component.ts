@@ -10,6 +10,9 @@ import { PlumbingService } from './plumbing.service';
   providers: [PlumbingService],
 })
 export class CanvasComponent implements AfterViewInit {
+  private show: boolean = false;
+  private canvasPosition: CanvasPosition = { x: 0, y: 0 };
+
   @HostBinding('id') htmlId = 'sl-canvas';
 
   @HostListener('contextmenu', ['$event']) onRightClick($event: MouseEvent): void {
@@ -29,6 +32,12 @@ export class CanvasComponent implements AfterViewInit {
     return event.target === event.currentTarget;
   }
 
+  @HostListener('dblclick', ['$event']) onDoubleClick($event: MouseEvent): void {
+    $event.preventDefault();
+    [this.canvasPosition.x, this.canvasPosition.y] = [$event.pageX, $event.pageY];
+    this.show = true;
+  }
+
   constructor(
     private plumbing: PlumbingService,
     public statletManager: StatletManagerService,
@@ -36,9 +45,23 @@ export class CanvasComponent implements AfterViewInit {
 
   ngAfterViewInit() {
     this.initializePlumbing();
+    this.updateConnections();
   }
 
   private initializePlumbing(): void {
     this.plumbing.setContainer(this.htmlId);
+  }
+
+  private updateConnections(): void {
+    this.allStatlets.forEach(statlet => statlet.inputs.forEach(parameter => {
+      if (parameter.isLinked()) {
+        this.plumbing.connect(parameter.linkedParameter.uuid, parameter.uuid);
+      }
+    }))
+  }
+
+
+  private setShow(event): void {
+    this.show = event;
   }
 }

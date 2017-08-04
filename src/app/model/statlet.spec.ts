@@ -1,5 +1,6 @@
 import { Parameter } from './parameter';
 import { Statlet } from './statlet';
+import { StatletManagerService } from './statlet-manager.service';
 
 describe('Statlet', () => {
   let statlet: Statlet;
@@ -52,7 +53,11 @@ describe('Statlet', () => {
     it('#updateOutputsFromRawValues should write the values to the parameters while keeping their links', () => {
       statlet.setOutputsUsingNames(['first', 'second', 'third']);
 
-      const linkedParameter = new Parameter('linkToSecond');
+      let linkedParameter: Parameter;
+      const statletManagerMock: StatletManagerService = {
+        getParameter: id => statlet.outputs.concat([linkedParameter]).find(param => param.uuid === id),
+      } as any;
+      linkedParameter = new Parameter('linkToSecond');
       statlet.outputs[1].linkTo(linkedParameter);
 
       statlet['updateOutputsFromRawValues']([1, 2, 3]);
@@ -110,7 +115,7 @@ describe('Statlet', () => {
 
     it('#getInputNamesFromCode should parse valid inputs', () => {
       const testCode = (
-`function(first, second, third){
+        `function(first, second, third){
   return(first + second + third)
 }`);
       const actualInputList = statlet['getInputNamesFromCode'](testCode);
@@ -119,7 +124,7 @@ describe('Statlet', () => {
 
     it('#getInputNamesFromCode should return empty ParameterList when no inputs are given', () => {
       const testCode = (
-`function(){
+        `function(){
   return(first, second, third)
 }`);
       const actualInputList = statlet['getInputNamesFromCode'](testCode);
@@ -128,7 +133,7 @@ describe('Statlet', () => {
 
     it('#getOutputNamesFromCode should parse valid outputs', () => {
       const testCode = (
-`function(ignoreMe){
+        `function(ignoreMe){
   first <- 1
   second <- 'string'
   third <- ignoreMe + 1
@@ -140,7 +145,7 @@ describe('Statlet', () => {
 
     it('#getOutputNamesFromCode should return empty ParameterList when no outputs are given', () => {
       const testCode = (
-`function(first, second, third){
+        `function(first, second, third){
   return()
 }`);
       const actualOutputList = statlet['getOutputNamesFromCode'](testCode);

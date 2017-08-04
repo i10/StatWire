@@ -1,5 +1,9 @@
 import { Injectable } from '@angular/core';
 
+import 'rxjs/add/observable/timer';
+import { Observable } from 'rxjs/Observable';
+import { Subject } from 'rxjs/Subject';
+
 import { RemoteRService } from '../remote-r.service';
 import { CanvasPosition } from './canvas-position';
 import { Parameter } from './parameter';
@@ -12,11 +16,16 @@ export class StatletManagerService {
   allGroups: Array<StatletGroup> = [];
   activeStatlet: Statlet;
 
+  onChange = new Subject<Statlet[]>();
+
   private nextStatletId = 1;
 
   constructor(
-    private remoteR: RemoteRService
-  ) { }
+    private remoteR: RemoteRService,
+  ) {
+    Observable.timer(0, 500).subscribe(
+      () => this.onChange.next(this.allStatlets));
+  }
 
   createGroup(position: CanvasPosition): StatletGroup {
     const id = this.nextStatletId;
@@ -42,13 +51,15 @@ export class StatletManagerService {
     const statlet = new Statlet(
       id,
       position,
-      this.remoteR
+      this.remoteR,
     );
     statlet.title = `New Statlet ${id}`;
     statlet.code = 'function() {\n\treturn()\n}';
 
     this.addStatlet(statlet);
     this.setActiveStatlet(statlet.id);
+
+    this.updateSession();
 
     return statlet;
   }
@@ -61,6 +72,8 @@ export class StatletManagerService {
     this.resetIfActive(statletId);
     const indexToDelete = this.allStatlets.findIndex(statlet => statlet.id === statletId);
     this.allStatlets.splice(indexToDelete, 1);
+
+    this.updateSession();
   }
 
   private resetIfActive(statletId: number): void {
@@ -92,5 +105,24 @@ export class StatletManagerService {
       }
     }
     return null;
+  }
+
+  private updateSession(): void {
+    this.onChange.next(this.allStatlets);
+  }
+
+  public overrideAllStatlets(allStatlets: Statlet[]): void {
+    this.allStatlets = allStatlets;
+
+    this.computeStatletId();
+  }
+
+  private computeStatletId(): void {
+    this.nextStatletId = 1;
+    for (let i = 0; i < this.allStatlets.length; ++i) {
+      if (this.allStatlets[i].id >= this.nextStatletId) {
+        this.nextStatletId = this.allStatlets[i].id + 1;
+      }
+    }
   }
 }

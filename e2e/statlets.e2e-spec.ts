@@ -15,6 +15,10 @@ describe('StatLets', () => {
     browser.waitForAngularEnabled(false);  // Ace blocks Angular
   });
 
+  afterEach(() => {
+    browser.executeScript('sessionStorage.clear();');
+  });
+
   it('should allow the execution of a two-node analysis', () => {
     // Frank wants to do a quick mock analysis, to get an impression of StatLets.
     // Fist, he adds two nodes to the canvas.
@@ -206,6 +210,7 @@ describe('StatLets', () => {
     // He chooses a file to upload.
     const fileToUpload = './dummy.csv';
     const absolutePath = path.resolve(__dirname, fileToUpload);
+    node1.input(1).switchToFileInput();
     node1.enterFilePath(absolutePath);
 
     // Frank executes both nodes and watchs the output.
@@ -331,5 +336,32 @@ describe('StatLets', () => {
     expect(node3.output(1).getText()).toContain('23');
     node4.clickExecuteButton();
     expect(node4.output(1).getText()).toContain('TRUE');
+  });
+
+  it('should allow manual input of parameter values', () => {
+    // Frank wants to configure the input parameters of a StatLet.
+    // He adds that StatLet and edits its code.
+    const node1 = page.addNodeAt(10, 10);
+    node1.click();
+    expect(page.editor.getTitle()).toEqual(node1.getTitle());
+    page.editor.replaceTitle('double');
+    expect(node1.getTitle()).toEqual(page.editor.getTitle());
+    page.editor.replaceCode(
+`function(number) {
+  doubled <- number * 2
+  return(doubled)
+}`,
+    );
+    page.editor.clickSyncButton();
+
+    // He specifies an input value manually.
+    node1.input(1).getInput().sendKeys('c(1,2,3)');
+
+    // Frank executes the code.
+    node1.clickExecuteButton();
+    node1.waitWhileBusy();
+    expect(node1.output(1).getText()).toContain('2,4,6');
+
+    // Frank feels confident that tweaking parameters will be easy. But he still has things to check...
   });
 });

@@ -49,13 +49,13 @@ export class Statlet {
 
       this.currentState = StatletState.busy;
       const rCode = this.convertStatletCodeToRCode(this.code);
+      const args = this.getArgObject(this.inputs);
 
-      this.remoteR.execute(rCode, this.inputs)
+      this.remoteR.execute(rCode, args)
         .then(result => {
           this.updateOutputsFromRawValues(result.returnValue);
           this.consoleOutput = result.consoleOutput;
           this.graphicUrls = result.graphicUrls;
-          console.log(this.graphicUrls)
         })
         .catch((error) => {
           this.consoleOutput = error;
@@ -73,6 +73,22 @@ export class Statlet {
     const rCode = statletCode.replace(returnStatementPattern, 'return(list($1))');
     return rCode;
   }
+
+  private getArgObject(parameterList: Array<Parameter>): any {
+    const argObject = {argsToEvaluate: []};
+    for (const parameter of parameterList) {
+      if (parameter.name === 'func') {
+        console.error('Parameters cannot be called func, currently.');
+      }
+      if (parameter.valueNeedsEvaluation()) {
+        argObject.argsToEvaluate.push(parameter.value);
+      } else {
+        argObject[parameter.name] = parameter.value;
+      }
+    }
+    return argObject;
+  }
+
 
   private updateOutputsFromRawValues(outputs: any[]): void {
     for (let index = 0; index < outputs.length; index++) {

@@ -15,6 +15,9 @@ import { EditorComponent } from './session/editor/editor.component';
 import { SessionComponent } from './session/session.component';
 import { UuidService } from './uuid.service';
 import { StatletGroupComponent } from './session/canvas/node/statletgroup.component';
+import { NodePoolComponent } from './session/canvas/node-pool/node-pool.component';
+import { StatletNodeComponent } from './session/canvas/node-pool/statlet-node/statlet-node.component';
+import { SessionStorageService } from './sessionStorage.service';
 
 @NgModule({
   declarations: [
@@ -24,7 +27,8 @@ import { StatletGroupComponent } from './session/canvas/node/statletgroup.compon
     CanvasComponent,
     NodeComponent,
     ParameterComponent,
-    StatletGroupComponent,
+    NodePoolComponent,
+    StatletNodeComponent,
   ],
   imports: [
     BrowserModule,
@@ -36,6 +40,7 @@ import { StatletGroupComponent } from './session/canvas/node/statletgroup.compon
     StatletManagerService,
     UuidService,
     RemoteRService,
+    SessionStorageService,
   ],
   bootstrap: [AppComponent],
 })

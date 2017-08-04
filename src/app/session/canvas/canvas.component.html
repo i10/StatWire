@@ -1,3 +1,5 @@
 <sl-node *ngFor="let statlet of statletManager.allStatlets"
          [statlet]="statlet"></sl-node>
+<sl-node-pool *ngIf="show" (onClose)="setShow($event)" [canvasPosition]="canvasPosition"></sl-node-pool>
+
 <sl-group *ngFor="let group of statletManager.allGroups" [statletGroup]="group"></sl-group>
