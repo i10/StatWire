@@ -107,9 +107,13 @@ export class Statlet {
 
   synchronizeParametersWithCode(): void {
     const updatedInputNames = this.getInputNamesFromCode(this.code);
-    this.setInputsUsingNames(updatedInputNames);
+    if (updatedInputNames) {
+      this.setInputsUsingNames(updatedInputNames);
+    }
     const updatedOutputNames = this.getOutputNamesFromCode(this.code);
-    this.setOutputsUsingNames(updatedOutputNames);
+    if (updatedOutputNames) {
+      this.setOutputsUsingNames(updatedOutputNames);
+    }
   }
 
   private getInputNamesFromCode(code: string): Array<string> {
@@ -127,8 +131,7 @@ export class Statlet {
   private parseParameters(code: string, pattern: RegExp): Array<string> {
     const match = pattern.exec(code);
     if (!match) {
-      console.error('No match was found');
-      return [];
+      return null;
     }
     const allParameters = match[1];
     if (allParameters === '') {
