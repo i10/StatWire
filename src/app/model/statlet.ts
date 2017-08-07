@@ -9,7 +9,7 @@ export enum StatletState {
 
 export class Statlet {
   title = '';
-  code = '';
+  private _code = '';
   consoleOutput = '';
   inputs: Array<Parameter> = [];
   outputs: Array<Parameter> = [];
@@ -21,6 +21,15 @@ export class Statlet {
     public position: CanvasPosition,
     private remoteR: RemoteRService,
   ) { }
+
+  set code(newCode: string) {
+    this._code = newCode;
+    this.synchronizeParametersWithCode();
+  }
+
+  get code(): string {
+    return this._code;
+  }
 
   setInputsUsingNames(names: Array<string>): void {
     this.inputs = this.getUpdatedParameters(this.inputs, names);
