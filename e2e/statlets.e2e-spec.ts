@@ -35,12 +35,10 @@ describe('StatLets', () => {
     page.editor.replaceTitle('generatePrime');
     expect(node1.getTitle()).toEqual(page.editor.getTitle());
     page.editor.replaceCode(
-      `function() {
-  prime <- 11
-  return(prime)
-}`,
+      'function() {\n' +
+      'prime <- 11\n' +
+      'return(prime)',
     );
-    page.editor.clickSyncButton();
     // To update node on the canvas, he syncs it.
     expect(node1.output(1).getName()).toContain('prime');
 
@@ -50,13 +48,11 @@ describe('StatLets', () => {
     page.editor.replaceTitle('double');
     expect(node2.getTitle()).toEqual(page.editor.getTitle());
     page.editor.replaceCode(
-      `function(number) {
-  double <- number * 2;
-  return(double)
-}`,
+      'function(number) {\n' +
+      'double <- number * 2\n' +
+      'return(double)',
     );
     // Again, he syncs the node to make the parameters show up on the canvas.
-    page.editor.clickSyncButton();
     expect(node2.input(1).getName()).toContain('number');
     expect(node2.output(1).getName()).toContain('double');
 
@@ -90,13 +86,11 @@ describe('StatLets', () => {
     page.editor.replaceTitle('readData');
     expect(node1.getTitle()).toEqual(page.editor.getTitle());
     page.editor.replaceCode(
-      `function() {
-  persons <- c('Me', 'He', 'She', 'It')
-  expenses <- c(100, 200, 150, 300)
-  return(persons, expenses)
-}`,
+      'function() {\n' +
+      'persons <- c("Me", "He", "She", "It")\n' +
+      'expenses <- c(100, 200, 150, 300)\n' +
+      'return(persons, expenses)',
     );
-    page.editor.clickSyncButton();
     expect(node1.output(1).getName()).toContain('persons');
     expect(node1.output(2).getName()).toContain('expenses');
 
@@ -106,12 +100,10 @@ describe('StatLets', () => {
     page.editor.replaceTitle('convertCurrency');
     expect(node2.getTitle()).toEqual(page.editor.getTitle());
     page.editor.replaceCode(
-      `function(euro) {
-  dollar <- euro * 100
-  return(dollar)
-}`,
+      'function(euro) {\n' +
+      'dollar <- euro * 100\n' +
+      'return(dollar)',
     );
-    page.editor.clickSyncButton();
     expect(node2.input(1).getName()).toContain('euro');
     expect(node2.output(1).getName()).toContain('dollar');
 
@@ -121,12 +113,10 @@ describe('StatLets', () => {
     page.editor.replaceTitle('average');
     expect(node3.getTitle()).toEqual(page.editor.getTitle());
     page.editor.replaceCode(
-      `function(levels, values) {
-  average <- sum(values) / length(levels)
-  return(average)
-}`,
+      'function(levels, values) {\n' +
+      'average <- sum(values / length(levels))\n' +
+      'return(average)',
     );
-    page.editor.clickSyncButton();
     expect(node3.input(1).getName()).toContain('levels');
     expect(node3.input(2).getName()).toContain('values');
     expect(node3.output(1).getName()).toContain('average');
@@ -176,13 +166,11 @@ describe('StatLets', () => {
     page.editor.replaceTitle('loadCSVFile');
     expect(node1.getTitle()).toEqual(page.editor.getTitle());
     page.editor.replaceCode(
-`function(file) {
-  data <- read.csv(file=file, header=FALSE)
-  column <- data$V1
-  return(column)
-}`,
+      'function(file) {\n' +
+      'data <- read.csv(file=file, header=FALSE)\n' +
+      'column <- data$V1\n' +
+      'return(column)',
     );
-    page.editor.clickSyncButton();
     expect(node1.input(1).getName()).toContain('file');
     expect(node1.output(1).getName()).toContain('column');
 
@@ -193,12 +181,10 @@ describe('StatLets', () => {
     page.editor.replaceTitle('average');
     expect(node2.getTitle()).toEqual(page.editor.getTitle());
     page.editor.replaceCode(
-`function(column) {
-  average <- mean(column)
-  return(average)
-}`,
+      'function(column) {\n' +
+      'average <- mean(column)\n' +
+      'return(average)',
     );
-    page.editor.clickSyncButton();
     expect(node2.input(1).getName()).toContain('column');
     expect(node2.output(1).getName()).toContain('average');
 
@@ -233,14 +219,12 @@ describe('StatLets', () => {
     page.editor.replaceTitle('generatePlots');
     expect(node1.getTitle()).toEqual(page.editor.getTitle());
     page.editor.replaceCode(
-`function() {
-  data1 <- c(1,2,3)
-  data2 <- 1:10
-  plot(data1)
-  plot(data2)
-}`,
+      'function() {\n' +
+      'data1 <- c(1,2,3)\n' +
+      'data2 <- 1:10\n' +
+      'plot(data1)\n' +
+      'plot(data2)',
     );
-    page.editor.clickSyncButton();
 
     // He executes the node.
     node1.clickExecuteButton();
@@ -262,12 +246,10 @@ describe('StatLets', () => {
     page.editor.replaceTitle('double');
     expect(node1.getTitle()).toEqual(page.editor.getTitle());
     page.editor.replaceCode(
-`function(number) {
-  doubled <- number * 2
-  return(doubled)
-}`,
+      'function(number) {\n' +
+      'doubled <- number * 2\n' +
+      'return(doubled)',
     );
-    page.editor.clickSyncButton();
 
     // He specifies an input value manually.
     node1.input(1).getInput().sendKeys('c(1,2,3)');
