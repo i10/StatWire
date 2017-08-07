@@ -9,7 +9,7 @@ export enum StatletState {
 
 export class Statlet {
   title = '';
-  code = '';
+  private _code = '';
   consoleOutput = '';
   inputs: Array<Parameter> = [];
   outputs: Array<Parameter> = [];
@@ -21,6 +21,15 @@ export class Statlet {
     public position: CanvasPosition,
     private remoteR: RemoteRService,
   ) { }
+
+  set code(newCode: string) {
+    this._code = newCode;
+    this.synchronizeParametersWithCode();
+  }
+
+  get code(): string {
+    return this._code;
+  }
 
   setInputsUsingNames(names: Array<string>): void {
     this.inputs = this.getUpdatedParameters(this.inputs, names);
@@ -98,9 +107,13 @@ export class Statlet {
 
   synchronizeParametersWithCode(): void {
     const updatedInputNames = this.getInputNamesFromCode(this.code);
-    this.setInputsUsingNames(updatedInputNames);
+    if (updatedInputNames) {
+      this.setInputsUsingNames(updatedInputNames);
+    }
     const updatedOutputNames = this.getOutputNamesFromCode(this.code);
-    this.setOutputsUsingNames(updatedOutputNames);
+    if (updatedOutputNames) {
+      this.setOutputsUsingNames(updatedOutputNames);
+    }
   }
 
   private getInputNamesFromCode(code: string): Array<string> {
@@ -118,8 +131,7 @@ export class Statlet {
   private parseParameters(code: string, pattern: RegExp): Array<string> {
     const match = pattern.exec(code);
     if (!match) {
-      console.error('No match was found');
-      return [];
+      return null;
     }
     const allParameters = match[1];
     if (allParameters === '') {

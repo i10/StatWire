@@ -18,9 +18,6 @@
           <i *ngSwitchCase="StatletState.ready" class="fa fa-play"></i>
           <i *ngSwitchCase="StatletState.busy" class="fa fa-hourglass"></i>
         </button>
-        <button class="editor-button-sync" (click)="statlet.synchronizeParametersWithCode()">
-          <i class="fa fa-refresh"></i>
-        </button>
         <button class="editor-button-delete" (click)="onDelete()">
           <i class="fa fa-trash"></i>
         </button>
