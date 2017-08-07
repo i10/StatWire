@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
 
+import 'brace/mode/r';
+import 'brace/theme/chrome';
 import { isNullOrUndefined } from 'util';
 
 import { Statlet, StatletState } from '../../model/statlet';
@@ -11,13 +13,6 @@ import { StatletManagerService } from '../../model/statlet-manager.service';
   styleUrls: ['./editor.component.sass'],
 })
 export class EditorComponent {
-  aceMode = 'r';
-  aceOptions = {
-    onLoaded: editor => {
-      editor.$blockScrolling = Infinity;
-    },
-  };
-
   StatletState = StatletState;  // expose enum to template
 
   constructor(

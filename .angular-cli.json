@@ -24,7 +24,6 @@
         "../node_modules/bootstrap/dist/css/bootstrap.min.css"
       ],
       "scripts": [
-        "../node_modules/ace-builds/src-min-noconflict/ace.js",
         "../node_modules/jsplumb/dist/js/jsplumb.min.js",
         "../node_modules/jquery/dist/jquery.min.js",
         "../node_modules/opencpu-js/opencpu.js"
