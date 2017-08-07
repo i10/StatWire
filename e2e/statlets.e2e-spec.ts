@@ -141,10 +141,10 @@ describe('StatLets', () => {
     expect(node3.output(1).getName()).toContain((10000 + 20000 + 15000 + 30000) / 4);
 
     // Frank now decides, that he does not want the transformation anymore and removes it. All its connections are automatically deleted.
-    expect(page.getNumberOfConnectionEndpoints()).toEqual(6);
+    expect(page.getNumberOfConnectionEndpoints()).toEqual(7);
     node2.click();
     page.editor.clickDeleteButton();
-    expect(page.getNumberOfConnectionEndpoints()).toEqual(2);
+    expect(page.getNumberOfConnectionEndpoints()).toEqual(5);
 
     // He re-links the nodes and executes them.
     browser.actions()
