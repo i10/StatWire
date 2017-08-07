@@ -1,8 +1,5 @@
 <div class="parameter parameter-{{ParameterType[parameterType] | lowercase}}">
-  <div id="{{htmlId}}" class="parameter-endpoint" [ngSwitch]="parameterType">
-    <i *ngSwitchCase="ParameterType.Input" class="fa fa-sign-in"></i>
-    <i *ngSwitchCase="ParameterType.Output" class="fa fa-sign-out"></i>
-  </div>
+  <div id="{{endpointHtmlId}}" class="parameter-endpoint"></div>
   <div class="parameter-label">
     <span class="parameter-name">{{parameter.name}}:</span>
     <div *ngIf="shouldDisplayManualInput(); else valueDisplay" class="parameter-value-input-section">

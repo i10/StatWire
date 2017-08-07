@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, DoCheck, Input, OnDestroy, OnInit } from '@angular/core';
+import { AfterViewInit, Component, Input, OnDestroy, OnInit } from '@angular/core';
 
 import { Parameter } from '../../../model/parameter';
 import { StatletManagerService } from '../../../model/statlet-manager.service';
@@ -19,7 +19,7 @@ export class ParameterComponent implements OnInit, AfterViewInit, OnDestroy {
 
   @Input() parameterType: ParameterType;
   @Input() parameter: Parameter;
-  htmlId: string;
+  endpointHtmlId: string;
 
   ParameterType = ParameterType;
 
@@ -29,11 +29,11 @@ export class ParameterComponent implements OnInit, AfterViewInit, OnDestroy {
   ) { }
 
   ngOnInit(): void {
-    this.htmlId = this.parameter.uuid;
+    this.endpointHtmlId = this.parameter.uuid;
   }
 
   ngAfterViewInit(): void {
-    this.makeEndpoint(this.htmlId);
+    this.makeEndpoint(this.endpointHtmlId);
     if (!ParameterComponent.callbacksAreSet) {
       this.setOnConnectionCallback();
       this.setOnDisconnectCallback();
@@ -85,7 +85,7 @@ export class ParameterComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   removeAllConnections(): void {
-    this.plumbing.removeAllConnectionsFrom(this.htmlId);
+    this.plumbing.removeAllConnectionsFrom(this.endpointHtmlId);
   }
 
   fileChanged($event: Event): void {
