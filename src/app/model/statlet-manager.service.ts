@@ -57,6 +57,13 @@ export class StatletManagerService {
     this.updateSession();
   }
 
+  deleteEverything(): void {
+    this.allStatlets = [];
+    this.activeStatlet = null;
+    this.onChange.next(this.allStatlets);
+    this.computeStatletId();
+  }
+
   private resetIfActive(statletId: number): void {
     if (this.activeStatlet && this.activeStatlet.id === statletId) {
       this.activeStatlet = null;
