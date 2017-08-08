@@ -31,6 +31,7 @@ export class PlumbingService {
   makeOutput(elementId: string): void {
     const outputEndpointOptions = {
       isSource: true,
+      maxConnections: -1,
       anchor: 'Right',
       endpoint: ['Dot', {radius: 5}],
       paintStyle: {fill: 'rgba(66,139,202,1)'},
