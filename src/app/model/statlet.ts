@@ -102,6 +102,7 @@ export class Statlet {
   private updateOutputsFromRawValues(outputs: any[]): void {
     for (let index = 0; index < outputs.length; index++) {
       this.outputs[index].value = outputs[index];
+      this.outputs[index].displayText = JSON.stringify(outputs[index]);
     }
   }
 
