@@ -47,13 +47,13 @@ export class CanvasComponent implements AfterViewInit {
   }
 
   private updateConnections(): void {
+    this.plumbing.repaintEverything();
     this.allStatlets.forEach(statlet => statlet.inputs.forEach(parameter => {
       if (parameter.isLinked()) {
         this.plumbing.connect(parameter.linkedParameter.uuid, parameter.uuid);
       }
     }))
   }
-
 
   private setShow(event): void {
     this.show = event;

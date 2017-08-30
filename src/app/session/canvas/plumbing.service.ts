@@ -61,4 +61,8 @@ export class PlumbingService {
   removeAllConnectionsFrom(id: string): void {
     this.jsPlumb.removeAllEndpoints(id);
   }
+
+  repaintEverything(): void {
+    this.jsPlumb.repaintEverything();
+  }
 }
