@@ -16,13 +16,26 @@ var BootstrapMenu = require('bootstrap-menu');
 export class CanvasComponent implements AfterViewInit {
   private show: boolean = false;
   private canvasPosition: CanvasPosition = { x: 0, y: 0 };
+  private capturedCanvasPosition: CanvasPosition = { x: 0, y: 0};
+
+  private contextMenuActions: Array<Object> = [{
+      name: 'Create StatLet',
+      onClick: (self) => {
+        console.log("capturedCanvasPosition: " + JSON.stringify(this.capturedCanvasPosition));
+        this.statletManager.createStatlet(new CanvasPosition(this.capturedCanvasPosition.x, this.capturedCanvasPosition.y));
+      }
+    }, {
+      name: 'Create Viewer Widget',
+      onClick: function() {
+      // run when the action is clicked
+    }
+  }];
 
   @HostBinding('id') htmlId = 'sl-canvas';
 
-  @HostListener('contextmenu', ['$event']) onRightClick($event: MouseEvent): void {
+  @HostListener('contextmenu', ['$event']) setCanvasPosition($event: MouseEvent): void {
     $event.preventDefault();
-    const [posX, posY] = [$event.pageX, $event.pageY];
-    this.statletManager.createStatlet(new CanvasPosition(posX, posY));
+    [this.capturedCanvasPosition.x, this.capturedCanvasPosition.y] = [$event.pageX, $event.pageY];
   }
 
   @HostListener('dblclick', ['$event']) onDoubleClick($event: MouseEvent): void {
@@ -61,22 +74,7 @@ export class CanvasComponent implements AfterViewInit {
 
   private initializeContextMenu(): void {
     let menu = new BootstrapMenu('#sl-canvas', {
-      actions: [{
-      name: 'Action',
-      onClick: function() {
-          // run when the action is clicked
-        }
-      }, {
-        name: 'Another action',
-        onClick: function() {
-          // run when the action is clicked
-        }
-      }, {
-        name: 'A third action',
-        onClick: function() {
-          // run when the action is clicked
-        }
-      }]
+      actions: this.contextMenuActions
     })
   }
 
