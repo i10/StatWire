@@ -3,6 +3,7 @@ import { AfterViewInit, Component, HostBinding, HostListener } from '@angular/co
 
 import { CanvasPosition } from '../../model/canvas-position';
 import { Statlet } from '../../model/statlet';
+import { ViewerNode } from '../../model/viewer-node';
 import { StatletManagerService } from '../../model/statlet-manager.service';
 import { PlumbingService } from './plumbing.service';
 
@@ -21,13 +22,12 @@ export class CanvasComponent implements AfterViewInit {
   private contextMenuActions: Array<Object> = [{
       name: 'Create StatLet',
       onClick: (self) => {
-        console.log("capturedCanvasPosition: " + JSON.stringify(this.capturedCanvasPosition));
         this.statletManager.createStatlet(new CanvasPosition(this.capturedCanvasPosition.x, this.capturedCanvasPosition.y));
       }
     }, {
       name: 'Create Viewer Widget',
-      onClick: function() {
-      // run when the action is clicked
+      onClick: (self) => {
+      this.statletManager.createViewerNode(new CanvasPosition(this.capturedCanvasPosition.x, this.capturedCanvasPosition.y));
     }
   }];
 
@@ -51,6 +51,10 @@ export class CanvasComponent implements AfterViewInit {
 
   get allStatlets(): Statlet[] {
     return this.statletManager.allStatlets;
+  }
+
+  get allViewerNodes(): ViewerNode[] {
+    return this.statletManager.allViewerNodes;
   }
 
   ngAfterViewInit() {

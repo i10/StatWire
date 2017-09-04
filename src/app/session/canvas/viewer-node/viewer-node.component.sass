@@ -1,0 +1,64 @@
+\:host
+  position: absolute
+  width: 400px
+
+.viewer-node
+  display: flex
+  flex-direction: column
+  background-color: white
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2)
+  cursor: pointer
+  min-height: 100px
+
+  &:hover
+    box-shadow: 0 4px 10px 0 rgba(0, 0, 0, 0.3)
+
+.viewer-node-header
+  display: flex
+  flex-direction: row
+  align-items: center
+  background-color: rgba(66, 139, 202, 1)
+  color: white
+
+  > *
+    padding: 4px
+    text-align: center
+    flex-basis: 36px
+    height: 100%
+
+    &:not(:last-child)
+      border-right: 1px solid rgba(255, 255, 255, .25)
+
+  .viewer-node-title
+    flex: 1
+    padding-left: .5em
+    text-align: left
+    font-weight: bold
+    white-space: nowrap
+    overflow: hidden
+    text-overflow: ellipsis
+
+  // .viewer-node-execute, .viewer-node-view, .viewer-node-console
+  //   &:hover
+  //     filter: brightness(115%)
+
+.viewer-node-body
+  display: flex
+  flex-direction: column
+  flex: 1
+  padding: 4px 0 4px 0
+
+  ul.graphics
+    display: flex
+    flex-direction: row
+    padding-left: 0
+
+    > li
+      list-style: none
+      padding-right: 8px
+
+  .viewer-node-inputs
+    flex: 1
+
+  .viewer-node-outputs
+    flex: 1

@@ -1,5 +1,7 @@
 <!-- <sl-widget-pool></sl-widget-pool> -->
 <sl-node *ngFor="let statlet of allStatlets"
          [statlet]="statlet"></sl-node>
+<sl-viewer-node *ngFor="let viewerNode of allViewerNodes"
+         [viewerNode]="viewerNode"></sl-viewer-node>
 <!-- <sl-node-pool *ngIf="show" (onClose)="setShow($event)" [canvasPosition]="canvasPosition"></sl-node-pool> -->
 

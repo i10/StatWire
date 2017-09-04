@@ -8,10 +8,12 @@ import { RemoteRService } from '../remote-r.service';
 import { CanvasPosition } from './canvas-position';
 import { Parameter } from './parameter';
 import { Statlet } from './statlet';
+import { ViewerNode } from './viewer-node';
 
 @Injectable()
 export class StatletManagerService {
   allStatlets: Statlet[] = [];
+  allViewerNodes: ViewerNode[] = [];
   activeStatlet: Statlet;
 
   onChange = new Subject<Statlet[]>();
@@ -45,8 +47,32 @@ export class StatletManagerService {
     return statlet;
   }
 
+
+  createViewerNode(position: CanvasPosition): ViewerNode {
+    const id = this.nextStatletId;
+    this.nextStatletId++;
+
+    const viewerNode = new ViewerNode(
+      id,
+      position,
+      this.remoteR,
+    );
+
+    viewerNode.title = `New Viewer Widget ${id}`;
+    this.addViewerNode(viewerNode);
+    // this.setActiveStatlet(statlet.id);
+
+    this.updateSession();
+
+    return viewerNode;
+  }
+
   private addStatlet(statlet: Statlet): void {
     this.allStatlets.push(statlet);
+  }
+
+  private addViewerNode(viewerNode: ViewerNode): void {
+    this.allViewerNodes.push(viewerNode);
   }
 
   deleteStatlet(statletId: number): void {
