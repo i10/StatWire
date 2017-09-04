@@ -1,9 +1,12 @@
+declare var require: any
 import { AfterViewInit, Component, HostBinding, HostListener } from '@angular/core';
 
 import { CanvasPosition } from '../../model/canvas-position';
 import { Statlet } from '../../model/statlet';
 import { StatletManagerService } from '../../model/statlet-manager.service';
 import { PlumbingService } from './plumbing.service';
+
+var BootstrapMenu = require('bootstrap-menu');
 
 @Component({
   selector: 'sl-canvas',
@@ -40,6 +43,7 @@ export class CanvasComponent implements AfterViewInit {
   ngAfterViewInit() {
     this.initializePlumbing();
     this.updateConnections();
+    this.initializeContextMenu();
   }
 
   private initializePlumbing(): void {
@@ -53,6 +57,27 @@ export class CanvasComponent implements AfterViewInit {
         this.plumbing.connect(parameter.linkedParameter.uuid, parameter.uuid);
       }
     }))
+  }
+
+  private initializeContextMenu(): void {
+    let menu = new BootstrapMenu('#sl-canvas', {
+      actions: [{
+      name: 'Action',
+      onClick: function() {
+          // run when the action is clicked
+        }
+      }, {
+        name: 'Another action',
+        onClick: function() {
+          // run when the action is clicked
+        }
+      }, {
+        name: 'A third action',
+        onClick: function() {
+          // run when the action is clicked
+        }
+      }]
+    })
   }
 
   private setShow(event): void {
