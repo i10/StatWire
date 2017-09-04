@@ -5,6 +5,7 @@ import { Parameter } from './parameter';
 export class ViewerNode {
   title = '';
   consoleOutput = '';
+  private _code = 'function(inputVariable) {\n\tif(inputVariable != null) { print(inputVariable); }\n}';
   input: Parameter = null;
   graphicUrls: Array<string> = [];
 
@@ -12,8 +13,9 @@ export class ViewerNode {
     public id: number,
     public position: CanvasPosition,
     private remoteR: RemoteRService,
-  ) { }
-
+  ) {
+    this.input = new Parameter("inputVariable");
+  }
 
   private getUpdatedParameters(params: Array<Parameter>, newNames: Array<string>): Array<Parameter> {
     const newParams = [];

@@ -9,13 +9,13 @@
       <li *ngFor="let graphicUrl of viewerNode.graphicUrls; index as i">
         <a href="{{graphicUrl}}"><i class="fa fa-pie-chart"></i>{{i+1}}</a>
       </li>
-    </ul>
-    <div class="node-inputs">
+    </ul> -->
+    <div class="viewer-node-inputs">
       <sl-parameter
-        *ngFor="let inputParameter of viewerNode.inputs"
+        *ngIf=viewerNode.input
         [parameterType]="ParameterType.Input"
-        [parameter]="inputParameter">
+        [parameter]="viewerNode.input">
       </sl-parameter>
-    </div> -->
+    </div>
   </div>
 </div>
