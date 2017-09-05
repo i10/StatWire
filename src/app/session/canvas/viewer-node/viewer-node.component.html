@@ -3,6 +3,13 @@
     <div class="viewer-node-title">
       {{viewerNode.title}}
     </div>
+    <div class="viewer-node-execute" (click)="viewerNode.execute()" [ngSwitch]="viewerNode.currentState">
+      <i *ngSwitchCase="ViewerNodeState.busy" class="fa fa-hourglass node-busy"></i>
+      <i *ngSwitchCase="ViewerNodeState.ready" class="fa fa-play node-ready"></i>
+    </div>
+    <div class="viewer-node-delete" (click)="onDelete()">
+      <i class="fa fa-trash"></i>
+    </div>
   </div>
   <div class="viewer-node-body">
     <!-- <ul class="graphics">
@@ -12,10 +19,13 @@
     </ul> -->
     <div class="viewer-node-inputs">
       <sl-parameter
-        *ngIf=viewerNode.input
+        *ngFor="let inputParameter of viewerNode.inputs"
         [parameterType]="ParameterType.Input"
-        [parameter]="viewerNode.input">
+        [parameter]="inputParameter">
       </sl-parameter>
+    </div>
+    <div class="viewer-node-output">
+      <textarea readonly [(ngModel)]="viewerNode.consoleOutput"></textarea>
     </div>
   </div>
 </div>

@@ -8,7 +8,7 @@
   background-color: white
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2)
   cursor: pointer
-  min-height: 100px
+  min-height: 200px
 
   &:hover
     box-shadow: 0 4px 10px 0 rgba(0, 0, 0, 0.3)
@@ -38,9 +38,9 @@
     overflow: hidden
     text-overflow: ellipsis
 
-  // .viewer-node-execute, .viewer-node-view, .viewer-node-console
-  //   &:hover
-  //     filter: brightness(115%)
+  .viewer-node-execute, .viewer-node-view, .viewer-node-console, .viewer-node-delete
+    &:hover
+      filter: brightness(115%)
 
 .viewer-node-body
   display: flex
@@ -62,3 +62,12 @@
 
   .viewer-node-outputs
     flex: 1
+
+.viewer-node-output
+      display: flex
+      flex-direction: column
+      flex: 1
+
+      textarea
+        width: 100%
+        height: 100%

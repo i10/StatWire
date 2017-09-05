@@ -1,7 +1,7 @@
 import { AfterViewInit, Component, HostBinding, HostListener, Input, OnInit } from '@angular/core';
 import { DomSanitizer, SafeStyle } from '@angular/platform-browser';
 
-import { ViewerNode } from '../../../model/viewer-node';
+import { ViewerNode, ViewerNodeState } from '../../../model/viewer-node';
 import { StatletManagerService } from '../../../model/statlet-manager.service';
 import { PlumbingService } from '../plumbing.service';
 import { ParameterType } from '../node/parameter.component';
@@ -13,6 +13,7 @@ import { CanvasPosition } from '../../../model/canvas-position';
   styleUrls: ['./viewer-node.component.sass'],
 })
 export class ViewerNodeComponent implements OnInit, AfterViewInit {
+  ViewerNodeState = ViewerNodeState;
   ParameterType = ParameterType;
 
   @Input() viewerNode: ViewerNode;

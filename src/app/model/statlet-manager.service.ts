@@ -118,6 +118,13 @@ export class StatletManagerService {
         }
       }
     }
+    for (const viewerNode of this.allViewerNodes) {
+      for (const parameter of viewerNode.inputs) {
+        if (parameter.uuid === uuid) {
+          return parameter;
+        }
+      }
+    }
     return null;
   }
 
