@@ -44,4 +44,8 @@ export class ViewerNodeComponent implements OnInit, AfterViewInit {
   onDragStop(position: CanvasPosition) {
     this.viewerNode.position = position;
   }
+
+  onDelete(): void {
+    this.statletManager.deleteViewerNode(this.viewerNode.id);
+  }
 }

@@ -83,6 +83,14 @@ export class StatletManagerService {
     this.updateSession();
   }
 
+  deleteViewerNode(viewerNodeId: number): void {
+    // this.resetIfActive(statletId);
+    const indexToDelete = this.allViewerNodes.findIndex(viewerNode => viewerNode.id === viewerNodeId);
+    this.allViewerNodes.splice(indexToDelete, 1);
+
+    this.updateSession();
+  }
+
   deleteEverything(): void {
     this.allStatlets = [];
     this.activeStatlet = null;
