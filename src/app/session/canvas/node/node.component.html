@@ -9,11 +9,6 @@
     </div>
   </div>
   <div class="node-body">
-    <ul class="graphics">
-      <li *ngFor="let graphicUrl of statlet.graphicUrls; index as i">
-        <a href="{{graphicUrl}}"><i class="fa fa-pie-chart"></i>{{i+1}}</a>
-      </li>
-    </ul>
     <div class="node-inputs">
       <sl-parameter
         *ngFor="let inputParameter of statlet.inputs"
@@ -27,6 +22,11 @@
         [parameterType]="ParameterType.Output"
         [parameter]="outputParameter">
       </sl-parameter>
+    </div>
+    <div class="node-plots">
+      <li *ngFor="let graphicUrl of statlet.graphicUrls; index as i">
+        <a href="{{graphicUrl}}" target="_blank"><i class="fa fa-pie-chart"></i> Click to view plot #{{i+1}}</a>
+      </li>
     </div>
   </div>
 </div>
