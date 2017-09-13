@@ -4,6 +4,7 @@ import { AfterViewInit, Component, HostBinding, HostListener } from '@angular/co
 import { CanvasPosition } from '../../model/canvas-position';
 import { Statlet } from '../../model/statlet';
 import { ViewerNode } from '../../model/viewer-node';
+import { GraphicWidget } from '../../model/graphic-widget';
 import { StatletManagerService } from '../../model/statlet-manager.service';
 import { PlumbingService } from './plumbing.service';
 
@@ -55,6 +56,10 @@ export class CanvasComponent implements AfterViewInit {
 
   get allViewerNodes(): ViewerNode[] {
     return this.statletManager.allViewerNodes;
+  }
+
+  get allGraphicWidgets(): GraphicWidget[] {
+    return this.statletManager.allGraphicWidgets;
   }
 
   ngAfterViewInit() {

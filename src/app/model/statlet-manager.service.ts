@@ -9,11 +9,13 @@ import { CanvasPosition } from './canvas-position';
 import { Parameter } from './parameter';
 import { Statlet } from './statlet';
 import { ViewerNode } from './viewer-node';
+import { GraphicWidget } from './graphic-widget';
 
 @Injectable()
 export class StatletManagerService {
   allStatlets: Statlet[] = [];
   allViewerNodes: ViewerNode[] = [];
+  allGraphicWidgets: GraphicWidget[] = [];
   activeStatlet: Statlet;
 
   onChange = new Subject<Statlet[]>();
@@ -67,12 +69,37 @@ export class StatletManagerService {
     return viewerNode;
   }
 
+  createGraphicWidget(position: CanvasPosition, URL: string): GraphicWidget {
+    const id = this.nextStatletId;
+    this.nextStatletId++;
+
+    const graphicWidget = new GraphicWidget(
+      id,
+      position,
+      URL,
+    );
+
+    // graphicWidget.title = `New Graphic Widget ${id}`;
+    this.addGraphicWidget(graphicWidget);
+    // this.setActiveStatlet(statlet.id);
+
+    this.updateSession();
+
+    return graphicWidget;
+  }
+
   private addStatlet(statlet: Statlet): void {
     this.allStatlets.push(statlet);
   }
 
   private addViewerNode(viewerNode: ViewerNode): void {
     this.allViewerNodes.push(viewerNode);
+  }
+
+  private addGraphicWidget(graphicWidget: GraphicWidget): void {
+    this.allGraphicWidgets.push(graphicWidget);
+
+    console.log(this.allGraphicWidgets);
   }
 
   deleteStatlet(statletId: number): void {
@@ -91,8 +118,18 @@ export class StatletManagerService {
     this.updateSession();
   }
 
+  deleteGraphicWidget(graphicWidgetId: number): void {
+    // this.resetIfActive(statletId);
+    const indexToDelete = this.allGraphicWidgets.findIndex(graphicWidget => graphicWidget.id === graphicWidgetId);
+    this.allGraphicWidgets.splice(indexToDelete, 1);
+
+    this.updateSession();
+  }
+
   deleteEverything(): void {
     this.allStatlets = [];
+    this.allViewerNodes = [];
+    this.allGraphicWidgets = [];
     this.activeStatlet = null;
     this.onChange.next(this.allStatlets);
     this.computeStatletId();

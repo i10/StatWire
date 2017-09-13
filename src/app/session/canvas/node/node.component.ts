@@ -56,4 +56,9 @@ export class NodeComponent implements OnInit, AfterViewInit {
   selected(): void {
     this.statletManager.setActiveStatlet(this.statlet.id);
   }
+
+  createGraphicWidget = function(URL) {
+    let canvasPosition: CanvasPosition = new CanvasPosition(this.statlet.position.x + 100, this.statlet.position.y + 100);
+    this.statletManager.createGraphicWidget(canvasPosition, URL);
+  }
 }

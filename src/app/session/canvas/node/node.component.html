@@ -25,7 +25,7 @@
     </div>
     <div class="node-plots">
       <li *ngFor="let graphicUrl of statlet.graphicUrls; index as i">
-        <a href="{{graphicUrl}}" target="_blank"><i class="fa fa-pie-chart"></i> Click to view plot #{{i+1}}</a>
+        <a (click)="createGraphicWidget(graphicUrl)"><i class="fa fa-pie-chart"></i> Click to view plot #{{i+1}}</a>
       </li>
     </div>
   </div>

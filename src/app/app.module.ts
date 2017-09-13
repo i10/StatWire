@@ -18,6 +18,7 @@ import { NodePoolComponent } from './session/canvas/node-pool/node-pool.componen
 import { StatletNodeComponent } from './session/canvas/node-pool/statlet-node/statlet-node.component';
 import { SessionStorageService } from './sessionStorage.service';
 import { ViewerNodeComponent } from './session/canvas/viewer-node/viewer-node.component';
+import { GraphicWidgetComponent } from './session/canvas/graphic-widget/graphic-widget.component';
 
 @NgModule({
   declarations: [
@@ -30,6 +31,7 @@ import { ViewerNodeComponent } from './session/canvas/viewer-node/viewer-node.co
     NodePoolComponent,
     StatletNodeComponent,
     ViewerNodeComponent,
+    GraphicWidgetComponent,
   ],
   imports: [
     BrowserModule,

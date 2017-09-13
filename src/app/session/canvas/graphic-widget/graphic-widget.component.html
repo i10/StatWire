@@ -1,0 +1,17 @@
+<div class="graphic-widget">
+  <div class="graphic-widget-header">
+    <div class="graphic-widget-title">
+      {{graphicWidget.title}}
+    </div>
+    <div class="graphic-widget-execute" (click)="graphicWidget.execute()" [ngSwitch]="graphicWidget.currentState">
+      <i *ngSwitchCase="GraphicWidgetState.busy" class="fa fa-hourglass node-busy"></i>
+      <i *ngSwitchCase="GraphicWidgetState.ready" class="fa fa-play node-ready"></i>
+    </div>
+    <div class="graphic-widget-delete" (click)="onDelete()">
+      <i class="fa fa-trash"></i>
+    </div>
+  </div>
+  <div class="graphic-widget-body">
+    <img src="{{graphicWidget.URL}}" class="graphic-widget-image">
+  </div>
+</div>
