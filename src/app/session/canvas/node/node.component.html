@@ -7,6 +7,9 @@
       <i *ngSwitchCase="StatletState.busy" class="fa fa-hourglass node-busy"></i>
       <i *ngSwitchCase="StatletState.ready" class="fa fa-play node-ready"></i>
     </div>
+    <div class="node-duplicate" (click)="duplicateStatlet()">
+      <i class="fa fa-clone"></i>
+    </div>
   </div>
   <div class="node-body">
     <div class="node-inputs">

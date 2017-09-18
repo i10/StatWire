@@ -29,7 +29,7 @@ export class StatletManagerService {
       () => this.onChange.next(this.allStatlets));
   }
 
-  createStatlet(position: CanvasPosition): Statlet {
+  createStatlet(position: CanvasPosition, code?: string): Statlet {
     const id = this.nextStatletId;
     this.nextStatletId++;
 
@@ -39,7 +39,11 @@ export class StatletManagerService {
       this.remoteR,
     );
     statlet.title = `New Statlet ${id}`;
-    statlet.code = 'function() {\n\treturn()\n}';
+    if (code === undefined) {
+      statlet.code = 'function() {\n\treturn()\n}';
+    } else {
+      statlet.code = code;
+    }
 
     this.addStatlet(statlet);
     this.setActiveStatlet(statlet.id);
@@ -48,7 +52,6 @@ export class StatletManagerService {
 
     return statlet;
   }
-
 
   createViewerNode(position: CanvasPosition): ViewerNode {
     const id = this.nextStatletId;

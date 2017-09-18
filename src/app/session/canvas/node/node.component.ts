@@ -61,4 +61,11 @@ export class NodeComponent implements OnInit, AfterViewInit {
     let canvasPosition: CanvasPosition = new CanvasPosition(this.statlet.position.x + 100, this.statlet.position.y + 100);
     this.statletManager.createGraphicWidget(canvasPosition, URL);
   }
+
+  duplicateStatlet = function() {
+    let code = this.statlet.code;
+    let canvasPosition: CanvasPosition = new CanvasPosition(this.statlet.position.x + 100, this.statlet.position.y + 100);
+
+    this.statletManager.createStatlet(canvasPosition, code);
+  }
 }
