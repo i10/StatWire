@@ -1,11 +1,11 @@
 import { AfterViewInit, Component, HostBinding, HostListener, Input, OnInit } from '@angular/core';
-import { DomSanitizer, SafeStyle } from '@angular/platform-browser';
+import { DomSanitizer } from '@angular/platform-browser';
+import { CanvasPosition } from '../../../model/canvas-position';
+import { StatletManagerService } from '../../../model/statlet-manager.service';
 
 import { ViewerNode, ViewerNodeState } from '../../../model/viewer-node';
-import { StatletManagerService } from '../../../model/statlet-manager.service';
-import { PlumbingService } from '../plumbing.service';
 import { ParameterType } from '../node/parameter.component';
-import { CanvasPosition } from '../../../model/canvas-position';
+import { PlumbingService } from '../plumbing.service';
 
 @Component({
   selector: 'sl-viewer-node',
@@ -19,7 +19,7 @@ export class ViewerNodeComponent implements OnInit, AfterViewInit {
   @Input() viewerNode: ViewerNode;
 
   @HostBinding('id') htmlId: string;
-  @HostBinding('style') cssStyle: SafeStyle;
+  @HostBinding('style') cssStyle;  // TODO: add back type hint when bug is fixed: https://github.com/angular/angular/issues/8568
 
   @HostListener('contextmenu', ['$event']) onRightClick($event: MouseEvent): void {
     $event.stopPropagation();

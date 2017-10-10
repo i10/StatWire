@@ -1,7 +1,7 @@
-import { Component, OnInit, Input, HostBinding, Output, EventEmitter } from '@angular/core';
-import { DomSanitizer, SafeStyle } from '@angular/platform-browser';
-import { Statlet } from 'app/model/statlet';
+import { Component, EventEmitter, HostBinding, Input, OnInit, Output } from '@angular/core';
+import { DomSanitizer } from '@angular/platform-browser';
 import { CanvasPosition } from 'app/model/canvas-position';
+import { Statlet } from 'app/model/statlet';
 
 @Component({
   selector: 'sl-node-pool',
@@ -12,7 +12,7 @@ export class NodePoolComponent implements OnInit {
   @Input() canvasPosition: CanvasPosition;
   @Output() onClose = new EventEmitter<boolean>();
 
-  @HostBinding('style') cssStyle: SafeStyle;
+  @HostBinding('style') cssStyle;  // TODO: add back type hint when bug is fixed: https://github.com/angular/angular/issues/8568
 
   private statletNodes: Array<Statlet> = [];
 
