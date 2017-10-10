@@ -1,14 +1,13 @@
-declare var require: any
 import { AfterViewInit, Component, HostBinding, HostListener } from '@angular/core';
 
-import { CanvasPosition } from '../../model/canvas-position';
-import { Statlet } from '../../model/statlet';
-import { ViewerNode } from '../../model/viewer-node';
-import { GraphicWidget } from '../../model/graphic-widget';
-import { StatletManagerService } from '../../model/statlet-manager.service';
-import { PlumbingService } from './plumbing.service';
+import BootstrapMenu from 'bootstrap-menu';
 
-var BootstrapMenu = require('bootstrap-menu');
+import { CanvasPosition } from '../../model/canvas-position';
+import { GraphicWidget } from '../../model/graphic-widget';
+import { Statlet } from '../../model/statlet';
+import { StatletManagerService } from '../../model/statlet-manager.service';
+import { ViewerNode } from '../../model/viewer-node';
+import { PlumbingService } from './plumbing.service';
 
 @Component({
   selector: 'sl-canvas',

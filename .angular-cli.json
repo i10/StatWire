@@ -26,8 +26,7 @@
       "scripts": [
         "../node_modules/jsplumb/dist/js/jsplumb.min.js",
         "../node_modules/jquery/dist/jquery.min.js",
-        "../node_modules/opencpu-js/opencpu.js",
-        "../node_modules/bootstrap-menu/src/BootstrapMenu.js"
+        "../node_modules/opencpu-js/opencpu.js"
       ],
       "environmentSource": "environments/environment.ts",
       "environments": {
