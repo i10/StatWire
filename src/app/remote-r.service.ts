@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import { Http } from '@angular/http';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/toPromise';
 
@@ -9,7 +8,7 @@ declare const ocpu;
 export class RemoteRService {
   private opencpu = ocpu;
 
-  constructor(private http: Http) {
+  constructor() {
     this.initializeOpenCPU();
   }
 
@@ -46,9 +45,9 @@ export class RemoteRService {
   private getGraphics(session): Promise<Array<string>> {
     return new Promise((resolve) => {
       const location = session.getLoc();
-      this.http.get(location + 'graphics')
-        .toPromise()
-        .then(response => response.text().split('\n'))
+      fetch(location + 'graphics')
+        .then((response: Response) => response.text())
+        .then(text => text.split('\n'))
         .then(namesArray => namesArray.filter(name => !(['last', ''].includes(name.trim()))))
         .then(namesArray => namesArray.map(name => location + 'graphics/' + name))
         .then(resolve);
