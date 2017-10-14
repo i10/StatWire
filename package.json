@@ -1,11 +1,13 @@
 {
-  "name": "statlets",
+  "name": "statwire",
   "version": "2.0.0",
   "license": "UNLICENSED",
   "private": true,
   "scripts": {
     "ng": "ng",
-    "start": "ng serve",
+    "statwire": "ng serve",
+    "opencpu": "Rscript ./scripts/startOpenCPU.R",
+    "start": "concurrently --kill-others \"npm run statwire\" \"npm run opencpu\"",
     "build": "ng build",
     "test": "ng test --single-run",
     "lint": "ng lint",
@@ -27,6 +29,7 @@
     "bootstrap": "^3.3.7",
     "bootstrap-menu": "^1.0.14",
     "brace": "^0.10.0",
+    "concurrently": "^3.5.0",
     "core-js": "^2.5.1",
     "font-awesome": "^4.7.0",
     "jquery": "^3.2.1",
