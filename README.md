@@ -1,8 +1,8 @@
-# StatLets
+# StatWire
 An IDE facilitating statistical analysis by providing a node editor
 to enhance R.
 
-Understand that this app was only tested with [Chrome] (v59).
+Please note that this app was only tested with [Chrome] (v59).
 Other browsers might cause issues.
 
 This project was generated with [Angular CLI] version 1.1.3.
@@ -18,9 +18,9 @@ Install the following development tools:
 ### StatLets
 To install the app itself:
 
-1. Install the [OpenCPU] R package in an R terminal, using
+1. Install the app's dependencies, using `npm install`.
+2. Install the [OpenCPU] R package in an R terminal, using
    `install.packages("opencpu")`.
-2. Install the app's dependencies, using `npm install`.
 3. Install the StatLets R package, found in `./R-package`, in an R terminal
    using `library(devtools); install()`.
    
@@ -29,12 +29,12 @@ To install the app itself:
      (e.g., a new R function is added).
 
 ## Development server
-The app consists of two parts.
+Run `npm start` to launch a dev server as well as an OpenCPU server.
+Navigate to http://localhost:4200/.
+The app will automatically reload if you change any of the source files.
 
-1. To start the [OpenCPU] backend, which executes the R code,
-   open an R terminal and run `Rscript scripts/startOpenCPU.R`.
-2. Run `ng serve` for a dev server. Navigate to http://localhost:4200/.
-   The app will automatically reload if you change any of the source files.
+To only start the dev server you can use `npm statwire` or `ng serve`,
+to only start the OpenCPU server you can use `npm opencpu`.
 
 ## Code scaffolding
 Run `ng generate component component-name` to generate a new component.
