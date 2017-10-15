@@ -35,7 +35,7 @@
     "jquery": "^3.2.1",
     "jsplumb": "^2.5.5",
     "ng2-ace-editor": "^0.2.5",
-    "opencpu-js": "git+https://github.com/Y0hy0h/opencpu.js.git#v0.7.1",
+    "opencpu-ts": "git+https://github.com/Y0hy0h/opencpu.ts.git#es6",
     "rxjs": "^5.4.3",
     "zone.js": "^0.8.16"
   },

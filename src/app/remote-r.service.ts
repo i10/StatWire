@@ -1,56 +1,52 @@
 import { Injectable } from '@angular/core';
+import { OpenCPU, Session } from 'opencpu-ts';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/toPromise';
 
-declare const ocpu;
-
 @Injectable()
 export class RemoteRService {
-  private opencpu = ocpu;
+  private opencpu = new OpenCPU();
 
   constructor() {
     this.initializeOpenCPU();
   }
 
-  private initializeOpenCPU(): void {
-    this.opencpu.seturl('//localhost:5656/ocpu/library/statlets/R');
+  async execute(code: string, args: Array<any>): Promise<ExecutionResult> {
+    const functionCallArgs = Object.assign({}, args, {func: code});  // TODO: Resolve naming conflict. Make params called 'func' possible.
+    const session = await this.opencpu.call('functionCall', functionCallArgs);
+    return ExecutionResult.createFromSession(session);
   }
 
-  execute(code: string, args: Array<any>): Promise<{ returnValue: any, consoleOutput: string, graphicUrls: Array<string> }> {
-    return new Promise((resolve, reject) => {
-        const snippet = new this.opencpu.Snippet(code);
-        const functionCallArgs = Object.assign({}, args, {func: snippet});  // TODO: Resolve naming conflict. Make params called 'func' possible.
-        const req = this.opencpu.call(
-          'functionCall',
-          functionCallArgs,
-          session => {
-            const returnValuePromise = session.getObject()
-              .fail(jqXHR => reject(jqXHR.responseText + '\n(Note: You currently cannot pass S3 objects in StatLets.)'));
-            const consoleOutputPromise = session.getStdout();
-            const graphics = this.getGraphics(session);
-            Promise.all([returnValuePromise, consoleOutputPromise, graphics])
-              .then(values => resolve({
-                returnValue: values[0],
-                consoleOutput: values[1],
-                graphicUrls: values[2],
-              }));
-          },
-        ).fail(() => {
-          reject(req.responseText);
-        });
-      },
+  private initializeOpenCPU(): void {
+    this.opencpu.setUrl('http://localhost:5656/ocpu/library/statlets');
+  }
+
+}
+
+export class ExecutionResult {
+  constructor(
+    public returnValue: any,
+    public consoleOutput: string,
+    public graphicUrls: Array<string>,
+  ) { }
+
+  static async createFromSession(session: Session): Promise<ExecutionResult> {
+    const returnValue = await session.getObject();
+    const stdout = await session.get('stdout').then(response => response.text());
+    const graphics = await this.getGraphics(session);
+    return new ExecutionResult(
+      returnValue,
+      stdout,
+      graphics,
     );
   }
 
-  private getGraphics(session): Promise<Array<string>> {
-    return new Promise((resolve) => {
-      const location = session.getLoc();
-      fetch(location + 'graphics')
-        .then((response: Response) => response.text())
-        .then(text => text.split('\n'))
-        .then(namesArray => namesArray.filter(name => !(['last', ''].includes(name.trim()))))
-        .then(namesArray => namesArray.map(name => location + 'graphics/' + name))
-        .then(resolve);
-    });
+  private static async getGraphics(session: Session): Promise<Array<string>> {
+    return session.get('graphics')
+      .then((response: Response) => response.text())
+      .then(text => text.split('\n'))
+      .then(namesArray => namesArray.filter(name => !(['last', ''].includes(name.trim()))))
+      .then(namesArray => namesArray.map(name => location + 'graphics/' + name));
   }
+
 }
