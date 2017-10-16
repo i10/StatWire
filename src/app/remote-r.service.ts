@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { OpenCPU, Session } from 'opencpu-ts';
+import { CodeSnippet, OpenCPU, Session } from 'opencpu-ts';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/toPromise';
 
@@ -12,7 +12,7 @@ export class RemoteRService {
   }
 
   async execute(code: string, args: Array<any>): Promise<ExecutionResult> {
-    const functionCallArgs = Object.assign({}, args, {func: code});  // TODO: Resolve naming conflict. Make params called 'func' possible.
+    const functionCallArgs = Object.assign({}, args, {func: new CodeSnippet(code)});  // TODO: Resolve naming conflict. Make params called 'func' possible.
     const session = await this.opencpu.call('functionCall', functionCallArgs);
     return ExecutionResult.createFromSession(session);
   }
