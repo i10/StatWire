@@ -1,7 +1,9 @@
-image: blackholegalaxy/node-chrome-angular-cli
+image: node:6.11
 pipelines:
   default:
     - step:
+        caches:
+          - node
         script:
           - npm install
           - npm test
