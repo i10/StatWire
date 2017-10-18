@@ -1,4 +1,4 @@
-image: y0y0h/nodejs-chrome:nodejs_6.11.4-chrome_61.0.3163.100-1
+image: y0hy0h/nodejs-chrome:nodejs_6.11.4-chrome_61.0.3163.100-1
 pipelines:
   default:
     - step:
