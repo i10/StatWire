@@ -44,12 +44,6 @@ describe('Statlet', () => {
   });
 
   describe('code execution', () => {
-    it('#convertStatletsCodeToRCode should pack multiple return values into an R list', () => {
-      const statletCode = 'function(){return(first, second, third)}';
-      const actualRCode = statlet['convertStatletCodeToRCode'](statletCode);
-      expect(actualRCode).toEqual('function(){return(list(first, second, third))}');
-    });
-
     it('#updateOutputsFromRawValues should write the values to the parameters while keeping their links', () => {
       statlet.setOutputsUsingNames(['first', 'second', 'third']);
 

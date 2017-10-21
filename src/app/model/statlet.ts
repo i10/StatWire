@@ -57,10 +57,9 @@ export class Statlet {
       this.synchronizeParametersWithCode();
 
       this.currentState = StatletState.busy;
-      const rCode = this.convertStatletCodeToRCode(this.code);
       const args = this.getArgObject(this.inputs);
 
-      this.remoteR.execute(rCode, args)
+      this.remoteR.execute(this.code, args)
         .then(result => {
           this.updateOutputsFromRawValues(result.returnValue);
           this.consoleOutput = result.consoleOutput;
@@ -76,12 +75,6 @@ export class Statlet {
         });
     });
   };
-
-  private convertStatletCodeToRCode(statletCode: string): string {
-    const returnStatementPattern = /return\(([^)]*)\)/;
-    const rCode = statletCode.replace(returnStatementPattern, 'return(list($1))');
-    return rCode;
-  }
 
   private getArgObject(parameterList: Array<Parameter>): any {
     const argObject = {argsToEvaluate: []};
