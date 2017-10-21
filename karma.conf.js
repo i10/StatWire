@@ -29,16 +29,5 @@ module.exports = function (config) {
     autoWatch: true,
     browsers: ['ChromeHeadless'],
     singleRun: false,
-    customLaunchers: {
-      ChromeHeadless: {
-        base: 'Chrome',
-        flags: [
-          '--no-sandbox',  // Works around permission problems in Docker
-          '--headless',
-          '--disable-gpu',
-          '--remote-debugging-port=9222',  // Without a remote debugging port, Google Chrome exits immediately.
-        ],
-      }
-    }
   });
 };
