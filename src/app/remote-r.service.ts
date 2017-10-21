@@ -6,9 +6,18 @@ import 'rxjs/add/operator/toPromise';
 @Injectable()
 export class RemoteRService {
   private opencpu = new OpenCPU();
+  static packageUrl = 'http://localhost:5656/ocpu/library/statlets';
+  initializationPromise: Promise<URL>;
 
   constructor() {
     this.initializeOpenCPU();
+  }
+
+  async execute(code: string, args: object): Promise<ExecutionResult> {
+    const codeSnippet = RemoteRService.createCodeSnippetOutOfString(code);
+    const functionCallArgs = Object.assign({}, args, {func: codeSnippet});  // TODO: Resolve naming conflict. Make params called 'func' possible.
+    const session = await this.opencpu.call('functionCall', functionCallArgs);
+    return ExecutionResult.createFromSession(session);
   }
 
   static createCodeSnippetOutOfString(statletCode: string): CodeSnippet {
@@ -18,14 +27,7 @@ export class RemoteRService {
   }
 
   private initializeOpenCPU(): void {
-    this.opencpu.setUrl('http://localhost:5656/ocpu/library/statlets');
-  }
-
-  async execute(code: string, args: object): Promise<ExecutionResult> {
-    const codeSnippet = RemoteRService.createCodeSnippetOutOfString(code);
-    const functionCallArgs = Object.assign({}, args, {func: codeSnippet});  // TODO: Resolve naming conflict. Make params called 'func' possible.
-    const session = await this.opencpu.call('functionCall', functionCallArgs);
-    return ExecutionResult.createFromSession(session);
+    this.initializationPromise = this.opencpu.setUrl(RemoteRService.packageUrl);
   }
 }
 
