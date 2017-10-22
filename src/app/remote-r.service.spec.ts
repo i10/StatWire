@@ -1,6 +1,6 @@
 import { RemoteRService } from './remote-r.service';
 
-describe('RemoteRService @OpenCPU integration', () => {
+xdescribe('RemoteRService OpenCPU integration', () => {
   it('should be able to contact the OpenCPU server', (done) => {
     fetch(RemoteRService.packageUrl, {headers: {'Cache-Control': 'no-cache'}})
       .then(response => {
