@@ -1,30 +1,19 @@
-serializeS3SingleValue <- function(val) {
-  serializedVal <- tryCatch({
-    jsonlite::toJSON(val)
-    val
-  }, error = function(e) {
-    jsonlite::serializeJSON(val)
-  })
-  return(serializedVal)
+serializeSingleValue <- function(val) {
+  return(as.character(serialize(val, NULL)))
 }
 
-serializeS3Values <- function(values) {
-  serializedValues <- lapply(values, serializeS3SingleValue)
+serializeValues <- function(values) {
+  serializedValues <- lapply(values, serializeSingleValue)
   return(serializedValues)
 }
 
-unserializeS3SingleValue <- function(val) {
-  charVal <- paste(val)
-  unserializedVal <- tryCatch({
-    jsonlite::unserializeJSON(charVal)
-  }, error = function(e) {
-    val
-  })
-  return(unserializedVal)
+unserializeSingleValue <- function(val) {
+  rawVector <- as.raw(as.hexmode(val))
+  return(unserialize(rawVector))
 }
 
-unserializeS3Values <- function(values) {
-  unserializedValues <- lapply(values, unserializeS3SingleValue)
+unserializeValues <- function(values) {
+  unserializedValues <- lapply(values, unserializeSingleValue)
   return(unserializedValues)
 }
 
@@ -35,13 +24,13 @@ evaluateArgList <- function(args) {
 
 functionCall <- function(func, argsToEvaluate, ...) {
   inputs <- list(...)
-  unserializedInputs <- unserializeS3Values(inputs)
+  unserializedInputs <- unserializeValues(inputs)
 
   evaluated <- evaluateArgList(argsToEvaluate)
   allArgs <- append(unserializedInputs, evaluated)
 
   returnValues <- do.call(func, allArgs)
 
-  serializedReturnValues <- serializeS3Values(returnValues)
+  serializedReturnValues <- serializeValues(returnValues)
   invisible(serializedReturnValues)
 }
