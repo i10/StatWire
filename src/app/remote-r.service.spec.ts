@@ -20,6 +20,17 @@ xdescribe('RemoteRService OpenCPU integration', () => {
       .then(done);
   });
 
+  it('should be able to evaluate args in R', (done) => {
+    const firstFunction = 'function(data) { length = length(data); print(length); return(); }';
+    const argsToEvaluate = {
+      data: 'c(1:10)',
+    };
+    remoteR.execute(firstFunction, argsToEvaluate)
+      .then(result => expect(result.consoleOutput).toEqual(sanitizeNewLines('[1] 10\n')))
+      .catch(fail)
+      .then(done);
+  });
+
   it('should get same print statement when passing summary object', (done) => {
     const firstFunction = 'function() {\n  data = data.frame(x=c(1,2),y=c(3,4))\n'
       + '  data$y = factor(data$y)\n  print(summary(data))\n	return(data)\n}';
