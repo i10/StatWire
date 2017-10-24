@@ -13,17 +13,22 @@ export class RemoteRService {
     this.initializeOpenCPU();
   }
 
-  async execute(code: string, normalArgs: object = {}, fileParameters: Array<{ name: string, file: File }> = []): Promise<ExecutionResult> {
+  async execute(
+    code: string,
+    argsToEvaluate: Object = {},
+    fileArgs: Array<FileArgument> = [],
+    serializedArgs: Object = {},
+  ): Promise<ExecutionResult> {
     const codeSnippet = RemoteRService.createCodeSnippetOutOfString(code);
     const fileContainer = {};
-    for (const fileParameter of fileParameters) {
+    for (const fileParameter of fileArgs) {
       fileContainer[fileParameter.name] = fileParameter.file;
     }
     const functionCallArgs = Object.assign(
       {},
-      {normalArgs: normalArgs},
+      {serializedArgs: serializedArgs},
       fileContainer,
-      {argsToEvaluate: []},
+      {argsToEvaluate: argsToEvaluate},
       {func: codeSnippet},
     );  // TODO: Resolve naming conflict. Make params called 'func' and 'argsToEvaluate' possible.
     const session = await this.opencpu.call('functionCall', functionCallArgs);
@@ -67,4 +72,11 @@ export class ExecutionResult {
       .then(namesArray => namesArray.map(name => location + 'graphics/' + name));
   }
 
+}
+
+export class FileArgument {
+  constructor(
+    public name: string,
+    public file: File,
+  ) {}
 }
