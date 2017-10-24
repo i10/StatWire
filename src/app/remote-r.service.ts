@@ -13,9 +13,19 @@ export class RemoteRService {
     this.initializeOpenCPU();
   }
 
-  async execute(code: string, args: object): Promise<ExecutionResult> {
+  async execute(code: string, normalArgs: object = {}, fileParameters: Array<{ name: string, file: File }> = []): Promise<ExecutionResult> {
     const codeSnippet = RemoteRService.createCodeSnippetOutOfString(code);
-    const functionCallArgs = Object.assign({}, args, {func: codeSnippet});  // TODO: Resolve naming conflict. Make params called 'func' possible.
+    const fileContainer = {};
+    for (const fileParameter of fileParameters) {
+      fileContainer[fileParameter.name] = fileParameter.file;
+    }
+    const functionCallArgs = Object.assign(
+      {},
+      {normalArgs: normalArgs},
+      fileContainer,
+      {argsToEvaluate: []},
+      {func: codeSnippet},
+    );  // TODO: Resolve naming conflict. Make params called 'func' and 'argsToEvaluate' possible.
     const session = await this.opencpu.call('functionCall', functionCallArgs);
     return ExecutionResult.createFromSession(session);
   }

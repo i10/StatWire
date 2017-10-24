@@ -22,12 +22,12 @@ evaluateArgList <- function(args) {
   return(evaluated)
 }
 
-functionCall <- function(func, argsToEvaluate, ...) {
-  inputs <- list(...)
-  unserializedInputs <- unserializeValues(inputs)
+functionCall <- function(func, normalArgs, argsToEvaluate, ...) {
+  files <- list(...)
+  unserializedInputs <- unserializeValues(normalArgs)
 
   evaluated <- evaluateArgList(argsToEvaluate)
-  allArgs <- append(unserializedInputs, evaluated)
+  allArgs <- append(append(unserializedInputs, evaluated), files)
 
   returnValues <- do.call(func, allArgs)
 
