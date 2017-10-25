@@ -1,4 +1,4 @@
-import { RemoteRService } from '../remote-r.service';
+import { FileArgument, RemoteRService } from '../remote-r.service';
 import { CanvasPosition } from './canvas-position';
 import { Parameter } from './parameter';
 
@@ -57,9 +57,11 @@ export class Statlet {
       this.synchronizeParametersWithCode();
 
       this.currentState = StatletState.busy;
-      const args = this.getArgObject(this.inputs);
+      const argsToEvaluate = this.getArgsToEvaluate(this.inputs);
+      const fileArgs = this.getFiles(this.inputs);
+      const serializedArgs = this.getSerializedArgs(this.inputs);
 
-      this.remoteR.execute(this.code, args)
+      this.remoteR.execute(this.code, argsToEvaluate, fileArgs, serializedArgs)
         .then(result => {
           this.updateOutputsFromRawValues(result.returnValue);
           this.consoleOutput = result.consoleOutput;
@@ -76,21 +78,24 @@ export class Statlet {
     });
   };
 
-  private getArgObject(parameterList: Array<Parameter>): any {
-    const argObject = {argsToEvaluate: []};
-    for (const parameter of parameterList) {
-      if (parameter.name === 'func') {
-        console.error('Parameters cannot be called func, currently.');
-      }
-      if (parameter.valueNeedsEvaluation()) {
-        argObject.argsToEvaluate.push(parameter.value);
-      } else {
-        argObject[parameter.name] = parameter.value;
-      }
-    }
-    return argObject;
+  private getArgsToEvaluate(parameterList: Array<Parameter>): object {
+    const argsToEvaluate = {};
+    parameterList.filter(parameter => parameter.valueNeedsEvaluation())
+      .forEach(parameter => argsToEvaluate[parameter.name] = parameter.value);
+    return argsToEvaluate;
   }
 
+  private getFiles(parameterList: Array<Parameter>): Array<FileArgument> {
+    return parameterList.filter(parameter => parameter.useFile)
+      .map(parameter => new FileArgument(parameter.name, parameter.file));
+  }
+
+  private getSerializedArgs(parameterList: Array<Parameter>): object {
+    const serializedArgs = {};
+    parameterList.filter(parameter => !parameter.useFile && !parameter.valueNeedsEvaluation())
+      .forEach(parameter => serializedArgs[parameter.name] = parameter.value);
+    return serializedArgs;
+  }
 
   private updateOutputsFromRawValues(outputs: any[]): void {
     for (let index = 0; index < outputs.length; index++) {
