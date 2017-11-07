@@ -21,7 +21,7 @@ export class ViewerNode {
     public position: CanvasPosition,
     private remoteR: RemoteRService,
   ) {
-    this.inputs = [new Parameter("inputVariable")];
+    this.inputs = [new Parameter('inputVariable')];
   }
 
   get code(): string {
@@ -34,12 +34,12 @@ export class ViewerNode {
       this.currentState = ViewerNodeState.busy;
       const rCode = this.convertStatletCodeToRCode(this.code);
 
-      console.log("rCode: " + rCode);
+      console.log('rCode: ' + rCode);
       const args = this.getArgObject(this.inputs);
 
       this.remoteR.execute(rCode, args)
         .then(result => {
-          this.updateOutputsFromRawValues(result.returnValue);
+          this.updateOutputsFromRawValues(result.returns);
           this.consoleOutput = result.consoleOutput;
 
           console.log(this.consoleOutput);

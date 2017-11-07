@@ -22,6 +22,13 @@ evaluateArgList <- function(args) {
   return(evaluated)
 }
 
+getSerializedWithRepresentation <- function(args) {
+  serializedReturnValues <- serializeValues(args)
+  representations <- lapply(args, function(arg) { capture.output(arg)})
+  zipped <- mapply(list, serializedReturnValues, representations, SIMPLIFY = FALSE);
+  return(zipped)
+}
+
 functionCall <- function(func, serializedArgs, argsToEvaluate, ...) {
   files <- list(...)
   unserializedInputs <- unserializeValues(serializedArgs)
@@ -31,6 +38,7 @@ functionCall <- function(func, serializedArgs, argsToEvaluate, ...) {
 
   returnValues <- do.call(func, allArgs)
 
-  serializedReturnValues <- serializeValues(returnValues)
-  invisible(serializedReturnValues)
+
+  returnArray <- getSerializedWithRepresentation(returnValues)
+  invisible(returnArray)
 }

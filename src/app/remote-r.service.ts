@@ -48,20 +48,29 @@ export class RemoteRService {
 
 export class ExecutionResult {
   constructor(
-    public returnValue: any,
+    public returns: Array<Return>,
     public consoleOutput: string,
     public graphicUrls: Array<string>,
   ) { }
 
   static async createFromSession(session: Session): Promise<ExecutionResult> {
-    const returnValue = await session.getObject();
+    const rawArgs = await session.getObject() as any;
+    const returns = ExecutionResult.convertRawToReturnArray(rawArgs);
     const stdout = await session.get('stdout').then(response => response.text());
     const graphics = await this.getGraphics(session);
     return new ExecutionResult(
-      returnValue,
+      returns,
       stdout,
       graphics,
     );
+  }
+
+  private static convertRawToReturnArray(rawArgs: Array<[any, Array<string>]>) {
+    const returns: Array<Return> = [];
+    for (const valueAndRepresentation of rawArgs) {
+      returns.push(new Return(valueAndRepresentation[0], valueAndRepresentation[1][0]));
+    }
+    return returns;
   }
 
   private static async getGraphics(session: Session): Promise<Array<string>> {
@@ -71,7 +80,13 @@ export class ExecutionResult {
       .then(namesArray => namesArray.filter(name => !(['last', ''].includes(name.trim()))))
       .then(namesArray => namesArray.map(name => location + 'graphics/' + name));
   }
+}
 
+export class Return {
+  constructor(
+    public value: any,
+    public representation: string,
+  ) { }
 }
 
 export class FileArgument {

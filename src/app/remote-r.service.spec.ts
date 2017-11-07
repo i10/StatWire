@@ -37,7 +37,7 @@ xdescribe('RemoteRService OpenCPU integration', () => {
     const secondFunction = `function(data) {\n  print(summary(data))\n  return()\n}`;
     remoteR.execute(firstFunction)
       .then(firstResult => {
-        const data = firstResult.returnValue[0];
+        const data = firstResult.returns[0].value;
         const argsObject = {data: data};
         return remoteR.execute(secondFunction, undefined, undefined, argsObject)
           .then(secondResult => {
@@ -81,7 +81,7 @@ xdescribe('RemoteRService OpenCPU integration', () => {
           '\n[1] "firstFile"\n' +
           '[1] "third"\n',
         ));
-        return result.returnValue;
+        return result.returns.map(returnObject => returnObject.value);
       })
       .then(returnValue => {
         const functionCode2 = 'function(text2, file3, text4) { print(text2); print(readLines(file3));' +
@@ -103,6 +103,17 @@ xdescribe('RemoteRService OpenCPU integration', () => {
           '\n[1] "thirdFile"\n' +
           '[1] "fourth"\n',
         ));
+      })
+      .catch(fail)
+      .then(done);
+  });
+
+  it('should return the representations as well without printing it', (done) => {
+    const func = 'function() { column = c(1:10); return(column); }';
+    remoteR.execute(func)
+      .then(executionResult => {
+        expect(executionResult.returns[0].representation).toEqual(' [1]  1  2  3  4  5  6  7  8  9 10');
+        expect(executionResult.consoleOutput).toEqual('');
       })
       .catch(fail)
       .then(done);

@@ -63,7 +63,7 @@ export class Statlet {
 
       this.remoteR.execute(this.code, argsToEvaluate, fileArgs, serializedArgs)
         .then(result => {
-          this.updateOutputsFromRawValues(result.returnValue);
+          this.updateOutputsFromRawValues(result.returns);
           this.consoleOutput = result.consoleOutput;
           this.graphicUrls = result.graphicUrls;
         })
