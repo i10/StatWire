@@ -6,10 +6,10 @@ import { Subject } from 'rxjs/Subject';
 
 import { RemoteRService } from '../remote-r.service';
 import { CanvasPosition } from './canvas-position';
+import { GraphicWidget } from './graphic-widget';
 import { Parameter } from './parameter';
 import { Statlet } from './statlet';
 import { ViewerNode } from './viewer-node';
-import { GraphicWidget } from './graphic-widget';
 
 @Injectable()
 export class StatletManagerService {
@@ -60,7 +60,6 @@ export class StatletManagerService {
     const viewerNode = new ViewerNode(
       id,
       position,
-      this.remoteR,
     );
 
     viewerNode.title = `New Viewer Widget ${id}`;
@@ -167,10 +166,8 @@ export class StatletManagerService {
       }
     }
     for (const viewerNode of this.allViewerNodes) {
-      for (const parameter of viewerNode.inputs) {
-        if (parameter.uuid === uuid) {
-          return parameter;
-        }
+      if (viewerNode.input.uuid === uuid) {
+        return viewerNode.input;
       }
     }
     return null;

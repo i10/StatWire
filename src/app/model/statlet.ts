@@ -1,5 +1,6 @@
 import { FileArgument, RemoteRService, Return } from '../remote-r.service';
 import { CanvasPosition } from './canvas-position';
+import { Node } from './node';
 import { Parameter } from './parameter';
 
 export enum StatletState {
@@ -7,8 +8,7 @@ export enum StatletState {
   busy,
 }
 
-export class Statlet {
-  title = '';
+export class Statlet extends Node {
   private _code = '';
   consoleOutput = '';
   inputs: Array<Parameter> = [];
@@ -20,7 +20,9 @@ export class Statlet {
     public id: number,
     public position: CanvasPosition,
     private remoteR: RemoteRService,
-  ) { }
+  ) {
+    super(id, position);
+  }
 
   set code(newCode: string) {
     this._code = newCode;
@@ -53,12 +55,12 @@ export class Statlet {
   }
 
   async execute(): Promise<void> {
-      this.synchronizeParametersWithCode();
+    this.synchronizeParametersWithCode();
 
-      this.currentState = StatletState.busy;
-      const argsToEvaluate = this.getArgsToEvaluate(this.inputs);
-      const fileArgs = this.getFiles(this.inputs);
-      const serializedArgs = this.getSerializedArgs(this.inputs);
+    this.currentState = StatletState.busy;
+    const argsToEvaluate = this.getArgsToEvaluate(this.inputs);
+    const fileArgs = this.getFiles(this.inputs);
+    const serializedArgs = this.getSerializedArgs(this.inputs);
 
     try {
       const result = await this.remoteR.execute(this.code, argsToEvaluate, fileArgs, serializedArgs);
