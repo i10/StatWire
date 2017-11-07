@@ -68,7 +68,7 @@ export class ExecutionResult {
   private static convertRawToReturnArray(rawArgs: Array<[any, Array<string>]>) {
     const returns: Array<Return> = [];
     for (const valueAndRepresentation of rawArgs) {
-      returns.push(new Return(valueAndRepresentation[0], valueAndRepresentation[1][0]));
+      returns.push(new Return(valueAndRepresentation[0], valueAndRepresentation[1].join('\n')));
     }
     return returns;
   }

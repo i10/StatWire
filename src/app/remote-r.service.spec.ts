@@ -109,10 +109,13 @@ xdescribe('RemoteRService OpenCPU integration', () => {
   });
 
   it('should return the representations as well without printing it', (done) => {
-    const func = 'function() { column = c(1:10); return(column); }';
+    const func = 'function() { output = summary(c(1:10)); return(output); }';
     remoteR.execute(func)
       .then(executionResult => {
-        expect(executionResult.returns[0].representation).toEqual(' [1]  1  2  3  4  5  6  7  8  9 10');
+        expect(executionResult.returns[0].representation).toEqual(
+          '   Min. 1st Qu.  Median    Mean 3rd Qu.    Max. \n' +
+          '   1.00    3.25    5.50    5.50    7.75   10.00 ',
+        );
         expect(executionResult.consoleOutput).toEqual('');
       })
       .catch(fail)
