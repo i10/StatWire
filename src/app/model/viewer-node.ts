@@ -11,7 +11,7 @@ export enum ViewerNodeState {
 export class ViewerNode {
   title = '';
   consoleOutput = '';
-  private _code = 'function(inputVariable) {\n\tif(is.na(inputVariable) == FALSE) { print(inputVariable); }\n}';
+  private _code = '';
   inputs: Array<Parameter> = [];
   graphicUrls: Array<string> = [];
   currentState = ViewerNodeState.ready;
@@ -65,22 +65,7 @@ export class ViewerNode {
   private updateOutputsFromRawValues(outputs: any[]): void {
     for (let index = 0; index < outputs.length; index++) {
       console.log(outputs);
-      // this.outputs[index].value = outputs[index];
-      // this.outputs[index].displayText = JSON.stringify(outputs[index]);
     }
-  }
-
-  private getUpdatedParameters(params: Array<Parameter>, newNames: Array<string>): Array<Parameter> {
-    const newParams = [];
-    const oldNames = params.map(parameter => parameter.name);
-    for (const name of newNames) {
-      let toAdd = new Parameter(name);
-      if (oldNames.includes(name)) {
-        toAdd = params.find(parameter => parameter.name === name);
-      }
-      newParams.push(toAdd);
-    }
-    return newParams;
   }
 
   private getArgObject(parameterList: Array<Parameter>): any {
@@ -96,18 +81,5 @@ export class ViewerNode {
       }
     }
     return argObject;
-  }
-
-  private parseParameters(code: string, pattern: RegExp): Array<string> {
-    const match = pattern.exec(code);
-    if (!match) {
-      return null;
-    }
-    const allParameters = match[1];
-    if (allParameters === '') {
-      return [];
-    }
-    const parameterList = allParameters.split(/\s*,\s*/);
-    return parameterList;
   }
 }
