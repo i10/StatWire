@@ -1,3 +1,4 @@
+import { Return } from '../remote-r.service';
 import { Parameter } from './parameter';
 import { Statlet } from './statlet';
 import { StatletManagerService } from './statlet-manager.service';
@@ -54,7 +55,7 @@ describe('Statlet', () => {
       linkedParameter = new Parameter('linkToSecond');
       statlet.outputs[1].linkTo(linkedParameter);
 
-      statlet['updateOutputsFromRawValues']([1, 2, 3]);
+      statlet['updateOutputsFromRawValues']([new Return(1, '1'), new Return(2, '2'), new Return(3, '3')]);
       expect(statlet.outputs.map(parameter => parameter.value)).toEqual([1, 2, 3]);
       expect(linkedParameter.value).toEqual(statlet.outputs[1].value);
     });

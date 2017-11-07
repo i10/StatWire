@@ -97,7 +97,18 @@ export class Statlet {
     return serializedArgs;
   }
 
-  private static parseParameters(code: string, pattern: RegExp): Array<string> {
+  synchronizeParametersWithCode(): void {
+    const updatedInputNames = this.getInputNamesFromCode(this.code);
+    if (updatedInputNames) {
+      this.setInputsUsingNames(updatedInputNames);
+    }
+    const updatedOutputNames = this.getOutputNamesFromCode(this.code);
+    if (updatedOutputNames) {
+      this.setOutputsUsingNames(updatedOutputNames);
+    }
+  }
+
+  private parseParameters(code: string, pattern: RegExp): Array<string> {
     const match = pattern.exec(code);
     if (!match) {
       return null;
@@ -110,27 +121,16 @@ export class Statlet {
     return parameterList;
   }
 
-  private static getInputNamesFromCode(code: string): Array<string> {
+  private getInputNamesFromCode(code: string): Array<string> {
     const functionHeaderPattern = /function\(([^)]*?)\)/;
-    const inputNames = Statlet.parseParameters(code, functionHeaderPattern);
+    const inputNames = this.parseParameters(code, functionHeaderPattern);
     return inputNames;
   }
 
-  private static getOutputNamesFromCode(code: string): Array<string> {
+  private getOutputNamesFromCode(code: string): Array<string> {
     const returnStatementPattern = /return\(([^)]*?)\)/;
-    const outputNames = Statlet.parseParameters(code, returnStatementPattern);
+    const outputNames = this.parseParameters(code, returnStatementPattern);
     return outputNames;
-  }
-
-  synchronizeParametersWithCode(): void {
-    const updatedInputNames = Statlet.getInputNamesFromCode(this.code);
-    if (updatedInputNames) {
-      this.setInputsUsingNames(updatedInputNames);
-    }
-    const updatedOutputNames = Statlet.getOutputNamesFromCode(this.code);
-    if (updatedOutputNames) {
-      this.setOutputsUsingNames(updatedOutputNames);
-    }
   }
 
   private updateOutputsFromRawValues(returnValues: Array<Return>): void {
