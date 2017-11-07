@@ -6,7 +6,7 @@ export class Parameter {
   file: File = null;
   useFile = false;
   linkedParameter: Parameter = null;
-  displayText: string = '';
+  representation = '';
 
   constructor(
     public name: string,
@@ -16,8 +16,6 @@ export class Parameter {
 
   get value(): any {
     if (this.linkedParameter) {
-      this.displayText = JSON.stringify(this.linkedParameter.value);
-
       return this.linkedParameter.value;
     } else {
       if (this.useFile) {

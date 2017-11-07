@@ -1,4 +1,4 @@
-import { FileArgument, RemoteRService } from '../remote-r.service';
+import { FileArgument, RemoteRService, Return } from '../remote-r.service';
 import { CanvasPosition } from './canvas-position';
 import { Parameter } from './parameter';
 
@@ -97,37 +97,7 @@ export class Statlet {
     return serializedArgs;
   }
 
-  private updateOutputsFromRawValues(outputs: any[]): void {
-    for (let index = 0; index < outputs.length; index++) {
-      this.outputs[index].value = outputs[index];
-      this.outputs[index].displayText = JSON.stringify(outputs[index]);
-    }
-  }
-
-  synchronizeParametersWithCode(): void {
-    const updatedInputNames = this.getInputNamesFromCode(this.code);
-    if (updatedInputNames) {
-      this.setInputsUsingNames(updatedInputNames);
-    }
-    const updatedOutputNames = this.getOutputNamesFromCode(this.code);
-    if (updatedOutputNames) {
-      this.setOutputsUsingNames(updatedOutputNames);
-    }
-  }
-
-  private getInputNamesFromCode(code: string): Array<string> {
-    const functionHeaderPattern = /function\(([^)]*?)\)/;
-    const inputNames = this.parseParameters(code, functionHeaderPattern);
-    return inputNames;
-  }
-
-  private getOutputNamesFromCode(code: string): Array<string> {
-    const returnStatementPattern = /return\(([^)]*?)\)/;
-    const outputNames = this.parseParameters(code, returnStatementPattern);
-    return outputNames;
-  }
-
-  private parseParameters(code: string, pattern: RegExp): Array<string> {
+  private static parseParameters(code: string, pattern: RegExp): Array<string> {
     const match = pattern.exec(code);
     if (!match) {
       return null;
@@ -138,5 +108,35 @@ export class Statlet {
     }
     const parameterList = allParameters.split(/\s*,\s*/);
     return parameterList;
+  }
+
+  private static getInputNamesFromCode(code: string): Array<string> {
+    const functionHeaderPattern = /function\(([^)]*?)\)/;
+    const inputNames = Statlet.parseParameters(code, functionHeaderPattern);
+    return inputNames;
+  }
+
+  private static getOutputNamesFromCode(code: string): Array<string> {
+    const returnStatementPattern = /return\(([^)]*?)\)/;
+    const outputNames = Statlet.parseParameters(code, returnStatementPattern);
+    return outputNames;
+  }
+
+  synchronizeParametersWithCode(): void {
+    const updatedInputNames = Statlet.getInputNamesFromCode(this.code);
+    if (updatedInputNames) {
+      this.setInputsUsingNames(updatedInputNames);
+    }
+    const updatedOutputNames = Statlet.getOutputNamesFromCode(this.code);
+    if (updatedOutputNames) {
+      this.setOutputsUsingNames(updatedOutputNames);
+    }
+  }
+
+  private updateOutputsFromRawValues(returnValues: Array<Return>): void {
+    for (let index = 0; index < returnValues.length; index++) {
+      this.outputs[index].value = returnValues[index].value;
+      this.outputs[index].representation = returnValues[index].representation;
+    }
   }
 }
