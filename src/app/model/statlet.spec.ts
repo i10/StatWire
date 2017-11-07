@@ -1,7 +1,6 @@
-import { Return } from '../remote-r.service';
+import { RemoteRService, Return } from '../remote-r.service';
 import { Parameter } from './parameter';
 import { Statlet } from './statlet';
-import { StatletManagerService } from './statlet-manager.service';
 
 describe('Statlet', () => {
   let statlet: Statlet;
@@ -13,23 +12,25 @@ describe('Statlet', () => {
     );
   });
 
-  it('#getUpdatedParameters should add new parameters', () => {
+  it('#setInputsUsingNames should add new parameters', () => {
     const parameterNames = ['first', 'second', 'third'];
-    const actual = statlet['getUpdatedParameters']([], parameterNames);
-    expect(actual.map(parameter => parameter.name)).toEqual(parameterNames);
+    statlet.setInputsUsingNames(parameterNames);
+    expect(statlet.inputs.map(parameter => parameter.name)).toEqual(parameterNames);
   });
 
-  it('#getUpdatedParameters should remove parameters not present in new list', () => {
+  it('#setInputUsingNames should remove parameters not present in new list', () => {
     const parameterNames = ['first', 'second', 'third'];
-    const actual = statlet['getUpdatedParameters']([new Parameter('fourth')], parameterNames);
-    expect(actual.map(parameter => parameter.name)).toEqual(parameterNames)
+    statlet.inputs = [new Parameter('fourth')];
+    statlet.setInputsUsingNames(parameterNames);
+    expect(statlet.inputs.map(parameter => parameter.name)).toEqual(parameterNames);
   });
 
-  it('#getUpdatedParameters should keep original if parameter with same name exists', () => {
+  it('#setInputUsingNames should keep original if parameter with same name exists', () => {
     const toKeep = new Parameter('keepMe');
-    const actual = statlet['getUpdatedParameters']([toKeep], [toKeep.name]);
-    expect(actual).toEqual([toKeep]);
-    expect(actual[0]).toBe(toKeep);
+    statlet.inputs = [toKeep];
+    statlet.setInputsUsingNames([toKeep.name]);
+    expect(statlet.inputs).toEqual([toKeep]);
+    expect(statlet.inputs[0]).toBe(toKeep);
   });
 
   it('#setInputsUsingNames should make the inputs match the supplied names', () => {
@@ -45,106 +46,122 @@ describe('Statlet', () => {
   });
 
   describe('code execution', () => {
-    it('#updateOutputsFromRawValues should write the values to the parameters while keeping their links', () => {
-      statlet.setOutputsUsingNames(['first', 'second', 'third']);
-
-      let linkedParameter: Parameter;
-      const statletManagerMock: StatletManagerService = {
-        getParameter: id => statlet.outputs.concat([linkedParameter]).find(param => param.uuid === id),
-      } as any;
-      linkedParameter = new Parameter('linkToSecond');
-      statlet.outputs[1].linkTo(linkedParameter);
-
-      statlet['updateOutputsFromRawValues']([new Return(1, '1'), new Return(2, '2'), new Return(3, '3')]);
-      expect(statlet.outputs.map(parameter => parameter.value)).toEqual([1, 2, 3]);
-      expect(linkedParameter.value).toEqual(statlet.outputs[1].value);
+    const remoteRStub = new RemoteRService();
+    beforeEach(() => {
+      statlet['remoteR'] = remoteRStub;
     });
 
-    describe('with remoteRStub', () => {
-      const remoteRStub = {execute: function () {}};
-      beforeEach(() => {
-        statlet['remoteR'] = <any>remoteRStub;
-      });
+    it('#execute should write the values to the parameters while keeping their links', (done) => {
+      const returnValue = {
+        returns: [new Return(1, '1'), new Return(2, '2'), new Return(3, '3')],
+        consoleOutput: '',
+      };
+      spyOn(remoteRStub, 'execute').and.returnValue(Promise.resolve(returnValue));
 
-      it('#execute should write each one of multiple return values to the corresponding outputs', () => {
-        spyOn(remoteRStub, 'execute').and.returnValue(new Promise((resolve) => {
-          resolve({returnValue: [1, 2, 3], consoleOutput: ''});
-        }));
+      statlet.setOutputsUsingNames(['first', 'second', 'third']);
 
-        statlet.setOutputsUsingNames(['first', 'second', 'third']);
+      const linkedParameter = new Parameter('linkToSecond');
+      statlet.outputs[1].linkTo(linkedParameter);
 
-        statlet.execute()
-          .then(() => {
-            expect(remoteRStub.execute).toHaveBeenCalled();
-            expect(statlet.outputs.map(parameter => parameter.value)).toEqual([1, 2, 3]);
-          });
-      });
+      statlet.execute()
+        .then(() => {
+          expect(statlet.outputs.map(parameter => parameter.value)).toEqual([1, 2, 3]);
+          expect(linkedParameter.value).toEqual(statlet.outputs[1].value);
+        })
+        .catch(fail)
+        .then(done);
+    });
 
-      it('#execute should unpack collections to their respective output', () => {
-        spyOn(remoteRStub, 'execute').and.returnValue(new Promise(resolve => {
-          resolve({returnValue: [[1, 2, 3], [4, 5, 6], [7, 8, 9]], consoleOutput: ''});
-        }));
+    it('#execute should write each one of multiple return values to the corresponding outputs', (done) => {
+      const returnValue = {
+        returns: [new Return(1, '1'), new Return(2, '2'), new Return(3, '3')],
+        consoleOutput: '',
+      };
+      spyOn(remoteRStub, 'execute').and.returnValue(Promise.resolve(returnValue));
 
-        statlet.setOutputsUsingNames(['first', 'second', 'third']);
+      statlet.setOutputsUsingNames(['first', 'second', 'third']);
 
-        statlet.execute()
-          .then(() => {
-            expect(remoteRStub.execute).toHaveBeenCalled();
-            expect(statlet.outputs.map(parameter => parameter.value)).toEqual(
-              [
-                [1, 2, 3],
-                [4, 5, 6],
-                [7, 8, 9]
-              ]);
-          });
-      });
+      statlet.execute()
+        .then(() => {
+          expect(remoteRStub.execute).toHaveBeenCalled();
+          expect(statlet.outputs.map(parameter => parameter.value)).toEqual([1, 2, 3]);
+        })
+        .catch(fail)
+        .then(done);
+    });
+
+    it('#execute should unpack collections to their respective output', (done) => {
+      const returnValue = {
+        returns: [
+          new Return([1, 2, 3], '1 2 3'),
+          new Return([4, 5, 6], '4 5 6'),
+          new Return([7, 8, 9], '7 8 9'),
+        ],
+        consoleOutput: '',
+      };
+      spyOn(remoteRStub, 'execute').and.returnValue(Promise.resolve(returnValue));
+
+      statlet.setOutputsUsingNames(['first', 'second', 'third']);
+
+      statlet.execute()
+        .then(() => {
+          expect(remoteRStub.execute).toHaveBeenCalled();
+          expect(statlet.outputs.map(parameter => parameter.value)).toEqual(
+            [
+              [1, 2, 3],
+              [4, 5, 6],
+              [7, 8, 9],
+            ]);
+        })
+        .catch(fail)
+        .then(done);
     });
   });
 
   describe('parameter update', () => {
-    it('#parseParameters should return empty array if no parameters are found', () => {
-      const testCode = 'function()';
-      const actualParameterNames = statlet['parseParameters'](testCode, /function\(([^)]*?)\)/);
-      expect(actualParameterNames).toEqual([]);
+    it('#synchronizeParametersWithCode should return empty array if no parameters are found', () => {
+      statlet.code = 'function()';
+      statlet.synchronizeParametersWithCode();
+      expect(statlet.inputs).toEqual([]);
     });
 
-    it('#getInputNamesFromCode should parse valid inputs', () => {
-      const testCode = (
+    it('#synchronizeParametersWithCode should parse valid inputs', () => {
+      statlet.code = (
         `function(first, second, third){
   return(first + second + third)
 }`);
-      const actualInputList = statlet['getInputNamesFromCode'](testCode);
-      expect(actualInputList).toEqual(['first', 'second', 'third']);
+      statlet.synchronizeParametersWithCode();
+      expect(statlet.inputs.map(parameter => parameter.name)).toEqual(['first', 'second', 'third']);
     });
 
-    it('#getInputNamesFromCode should return empty ParameterList when no inputs are given', () => {
-      const testCode = (
+    it('#synchronizeParametersWithCode should return empty ParameterList when no inputs are given', () => {
+      statlet.code = (
         `function(){
   return(first, second, third)
 }`);
-      const actualInputList = statlet['getInputNamesFromCode'](testCode);
-      expect(actualInputList).toEqual([]);
+      statlet.synchronizeParametersWithCode();
+      expect(statlet.inputs).toEqual([]);
     });
 
-    it('#getOutputNamesFromCode should parse valid outputs', () => {
-      const testCode = (
+    it('#synchronizeParametersWithCode should parse valid outputs', () => {
+      statlet.code = (
         `function(ignoreMe){
   first <- 1
   second <- 'string'
   third <- ignoreMe + 1
   return(first, second, third)
 }`);
-      const actualOutputList = statlet['getOutputNamesFromCode'](testCode);
-      expect(actualOutputList).toEqual(['first', 'second', 'third']);
+      statlet.synchronizeParametersWithCode();
+      expect(statlet.outputs.map(parameter => parameter.name)).toEqual(['first', 'second', 'third']);
     });
 
-    it('#getOutputNamesFromCode should return empty ParameterList when no outputs are given', () => {
-      const testCode = (
+    it('#synchronizeParametersWithCode should return empty ParameterList when no outputs are given', () => {
+      statlet.code = (
         `function(first, second, third){
   return()
 }`);
-      const actualOutputList = statlet['getOutputNamesFromCode'](testCode);
-      expect(actualOutputList).toEqual([]);
+      statlet.synchronizeParametersWithCode();
+      expect(statlet.outputs).toEqual([]);
     });
   });
 });
