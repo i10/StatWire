@@ -52,8 +52,7 @@ export class Statlet {
     return newParams;
   }
 
-  execute(): Promise<never> {
-    return new Promise((resolve, reject) => {
+  async execute(): Promise<void> {
       this.synchronizeParametersWithCode();
 
       this.currentState = StatletState.busy;
@@ -61,21 +60,17 @@ export class Statlet {
       const fileArgs = this.getFiles(this.inputs);
       const serializedArgs = this.getSerializedArgs(this.inputs);
 
-      this.remoteR.execute(this.code, argsToEvaluate, fileArgs, serializedArgs)
-        .then(result => {
-          this.updateOutputsFromRawValues(result.returns);
-          this.consoleOutput = result.consoleOutput;
-          this.graphicUrls = result.graphicUrls;
-        })
-        .catch((error) => {
-          this.consoleOutput = error;
-          reject();
-        })
-        .then(() => {
-          this.currentState = StatletState.ready;
-          resolve();
-        });
-    });
+    try {
+      const result = await this.remoteR.execute(this.code, argsToEvaluate, fileArgs, serializedArgs);
+      this.updateOutputsFromRawValues(result.returns);
+      this.consoleOutput = result.consoleOutput;
+      this.graphicUrls = result.graphicUrls;
+    } catch (error) {
+      this.consoleOutput = error;
+      throw error;
+    } finally {
+      this.currentState = StatletState.ready;
+    }
   };
 
   private getArgsToEvaluate(parameterList: Array<Parameter>): object {
