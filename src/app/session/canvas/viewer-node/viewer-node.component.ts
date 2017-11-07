@@ -4,7 +4,7 @@ import { DomSanitizer } from '@angular/platform-browser';
 import { CanvasPosition } from '../../../model/canvas-position';
 import { StatletManagerService } from '../../../model/statlet-manager.service';
 import { ViewerNode } from '../../../model/viewer-node';
-import { ParameterType } from '../node/parameter.component';
+import { ParameterType } from '../nodes/parameter.component';
 import { PlumbingService } from '../plumbing.service';
 
 @Component({

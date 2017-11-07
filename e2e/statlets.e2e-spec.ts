@@ -19,17 +19,17 @@ describe('StatLets', () => {
     browser.executeScript('sessionStorage.clear();');
   });
 
-  it('should allow the execution of a two-node analysis', () => {
+  it('should allow the execution of a two-nodes analysis', () => {
     // Frank wants to do a quick mock analysis, to get an impression of StatLets.
     // Fist, he adds two nodes to the canvas.
     const node1 = page.addNodeAt(10, 10);
     expect(page.editor.getTitle()).toEqual(node1.getTitle());
-    expect(node1.getAttribute('id')).toEqual('node-1');
+    expect(node1.getAttribute('id')).toEqual('nodes-1');
     const node2 = page.addNodeAt(10, 100);
     expect(page.editor.getTitle()).toEqual(node2.getTitle());
-    expect(node2.getAttribute('id')).toEqual('node-2');
+    expect(node2.getAttribute('id')).toEqual('nodes-2');
 
-    // He then edits the code of the first node to be a (very) simple function.
+    // He then edits the code of the first nodes to be a (very) simple function.
     node1.click();
     expect(page.editor.getTitle()).toEqual(node1.getTitle());
     page.editor.replaceTitle('generatePrime');
@@ -39,10 +39,10 @@ describe('StatLets', () => {
       'prime <- 11\n' +
       'return(prime)',
     );
-    // To update node on the canvas, he syncs it.
+    // To update nodes on the canvas, he syncs it.
     expect(node1.output(1).getName()).toContain('prime');
 
-    // He edits the code of the second node, now even using an input parameter to his function!
+    // He edits the code of the second nodes, now even using an input parameter to his function!
     node2.click();
     expect(page.editor.getTitle()).toEqual(node2.getTitle());
     page.editor.replaceTitle('double');
@@ -52,16 +52,16 @@ describe('StatLets', () => {
       'double <- number * 2\n' +
       'return(double)',
     );
-    // Again, he syncs the node to make the parameters show up on the canvas.
+    // Again, he syncs the nodes to make the parameters show up on the canvas.
     expect(node2.input(1).getName()).toContain('number');
     expect(node2.output(1).getName()).toContain('double');
 
-    // Frank connects the output of the first node to the input of the second one.
+    // Frank connects the output of the first nodes to the input of the second one.
     browser.actions()
       .dragAndDrop(node1.output(1).getEndpoint(), node2.input(1).getEndpoint())
       .perform();
 
-    // He executes each node and observes that a value gets displayed when the node finishes execution.
+    // He executes each nodes and observes that a value gets displayed when the nodes finishes execution.
     node1.clickExecuteButton();
     node1.waitWhileBusy();
     expect(node1.output(1).getName()).toContain('11');
@@ -80,7 +80,7 @@ describe('StatLets', () => {
     const node2 = page.addNodeAt(300, 10);
     const node3 = page.addNodeAt(600, 10);
 
-    // He edits the first node.
+    // He edits the first nodes.
     node1.click();
     expect(page.editor.getTitle()).toEqual(node1.getTitle());
     page.editor.replaceTitle('readData');
@@ -94,7 +94,7 @@ describe('StatLets', () => {
     expect(node1.output(1).getName()).toContain('persons');
     expect(node1.output(2).getName()).toContain('expenses');
 
-    // He edits the second node.
+    // He edits the second nodes.
     node2.click();
     expect(page.editor.getTitle()).toEqual(node2.getTitle());
     page.editor.replaceTitle('convertCurrency');
@@ -107,7 +107,7 @@ describe('StatLets', () => {
     expect(node2.input(1).getName()).toContain('euro');
     expect(node2.output(1).getName()).toContain('dollar');
 
-    // He edits the third node.
+    // He edits the third nodes.
     node3.click();
     expect(page.editor.getTitle()).toEqual(node3.getTitle());
     page.editor.replaceTitle('average');
@@ -159,7 +159,7 @@ describe('StatLets', () => {
 
   it('should allow the user to upload a file', () => {
     // Frank want's to calculate the mean of a csv file's entries.
-    // He adds a node to load the csv file.
+    // He adds a nodes to load the csv file.
     const node1 = page.addNodeAt(10, 10);
     node1.click();
     expect(page.editor.getTitle()).toEqual(node1.getTitle());
@@ -174,7 +174,7 @@ describe('StatLets', () => {
     expect(node1.input(1).getName()).toContain('file');
     expect(node1.output(1).getName()).toContain('column');
 
-    // Frank adds a node to calculate the mean.
+    // Frank adds a nodes to calculate the mean.
     const node2 = page.addNodeAt(300, 10);
     node2.click();
     expect(page.editor.getTitle()).toEqual(node2.getTitle());
@@ -212,7 +212,7 @@ describe('StatLets', () => {
 
   it('should show graphics generated during execution', () => {
     // Frank would like to visualize some data.
-    // He creates a node that plots two sample datasets.
+    // He creates a nodes that plots two sample datasets.
     const node1 = page.addNodeAt(10, 10);
     node1.click();
     expect(page.editor.getTitle()).toEqual(node1.getTitle());
@@ -226,7 +226,7 @@ describe('StatLets', () => {
       'plot(data2)',
     );
 
-    // He executes the node.
+    // He executes the nodes.
     node1.clickExecuteButton();
     node1.waitWhileBusy();
     browser.wait(ExpectedConditions.visibilityOf(node1.getGraphicSelection()), 1000);

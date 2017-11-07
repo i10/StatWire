@@ -13,7 +13,7 @@ export interface SlNode extends ElementFinder {
 
 export function convertElementToSlNode(element: ElementFinder): SlNode {
   element.getTitle = function (): promise.Promise<string> {
-    return this.element(by.css('.node-title')).getText();
+    return this.element(by.css('.nodes-title')).getText();
   };
 
   element.input = function (place: number): SlParameter {
@@ -27,11 +27,11 @@ export function convertElementToSlNode(element: ElementFinder): SlNode {
   };
 
   element.clickExecuteButton = function (): void {
-    return this.element(by.css('.node-execute')).click();
+    return this.element(by.css('.nodes-execute')).click();
   };
 
   element.waitWhileBusy = function (): void {
-    const readyIndicator = this.element(by.css('.node-ready'));
+    const readyIndicator = this.element(by.css('.nodes-ready'));
     browser.wait(ExpectedConditions.presenceOf(readyIndicator), 5000);
   };
 
