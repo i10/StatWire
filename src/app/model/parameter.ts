@@ -6,7 +6,7 @@ export class Parameter {
   file: File = null;
   useFile = false;
   linkedParameter: Parameter = null;
-  representation = '';
+  _representation = '';
 
   constructor(
     public name: string,
@@ -28,6 +28,18 @@ export class Parameter {
 
   set value(newValue: any) {
     this.manualInput = newValue;
+  }
+
+  get representation(): string {
+    if (this.linkedParameter) {
+      return this.linkedParameter.representation;
+    } else {
+      return this._representation;
+    }
+  }
+
+  set representation(representation: string) {
+    this._representation = representation;
   }
 
   valueNeedsEvaluation(): boolean {
