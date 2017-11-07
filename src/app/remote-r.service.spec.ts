@@ -121,6 +121,18 @@ xdescribe('RemoteRService OpenCPU integration', () => {
       .catch(fail)
       .then(done);
   });
+
+  it('should return reachable graphics URLs', (done) => {
+    const func = 'function() { plot(c(1:10)); return() }';
+    remoteR.execute(func)
+      .then(result => {
+        expect(result.graphicUrls.length).toEqual(1);
+        return fetch(result.graphicUrls[0]);
+      })
+      .then(response => expect(response.ok).toEqual(true))
+      .catch(fail)
+      .then(done);
+  });
 });
 
 function sanitizeNewLines(text: string): string {

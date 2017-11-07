@@ -78,7 +78,7 @@ export class ExecutionResult {
       .then((response: Response) => response.text())
       .then(text => text.split('\n'))
       .then(namesArray => namesArray.filter(name => !(['last', ''].includes(name.trim()))))
-      .then(namesArray => namesArray.map(name => location + 'graphics/' + name));
+      .then(namesArray => namesArray.map(name => session.location + 'graphics/' + name));
   }
 }
 
