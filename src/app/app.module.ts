@@ -14,6 +14,7 @@ import { NodePoolComponent } from './session/canvas/node-pool/node-pool.componen
 import { StatletNodeComponent } from './session/canvas/node-pool/statlet-node/statlet-node.component';
 import { NodeComponent } from './session/canvas/nodes/node.component';
 import { ParameterComponent } from './session/canvas/nodes/parameter.component';
+import { StatletComponent } from './session/canvas/nodes/statlet/statlet.component';
 import { ViewerNodeComponent } from './session/canvas/viewer-node/viewer-node.component';
 import { EditorComponent } from './session/editor/editor.component';
 import { SessionComponent } from './session/session.component';
@@ -32,6 +33,7 @@ import { UuidService } from './uuid.service';
     StatletNodeComponent,
     ViewerNodeComponent,
     GraphicWidgetComponent,
+    StatletComponent,
   ],
   imports: [
     BrowserModule,

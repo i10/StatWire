@@ -1,0 +1,68 @@
+\:host
+  position: absolute
+  width: 250px
+
+.node
+  display: flex
+  flex-direction: column
+  background-color: white
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2)
+  cursor: pointer
+
+  &:hover
+    box-shadow: 0 4px 10px 0 rgba(0, 0, 0, 0.3)
+
+.node-header
+  display: flex
+  flex-direction: row
+  align-items: center
+  background-color: rgba(66, 139, 202, 1)
+  color: white
+
+  > *
+    padding: 4px
+    text-align: center
+    flex-basis: 36px
+    height: 100%
+
+    &:not(:last-child)
+      border-right: 1px solid rgba(255, 255, 255, .25)
+
+  .node-title
+    flex: 1
+    padding-left: .5em
+    text-align: left
+    font-weight: bold
+    white-space: nowrap
+    overflow: hidden
+    text-overflow: ellipsis
+
+  .node-execute, .node-view, .node-console, .node-duplicate
+    &:hover
+      filter: brightness(115%)
+
+.node-body
+  display: flex
+  flex-direction: column
+  flex: 1
+  padding: 4px 0 4px 0
+
+  .node-inputs
+    flex: 1
+
+  .node-outputs
+    flex: 1
+
+  .node-plots
+    flex: 1
+
+    ul.graphics
+    display: flex
+    flex-direction: column
+    padding-right: 0
+    text-align: right
+
+    > li
+      list-style: none
+      padding-left: 8px
+

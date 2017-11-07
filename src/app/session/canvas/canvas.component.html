@@ -1,6 +1,6 @@
 <!-- <sl-widget-pool></sl-widget-pool> -->
-<sl-node *ngFor="let statlet of allStatlets"
-         [statlet]="statlet"></sl-node>
+<sl-statlet *ngFor="let statlet of allStatlets"
+            [statlet]="statlet"></sl-statlet>
 <sl-viewer-node *ngFor="let viewerNode of allViewerNodes"
          [viewerNode]="viewerNode"></sl-viewer-node>
 <sl-graphic-widget *ngFor="let graphicWidget of allGraphicWidgets"
