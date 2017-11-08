@@ -93,7 +93,7 @@ export class CanvasComponent implements AfterViewInit {
   }
 
   private initializeContextMenu(): void {
-    let menu = new BootstrapMenu('#sl-canvas', {
+    const menu = new BootstrapMenu('#sl-canvas', {
       actions: this.contextMenuActions,
     });
   }
@@ -120,7 +120,9 @@ export class CanvasComponent implements AfterViewInit {
     }
   }
 
-  private connectParameters(sourceId: string, targetId: string): void {
+  private connectParameters(sourceHtmlId: string, targetHtmlId: string): void {
+    const sourceId = sourceHtmlId.replace(/^parameter:/, '');
+    const targetId = targetHtmlId.replace(/^parameter:/, '');
     const source = this.statletManager.getParameter(sourceId);
     const target = this.statletManager.getParameter(targetId);
     source.linkTo(target);
@@ -149,7 +151,9 @@ export class CanvasComponent implements AfterViewInit {
     });
   }
 
-  private disconnectParameters(sourceId: string, targetId: string): void {
+  private disconnectParameters(sourceHtmlId: string, targetHtmlId: string): void {
+    const sourceId = sourceHtmlId.replace(/^parameter:/, '');
+    const targetId = targetHtmlId.replace(/^parameter:/, '');
     const source = this.statletManager.getParameter(sourceId);
     const target = this.statletManager.getParameter(targetId);
     source.unlink(target);
