@@ -1,21 +1,21 @@
-<sl-node [node]="statlet" class="node-body">
-  <div class="node-inputs">
-    <sl-parameter
-      *ngFor="let inputParameter of statlet.inputs"
-      [parameterType]="ParameterType.Input"
-      [parameter]="inputParameter">
-    </sl-parameter>
-  </div>
-  <div class="node-outputs">
-    <sl-parameter
-      *ngFor="let outputParameter of statlet.outputs"
-      [parameterType]="ParameterType.Output"
-      [parameter]="outputParameter">
-    </sl-parameter>
-  </div>
-  <div class="node-plots">
+<div class="node-inputs">
+  <sl-parameter
+    *ngFor="let inputParameter of statlet.inputs"
+    [parameterType]="ParameterType.Input"
+    [parameter]="inputParameter">
+  </sl-parameter>
+</div>
+<div class="node-outputs">
+  <sl-parameter
+    *ngFor="let outputParameter of statlet.outputs"
+    [parameterType]="ParameterType.Output"
+    [parameter]="outputParameter">
+  </sl-parameter>
+</div>
+<div class="node-plots">
+  <ul>
     <li *ngFor="let graphicUrl of statlet.graphicUrls; index as i">
       <a (click)="createGraphicWidget(graphicUrl)"><i class="fa fa-pie-chart"></i> Click to view plot #{{i+1}}</a>
     </li>
-  </div>
-</sl-node>
+  </ul>
+</div>
