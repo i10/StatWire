@@ -1,3 +1,7 @@
+<!-- jsPlumb needs the container of a draggable to be its direct parent.
+     We can't nest sl-node in the template of sl-statlet (or sl-viewer-node), because Angular wraps an sl-statlet
+     around the entire thing, such that the sl-node is not the direct child of the canvas, which breaks dragging
+     TODO: Find a way of making elements draggable inside a container that is not their direct parent. -->
 <sl-node *ngFor="let statlet of allStatlets"
          [node]="statlet" (selected)="statletComponent.selected()">
   <sl-statlet #statletComponent [statlet]="statlet"></sl-statlet>

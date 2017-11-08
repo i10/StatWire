@@ -74,7 +74,8 @@ export class CanvasComponent implements AfterViewInit {
     this.plumbing.setContainer(this.htmlId);
   }
 
-  registerConnectionCallbacks() {
+  // jsPlumb necessitates a global callback, so we can't handle the two cases in their components.
+  private registerConnectionCallbacks() {
     this.setOnConnectionCallback();
     this.setOnDisconnectCallback();
   }
