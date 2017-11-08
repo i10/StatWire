@@ -1,8 +1,8 @@
 import { AfterViewInit, Component, Input, OnDestroy, OnInit } from '@angular/core';
 
-import { Parameter } from '../../../model/parameter';
-import { StatletManagerService } from '../../../model/statlet-manager.service';
-import { PlumbingService } from '../plumbing.service';
+import { Parameter } from '../../../../model/parameter';
+import { StatletManagerService } from '../../../../model/statlet-manager.service';
+import { PlumbingService } from '../../plumbing.service';
 
 export enum ParameterType {
   Input,
