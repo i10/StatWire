@@ -3,7 +3,7 @@ pipelines:
   default:
     - step:
         caches:
-          - nodes
+          - node
         script:
           - npm install
           - npm test
