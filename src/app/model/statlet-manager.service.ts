@@ -100,8 +100,6 @@ export class StatletManagerService {
 
   private addGraphicWidget(graphicWidget: GraphicWidget): void {
     this.allGraphicWidgets.push(graphicWidget);
-
-    console.log(this.allGraphicWidgets);
   }
 
   deleteStatlet(statletId: number): void {
@@ -166,8 +164,8 @@ export class StatletManagerService {
       }
     }
     for (const viewerNode of this.allViewerNodes) {
-      if (viewerNode.input.uuid === uuid) {
-        return viewerNode.input;
+      if (viewerNode.linkedParameter && viewerNode.linkedParameter.uuid === uuid) {
+        return viewerNode.linkedParameter;
       }
     }
     return null;
@@ -188,6 +186,14 @@ export class StatletManagerService {
     for (let i = 0; i < this.allStatlets.length; ++i) {
       if (this.allStatlets[i].id >= this.nextStatletId) {
         this.nextStatletId = this.allStatlets[i].id + 1;
+      }
+    }
+  }
+
+  getViewerNode(viewerId: number): ViewerNode {
+    for (const viewer of this.allViewerNodes) {
+      if (viewer.id === viewerId) {
+        return viewer;
       }
     }
   }
