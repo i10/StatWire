@@ -15,7 +15,7 @@ import { StatletNodeComponent } from './session/canvas/node-pool/statlet-node/st
 import { NodeComponent } from './session/canvas/nodes/node.component';
 import { ParameterComponent } from './session/canvas/nodes/statlet/parameter.component';
 import { StatletComponent } from './session/canvas/nodes/statlet/statlet.component';
-import { ViewerNodeComponent } from './session/canvas/viewer-node/viewer-node.component';
+import { ViewerNodeComponent } from './session/canvas/nodes/viewer-node/viewer-node.component';
 import { EditorComponent } from './session/editor/editor.component';
 import { SessionComponent } from './session/session.component';
 import { SessionStorageService } from './sessionStorage.service';

@@ -1,11 +1,11 @@
 import { AfterViewInit, Component, HostBinding, HostListener, Input, OnInit } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
 
-import { CanvasPosition } from '../../../model/canvas-position';
-import { StatletManagerService } from '../../../model/statlet-manager.service';
-import { ViewerNode } from '../../../model/viewer-node';
-import { ParameterType } from '../nodes/statlet/parameter.component';
-import { PlumbingService } from '../plumbing.service';
+import { CanvasPosition } from '../../../../model/canvas-position';
+import { StatletManagerService } from '../../../../model/statlet-manager.service';
+import { ViewerNode } from '../../../../model/viewer-node';
+import { PlumbingService } from '../../plumbing.service';
+import { ParameterType } from '../statlet/parameter.component';
 
 @Component({
   selector: 'sl-viewer-node',
