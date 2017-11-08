@@ -22,10 +22,10 @@ export class PlumbingService {
       isTarget: true,
       anchor: 'Left',
       endpoint: ['Dot', {radius: 5}],
-      endpointStyle: {fill: "rgba(66,139,202,1"},
+      endpointStyle: {fill: 'rgba(66,139,202,1'},
       connectorPaintStyle: {fill: 'rgba(66,139,202,1)'},
       maxConnections: 1,
-      connector:[ "Bezier", { curviness:100 }],
+      connector: ['Bezier', {curviness: 100}],
     };
     this.jsPlumb.addEndpoint(elementId, inputEndpointOptions)
   }
@@ -36,9 +36,9 @@ export class PlumbingService {
       maxConnections: -1,
       anchor: 'Right',
       endpoint: ['Dot', {radius: 5}],
-      endpointStyle: {fill: "rgba(66,139,202,1"},
+      endpointStyle: {fill: 'rgba(66,139,202,1'},
       connectorPaintStyle: {fill: 'rgba(66,139,202,1)'},
-      connector:[ "Bezier", { curviness:100 }],
+      connector: ['Bezier', {curviness: 100}],
     };
     this.jsPlumb.addEndpoint(elementId, outputEndpointOptions);
   }
@@ -59,10 +59,10 @@ export class PlumbingService {
     this.jsPlumb.connect({
       source: sourceId,
       target: targetId,
-      endpoint: ["Dot", {radius: 5 }],
-      endpointStyle: {fill: "rgba(66,139,202,1"},
-      connectorPaintStyle: {fill: "rgba(66,139,202,1"},
-      connector:[ "Bezier", { curviness:10 }],
+      endpoint: ['Dot', {radius: 5}],
+      endpointStyle: {fill: 'rgba(66,139,202,1'},
+      connectorPaintStyle: {fill: 'rgba(66,139,202,1'},
+      connector: ['Bezier', {curviness: 10}],
     })
   }
 
