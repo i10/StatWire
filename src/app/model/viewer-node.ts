@@ -3,7 +3,7 @@ import { Node } from './node';
 import { Parameter } from './parameter';
 
 export class ViewerNode extends Node {
-  input = new Parameter('input');
+  linkedParameter: Parameter;
 
   constructor(
     public id: number,

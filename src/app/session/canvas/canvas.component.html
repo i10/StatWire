@@ -2,8 +2,10 @@
          [node]="statlet" (selected)="statletComponent.selected()">
   <sl-statlet #statletComponent [statlet]="statlet"></sl-statlet>
 </sl-node>
-<sl-viewer-node *ngFor="let viewerNode of allViewerNodes"
-         [viewerNode]="viewerNode"></sl-viewer-node>
+<sl-node *ngFor="let viewerNode of allViewerNodes"
+         [node]="viewerNode">
+  <sl-viewer-node [viewerNode]="viewerNode"></sl-viewer-node>
+</sl-node>
 <sl-graphic-widget *ngFor="let graphicWidget of allGraphicWidgets"
-[graphicWidget]="graphicWidget"></sl-graphic-widget>
+                   [graphicWidget]="graphicWidget"></sl-graphic-widget>
 

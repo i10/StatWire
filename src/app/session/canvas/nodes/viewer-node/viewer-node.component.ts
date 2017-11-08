@@ -1,11 +1,6 @@
-import { AfterViewInit, Component, HostBinding, HostListener, Input, OnInit } from '@angular/core';
-import { DomSanitizer } from '@angular/platform-browser';
-
-import { CanvasPosition } from '../../../../model/canvas-position';
-import { StatletManagerService } from '../../../../model/statlet-manager.service';
+import { AfterViewInit, Component, Input, OnInit } from '@angular/core';
 import { ViewerNode } from '../../../../model/viewer-node';
 import { PlumbingService } from '../../plumbing.service';
-import { ParameterType } from '../statlet/parameter.component';
 
 @Component({
   selector: 'sl-viewer-node',
@@ -13,39 +8,27 @@ import { ParameterType } from '../statlet/parameter.component';
   styleUrls: ['./viewer-node.component.sass'],
 })
 export class ViewerNodeComponent implements OnInit, AfterViewInit {
-  ParameterType = ParameterType;
+  endpointHtmlId: string;
 
   @Input() viewerNode: ViewerNode;
 
-  @HostBinding('id') htmlId: string;
-  @HostBinding('style') cssStyle;  // TODO: add back type hint when bug is fixed: https://github.com/angular/angular/issues/8568
-
-  @HostListener('contextmenu', ['$event'])
-  onRightClick($event: MouseEvent): void {
-    $event.stopPropagation();
-  }
-
   constructor(
     private plumbing: PlumbingService,
-    private statletManager: StatletManagerService,
-    private domSanitizer: DomSanitizer,
   ) { }
 
-  ngOnInit() {
-    this.htmlId = `viewer-node-${this.viewerNode.id}`;
-    this.cssStyle = this.domSanitizer.bypassSecurityTrustStyle(
-      `left: ${this.viewerNode.position.x}px; top: ${this.viewerNode.position.y}px;`);
+  ngOnInit(): void {
+    this.endpointHtmlId = `viewer-input:${this.viewerNode.id}`;
   }
 
-  ngAfterViewInit() {
-    this.plumbing.makeDraggable(this.htmlId, (pos) => this.onDragStop(pos));
+  ngAfterViewInit(): void {
+    this.plumbing.makeInput(this.endpointHtmlId);
   }
 
-  onDragStop(position: CanvasPosition) {
-    this.viewerNode.position = position;
-  }
-
-  onDelete(): void {
-    this.statletManager.deleteViewerNode(this.viewerNode.id);
+  getRepresentation(): string {
+    if (this.viewerNode.linkedParameter) {
+      return this.viewerNode.linkedParameter.representation;
+    } else {
+      return 'Please choose an input.';
+    }
   }
 }

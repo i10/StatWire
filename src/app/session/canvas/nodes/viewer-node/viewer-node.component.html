@@ -1,21 +1,6 @@
-<div class="viewer-node">
-  <div class="viewer-node-header">
-    <div class="viewer-node-title">
-      {{viewerNode.title}}
-    </div>
-    <div class="viewer-node-delete" (click)="onDelete()">
-      <i class="fa fa-trash"></i>
-    </div>
-  </div>
-  <div class="viewer-node-body">
-    <div class="viewer-node-input">
-      <sl-parameter
-        [parameterType]="ParameterType.Input"
-        [parameter]="viewerNode.input">
-      </sl-parameter>
-    </div>
-    <div class="viewer-node-display">
-      <textarea readonly [(ngModel)]="viewerNode.input.representation"></textarea>
-    </div>
+<div class="viewer-node-body">
+  <div id="{{endpointHtmlId}}" class="viewer-node-input"></div>
+  <div class="viewer-node-display">
+    <textarea readonly [ngModel]="getRepresentation()" title="test"></textarea>
   </div>
 </div>

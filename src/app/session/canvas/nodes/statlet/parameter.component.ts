@@ -1,7 +1,6 @@
 import { AfterViewInit, Component, Input, OnDestroy, OnInit } from '@angular/core';
 
 import { Parameter } from '../../../../model/parameter';
-import { StatletManagerService } from '../../../../model/statlet-manager.service';
 import { PlumbingService } from '../../plumbing.service';
 
 export enum ParameterType {
@@ -15,30 +14,23 @@ export enum ParameterType {
   styleUrls: ['./parameter.component.sass'],
 })
 export class ParameterComponent implements OnInit, AfterViewInit, OnDestroy {
-  static callbacksAreSet = false;
-
   @Input() parameterType: ParameterType;
   @Input() parameter: Parameter;
+
   endpointHtmlId: string;
 
   ParameterType = ParameterType;
 
   constructor(
     private plumbing: PlumbingService,
-    private statletManager: StatletManagerService,
   ) { }
 
   ngOnInit(): void {
-    this.endpointHtmlId = this.parameter.uuid;
+    this.endpointHtmlId = `parameter:${this.parameter.uuid}`;
   }
 
   ngAfterViewInit(): void {
     this.makeEndpoint(this.endpointHtmlId);
-    if (!ParameterComponent.callbacksAreSet) {
-      this.setOnConnectionCallback();
-      this.setOnDisconnectCallback();
-      ParameterComponent.callbacksAreSet = true;
-    }
   }
 
   private makeEndpoint(id: string) {
@@ -50,34 +42,6 @@ export class ParameterComponent implements OnInit, AfterViewInit, OnDestroy {
         this.plumbing.makeOutput(id);
         break;
     }
-  }
-
-  private setOnConnectionCallback(): void {
-    this.plumbing.onConnection((info) => {
-      const sourceId = info.sourceId;
-      const targetId = info.targetId;
-      this.connectParameters(sourceId, targetId);
-    });
-  }
-
-  private connectParameters(sourceId: string, targetId: string): void {
-    const source = this.statletManager.getParameter(sourceId);
-    const target = this.statletManager.getParameter(targetId);
-    source.linkTo(target);
-  }
-
-  private setOnDisconnectCallback(): void {
-    this.plumbing.onDisconnect((info) => {
-      const sourceId = info.sourceId;
-      const targetId = info.targetId;
-      this.disconnectParameters(sourceId, targetId);
-    });
-  }
-
-  private disconnectParameters(sourceId: string, targetId: string): void {
-    const source = this.statletManager.getParameter(sourceId);
-    const target = this.statletManager.getParameter(targetId);
-    source.unlink(target);
   }
 
   ngOnDestroy(): void {
