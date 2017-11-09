@@ -4,7 +4,7 @@ import 'brace/mode/r';
 import 'brace/theme/chrome';
 import { isNullOrUndefined } from 'util';
 
-import { Statlet, StatletState } from '../../model/statlet';
+import { Statlet, StatletState } from '../../model/nodes/statlet';
 import { StatletManagerService } from '../../model/statlet-manager.service';
 
 @Component({

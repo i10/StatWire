@@ -1,7 +1,7 @@
 import { Component, EventEmitter, HostBinding, Input, OnInit, Output } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
-import { CanvasPosition } from 'app/model/canvas-position';
-import { Statlet } from 'app/model/statlet';
+import { CanvasPosition } from 'app/model/nodes/canvas-position';
+import { Statlet } from 'app/model/nodes/statlet';
 
 @Component({
   selector: 'sl-node-pool',

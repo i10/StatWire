@@ -9,9 +9,9 @@ import {
   Output,
 } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
-import { CanvasPosition } from '../../../model/canvas-position';
+import { CanvasPosition } from '../../../model/nodes/canvas-position';
 
-import { Node } from '../../../model/node';
+import { Node } from '../../../model/nodes/node';
 import { PlumbingService } from '../plumbing.service';
 
 @Component({

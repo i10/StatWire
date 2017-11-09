@@ -5,11 +5,11 @@ import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
 
 import { RemoteRService } from '../remote-r.service';
-import { CanvasPosition } from './canvas-position';
 import { GraphicWidget } from './graphic-widget';
-import { Parameter } from './parameter';
-import { Statlet } from './statlet';
-import { ViewerNode } from './viewer-node';
+import { CanvasPosition } from './nodes/canvas-position';
+import { Parameter } from './nodes/parameter';
+import { Statlet } from './nodes/statlet';
+import { ViewerNode } from './nodes/viewer-node';
 
 @Injectable()
 export class StatletManagerService {

@@ -1,5 +1,5 @@
 import { RemoteRService } from '../remote-r.service';
-import { CanvasPosition } from './canvas-position';
+import { CanvasPosition } from './nodes/canvas-position';
 import { StatletManagerService } from './statlet-manager.service';
 
 describe('StatletManagerService', () => {

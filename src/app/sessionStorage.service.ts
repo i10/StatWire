@@ -2,9 +2,9 @@ import { Injectable } from '@angular/core';
 
 import { Observable } from 'rxjs/Observable';
 
-import { CanvasPosition } from './model/canvas-position';
-import { Parameter } from './model/parameter';
-import { Statlet } from './model/statlet';
+import { CanvasPosition } from './model/nodes/canvas-position';
+import { Parameter } from './model/nodes/parameter';
+import { Statlet } from './model/nodes/statlet';
 import { RemoteRService } from './remote-r.service';
 
 @Injectable()
