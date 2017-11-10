@@ -1,6 +1,6 @@
 import { FileArgument, RemoteRService, Return } from '../../remote-r.service';
 import { CanvasPosition } from './canvas-position';
-import { Node } from './node';
+import { Node, NodeAction } from './node';
 import { Parameter } from './parameter';
 
 export enum StatletState {
@@ -22,6 +22,9 @@ export class Statlet extends Node {
     private remoteR: RemoteRService,
   ) {
     super(id, position);
+    this.actions.unshift(
+      new NodeAction('Execute', 'fa-play'),
+    );
   }
 
   set code(newCode: string) {

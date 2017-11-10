@@ -19,14 +19,17 @@
   background-color: rgba(66, 139, 202, 1)
   color: white
 
-  > *
+  > :not(.node-title)
     padding: 4px
     text-align: center
     flex-basis: 36px
-    height: 100%
+    align-self: stretch
 
-    &:not(:last-child)
-      border-right: 1px solid rgba(255, 255, 255, .25)
+    &:hover
+      background-color: rgba(255, 255, 255, 0.1)
+
+    &:not(:first-child)
+      border-left: 1px solid rgba(255, 255, 255, .25)
 
   .node-title
     flex: 1
@@ -36,10 +39,6 @@
     white-space: nowrap
     overflow: hidden
     text-overflow: ellipsis
-
-  .node-execute, .node-view, .node-console, .node-duplicate
-    &:hover
-      filter: brightness(115%)
 
 .node-body
   display: flex
