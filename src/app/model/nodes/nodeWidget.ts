@@ -1,7 +1,7 @@
 import { Subject } from 'rxjs/Subject';
 import { CanvasPosition } from './canvas-position';
 
-export class Node {
+export class NodeWidget {
   title = '';
   actions: Array<NodeAction> = [
     new NodeAction('Clone', 'fa-clone'),
@@ -15,7 +15,7 @@ export class Node {
 }
 
 export class NodeAction {
-  performSubject = new Subject();
+  public subject = new Subject();
 
   constructor(
     public name: string,

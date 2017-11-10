@@ -11,7 +11,7 @@ import {
 import { DomSanitizer } from '@angular/platform-browser';
 import { CanvasPosition } from '../../../model/nodes/canvas-position';
 
-import { Node } from '../../../model/nodes/node';
+import { NodeWidget } from '../../../model/nodes/nodeWidget';
 import { PlumbingService } from '../plumbing.service';
 
 @Component({
@@ -20,7 +20,7 @@ import { PlumbingService } from '../plumbing.service';
   styleUrls: ['./node.component.sass'],
 })
 export class NodeComponent implements OnInit, AfterViewInit {
-  @Input() node: Node;
+  @Input() node: NodeWidget;
 
   @Output() selected = new EventEmitter();
 

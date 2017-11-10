@@ -1,6 +1,6 @@
 import { FileArgument, RemoteRService, Return } from '../../remote-r.service';
 import { CanvasPosition } from './canvas-position';
-import { Node, NodeAction } from './node';
+import { NodeAction, NodeWidget } from './nodeWidget';
 import { Parameter } from './parameter';
 
 export enum StatletState {
@@ -8,7 +8,7 @@ export enum StatletState {
   busy,
 }
 
-export class Statlet extends Node {
+export class Statlet extends NodeWidget {
   private _code = '';
   consoleOutput = '';
   inputs: Array<Parameter> = [];
@@ -22,6 +22,10 @@ export class Statlet extends Node {
     private remoteR: RemoteRService,
   ) {
     super(id, position);
+    this.setCustomActions();
+  }
+
+  private setCustomActions() {
     this.actions.unshift(
       new NodeAction('Execute', 'fa-play'),
     );
