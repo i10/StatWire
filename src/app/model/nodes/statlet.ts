@@ -14,7 +14,7 @@ export class Statlet extends NodeWidget {
   inputs: Array<Parameter> = [];
   outputs: Array<Parameter> = [];
   graphicUrls: Array<string> = [];
-  currentState = StatletState.ready;
+  private _currentState = StatletState.ready;
 
   constructor(
     public id: number,
@@ -25,10 +25,33 @@ export class Statlet extends NodeWidget {
     this.setCustomActions();
   }
 
+  get currentState(): StatletState {
+    return this._currentState;
+  }
+
+  set currentState(newState: StatletState) {
+    this._currentState = newState;
+    this.updateExecuteActionState();
+  }
+
   private setCustomActions() {
+    const executeAction = new NodeAction('Execute', 'fa-play');
+    executeAction.subject.subscribe(() => this.execute());
     this.actions.unshift(
-      new NodeAction('Execute', 'fa-play'),
+      executeAction,
     );
+  }
+
+  private updateExecuteActionState() {
+    const executeAction = this.actions.find(action => action.name === 'Execute');
+    switch (this._currentState) {
+      case StatletState.ready:
+        executeAction.fontAwesomeClass = 'fa-play';
+        break;
+      case StatletState.busy:
+        executeAction.fontAwesomeClass = 'fa-hourglass';
+        break;
+    }
   }
 
   set code(newCode: string) {

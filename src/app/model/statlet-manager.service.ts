@@ -38,6 +38,10 @@ export class StatletManagerService {
       position,
       this.remoteR,
     );
+    const cloneAction = statlet.actions.find(action => action.name === 'Clone');
+    cloneAction.subject.subscribe(() => this.duplicateStatlet(statlet.id));
+    const deleteAction = statlet.actions.find(action => action.name === 'Delete');
+    deleteAction.subject.subscribe(() => this.deleteStatlet(statlet.id));
     statlet.title = `New Statlet ${id}`;
     if (code === undefined) {
       statlet.code = 'function() {\n\treturn()\n}';
@@ -100,6 +104,12 @@ export class StatletManagerService {
 
   private addGraphicWidget(graphicWidget: GraphicWidget): void {
     this.allGraphicWidgets.push(graphicWidget);
+  }
+
+  duplicateStatlet(statletId: number): void {
+    const toDuplicate = this.allStatlets.find(statlet => statlet.id === statletId);
+    const offsetPosition = new CanvasPosition(toDuplicate.position.x + 100, toDuplicate.position.y + 100);
+    this.createStatlet(offsetPosition, toDuplicate.code);
   }
 
   deleteStatlet(statletId: number): void {
