@@ -1,4 +1,6 @@
 import { Subject } from 'rxjs/Subject';
+import { isFunction } from 'rxjs/util/isFunction';
+
 import { CanvasPosition } from './canvas-position';
 
 export class NodeWidget {
@@ -19,6 +21,18 @@ export class NodeAction {
 
   constructor(
     public name: string,
-    public fontAwesomeClass: string,
+    private _fontAwesomeClass: string | (() => string),
   ) { }
+
+  public get fontAwesomeClass(): string | (() => string) {
+    if (isFunction(this._fontAwesomeClass)) {
+      return this._fontAwesomeClass();
+    } else {
+      return this._fontAwesomeClass;
+    }
+  }
+
+  public set fontAwesomeClass(value: string | (() => string)) {
+    this._fontAwesomeClass = value;
+  }
 }
