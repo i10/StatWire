@@ -62,6 +62,7 @@ export class SessionStorageService {
   private clotheGenericObjectToAStatlet(object: object): Statlet {
     const statlet = new Statlet(-1, new CanvasPosition(0, 0), this.remoteR);
 
+    delete object['actions'];
     Object.assign(statlet, object);
     Object.assign(statlet, {remoteR: this.remoteR});
 
