@@ -1,11 +1,12 @@
 import { Injectable } from '@angular/core';
+import * as _ from 'lodash';
 
 import { Observable } from 'rxjs/Observable';
 
-import { CanvasPosition } from './model/nodes/canvas-position';
-import { Parameter } from './model/nodes/parameter';
-import { Statlet } from './model/nodes/statlet';
-import { RemoteRService } from './remote-r.service';
+import { CanvasPosition } from '../model/nodes/canvas-position';
+import { Parameter } from '../model/nodes/parameter';
+import { Statlet } from '../model/nodes/statlet';
+import { RemoteRService } from '../remote-r.service';
 
 @Injectable()
 export class SessionStorageService {
@@ -35,6 +36,12 @@ export class SessionStorageService {
   }
 
   private stringify(object: Array<Statlet>): string {
+    object = _.cloneDeep(object);
+    object.forEach(statlet => {
+      statlet.actions.forEach(action => {
+        action.subject.unsubscribe();
+      });
+    });
     return JSON.stringify(object);
   }
 
@@ -55,6 +62,7 @@ export class SessionStorageService {
   private clotheGenericObjectToAStatlet(object: object): Statlet {
     const statlet = new Statlet(-1, new CanvasPosition(0, 0), this.remoteR);
 
+    delete object['actions'];
     Object.assign(statlet, object);
     Object.assign(statlet, {remoteR: this.remoteR});
 
