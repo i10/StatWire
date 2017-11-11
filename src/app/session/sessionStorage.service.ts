@@ -3,10 +3,10 @@ import * as _ from 'lodash';
 
 import { Observable } from 'rxjs/Observable';
 
-import { CanvasPosition } from './model/nodes/canvas-position';
-import { Parameter } from './model/nodes/parameter';
-import { Statlet } from './model/nodes/statlet';
-import { RemoteRService } from './remote-r.service';
+import { CanvasPosition } from '../model/nodes/canvas-position';
+import { Parameter } from '../model/nodes/parameter';
+import { Statlet } from '../model/nodes/statlet';
+import { RemoteRService } from '../remote-r.service';
 
 @Injectable()
 export class SessionStorageService {
