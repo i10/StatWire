@@ -12,11 +12,11 @@ export class SessionStorageService {
   private currentStatlets: Array<Statlet> = [];
 
   constructor(
-    private remoteR: RemoteRService
+    private remoteR: RemoteRService,
   ) { }
 
   subscribeTo(observable: Observable<Statlet[]>): void {
-    observable.subscribe(allStatlets => this.update(allStatlets))
+    observable.subscribe(allStatlets => this.update(allStatlets));
   }
 
   update(currentStatlets: Array<Statlet>): void {
@@ -44,7 +44,10 @@ export class SessionStorageService {
 
   private parseToJSON(JSONAsString: string): Array<Statlet> {
     const nakedStatletArray = JSON.parse(JSONAsString);
-    const statletArray = nakedStatletArray.map((nakedObject) => this.clotheGenericObjectToAStatlet(nakedObject));
+    const statletArray =
+      nakedStatletArray !== null
+        ? nakedStatletArray.map((nakedObject) => this.clotheGenericObjectToAStatlet(nakedObject))
+        : [];
 
     return statletArray;
   }
@@ -53,7 +56,7 @@ export class SessionStorageService {
     const statlet = new Statlet(-1, new CanvasPosition(0, 0), this.remoteR);
 
     Object.assign(statlet, object);
-    Object.assign(statlet, { remoteR: this.remoteR });
+    Object.assign(statlet, {remoteR: this.remoteR});
 
     statlet.inputs = statlet.inputs.map((nakedParameter) => this.clotheGenericObjectToAParameter(nakedParameter));
     statlet.outputs = statlet.outputs.map((nakedParameter) => this.clotheGenericObjectToAParameter(nakedParameter));
