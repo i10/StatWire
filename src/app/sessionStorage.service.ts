@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import * as _ from 'lodash';
 
 import { Observable } from 'rxjs/Observable';
 
@@ -35,6 +36,12 @@ export class SessionStorageService {
   }
 
   private stringify(object: Array<Statlet>): string {
+    object = _.cloneDeep(object);
+    object.forEach(statlet => {
+      statlet.actions.forEach(action => {
+        action.subject.unsubscribe();
+      });
+    });
     return JSON.stringify(object);
   }
 
