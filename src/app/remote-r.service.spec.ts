@@ -8,7 +8,9 @@ xdescribe('RemoteRService OpenCPU integration', () => {
   });
 
   it('should be able to contact the OpenCPU server', (done) => {
-    fetch(RemoteRService.packageUrl, {headers: {'Cache-Control': 'no-cache'}})
+    const headers = new Headers();
+    headers.append('Cache-Control', 'no-cache');
+    fetch(RemoteRService.packageUrl, {headers: headers})
       .then(response => {
         if (response.ok) {
           return;
