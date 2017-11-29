@@ -17,6 +17,8 @@ export class StatLetsPage {
     browser.actions()
       .mouseMove(canvas, {x: x, y: y})
       .click(protractor.Button.RIGHT)
+      .mouseMove({x: 10, y: 10})
+      .click()
       .perform();
 
     const id = this.nextId;

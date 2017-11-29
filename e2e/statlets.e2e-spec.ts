@@ -1,5 +1,5 @@
 import * as path from 'path';
-import { browser, by, ExpectedConditions } from 'protractor';
+import { browser, by, element, ExpectedConditions } from 'protractor';
 
 import { StatLetsPage } from './statlets.po';
 
@@ -24,10 +24,10 @@ describe('StatLets', () => {
     // Fist, he adds two nodes to the canvas.
     const node1 = page.addNodeAt(10, 10);
     expect(page.editor.getTitle()).toEqual(node1.getTitle());
-    expect(node1.getAttribute('id')).toEqual('nodes-1');
+    expect(element(by.id('node-1')).getAttribute('id')).toEqual('node-1' as any);
     const node2 = page.addNodeAt(10, 100);
     expect(page.editor.getTitle()).toEqual(node2.getTitle());
-    expect(node2.getAttribute('id')).toEqual('nodes-2');
+    expect(node2.getAttribute('id')).toEqual('node-2' as any);
 
     // He then edits the code of the first nodes to be a (very) simple function.
     node1.click();
@@ -131,20 +131,20 @@ describe('StatLets', () => {
     // He executes the nodes and watches the parameters.
     node1.clickExecuteButton();
     node1.waitWhileBusy();
-    expect(node1.output(1).getName()).toContain('Me,He,She,It');
-    expect(node1.output(2).getName()).toContain('100,200,150,300');
+    expect(node1.output(1).getName()).toContain('"Me" "He" "She" "It"');
+    expect(node1.output(2).getName()).toContain('100 200 150 300');
     node2.clickExecuteButton();
     node2.waitWhileBusy();
-    expect(node2.output(1).getName()).toContain('10000,20000,15000,30000');
+    expect(node2.output(1).getName()).toContain('10000 20000 15000 30000');
     node3.clickExecuteButton();
     node3.waitWhileBusy();
     expect(node3.output(1).getName()).toContain((10000 + 20000 + 15000 + 30000) / 4);
 
     // Frank now decides, that he does not want the transformation anymore and removes it. All its connections are automatically deleted.
-    expect(page.getNumberOfConnectionEndpoints()).toEqual(7);
+    expect(page.getNumberOfConnectionEndpoints()).toEqual(7 as any);
     node2.click();
     page.editor.clickDeleteButton();
-    expect(page.getNumberOfConnectionEndpoints()).toEqual(5);
+    expect(page.getNumberOfConnectionEndpoints()).toEqual(5 as any);
 
     // He re-links the nodes and executes them.
     browser.actions()
@@ -232,7 +232,7 @@ describe('StatLets', () => {
     browser.wait(ExpectedConditions.visibilityOf(node1.getGraphicSelection()), 1000);
 
     // Two links appear.
-    expect(node1.getGraphicSelection().all(by.tagName('a')).count()).toEqual(2);
+    expect(node1.getGraphicSelection().all(by.tagName('a')).count()).toEqual(2 as any);
 
     // Frank is very proud to have generated such beautiful images. He is, however, not done with StatLets...
   });
@@ -257,7 +257,7 @@ describe('StatLets', () => {
     // Frank executes the code.
     node1.clickExecuteButton();
     node1.waitWhileBusy();
-    expect(node1.output(1).getText()).toContain('2,4,6');
+    expect(node1.output(1).getText()).toContain('2 4 6');
 
     // Frank feels confident that tweaking parameters will be easy. But he still has things to check...
   });

@@ -32,7 +32,9 @@ export class RemoteRService {
       {func: codeSnippet},
     );  // TODO: Resolve naming conflict. Make params called 'func' and 'argsToEvaluate' possible.
     const session = await this.opencpu.call('functionCall', functionCallArgs);
-    return ExecutionResult.createFromSession(session);
+    const result = await ExecutionResult.createFromSession(session);
+    console.log('Result:', result);
+    return result;
   }
 
   static createCodeSnippetOutOfString(statletCode: string): CodeSnippet {

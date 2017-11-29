@@ -13,25 +13,25 @@ export interface SlNode extends ElementFinder {
 
 export function convertElementToSlNode(element: ElementFinder): SlNode {
   element.getTitle = function (): promise.Promise<string> {
-    return this.element(by.css('.nodes-title')).getText();
+    return this.element(by.css('.node-title')).getText();
   };
 
   element.input = function (place: number): SlParameter {
-    const inputElement = this.all(by.css('.parameter-input')).get(place - 1);
+    const inputElement = this.all(by.css('.input-parameter')).get(place - 1);
     return convertElementToSlParameter(inputElement);
   };
 
   element.output = function (place: number): SlParameter {
-    const outputElement = this.all(by.css('.parameter-output')).get(place - 1);
+    const outputElement = this.all(by.css('.output-parameter')).get(place - 1);
     return convertElementToSlParameter(outputElement);
   };
 
   element.clickExecuteButton = function (): void {
-    return this.element(by.css('.nodes-execute')).click();
+    return this.element(by.css('.node-execute')).click();
   };
 
   element.waitWhileBusy = function (): void {
-    const readyIndicator = this.element(by.css('.nodes-ready'));
+    const readyIndicator = this.element(by.css('.fa-play'));
     browser.wait(ExpectedConditions.presenceOf(readyIndicator), 5000);
   };
 
@@ -41,7 +41,7 @@ export function convertElementToSlNode(element: ElementFinder): SlNode {
   };
 
   element.getGraphicSelection = function (): ElementFinder {
-    return this.element(by.css('.graphics'));
+    return this.element(by.css('.node-plots'));
   };
 
   return element as SlNode;
