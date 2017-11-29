@@ -1,8 +1,10 @@
 <div class="parameter output-parameter">
   <div class="parameter-label">
-    <span class="parameter-name">{{output.name}}:</span>
+    <span class="parameter-name">
+      <i *ngIf="isGraphic()" class="fa fa-pie-chart"></i> {{output.name}}:
+    </span>
     <span class="parameter-value">
-      {{output.representation}}
+      {{getOutputRepresentation()}}
     </span>
   </div>
   <div id="{{endpointHtmlId}}" class="parameter-endpoint"></div>

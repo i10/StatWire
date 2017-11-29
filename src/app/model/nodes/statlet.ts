@@ -15,7 +15,7 @@ export class Statlet extends NodeWidget {
   consoleOutput = '';
   inputs: Array<InputParameter> = [];
   outputs: Array<OutputParameter> = [];
-  graphicUrls: Array<string> = [];
+  plots: Array<OutputParameter> = [];
   currentState = StatletState.ready;
 
   constructor(
@@ -91,7 +91,7 @@ export class Statlet extends NodeWidget {
       const result = await this.remoteR.execute(this.code, argsToEvaluate, fileArgs, serializedArgs);
       this.updateOutputsFromRawValues(result.returns);
       this.consoleOutput = result.consoleOutput;
-      this.graphicUrls = result.graphicUrls;
+      this.plots = result.plotUrls.map((url, index) => OutputParameter.fromUrl(`Plot ${index}`, url));
     } catch (error) {
       this.consoleOutput = error;
       throw error;

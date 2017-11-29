@@ -52,7 +52,7 @@ export class ExecutionResult {
   constructor(
     public returns: Array<Return>,
     public consoleOutput: string,
-    public graphicUrls: Array<string>,
+    public plotUrls: Array<string>,
   ) { }
 
   static async createFromSession(session: Session): Promise<ExecutionResult> {

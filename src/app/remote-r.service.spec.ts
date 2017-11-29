@@ -128,8 +128,8 @@ xdescribe('RemoteRService OpenCPU integration', () => {
     const func = 'function() { plot(c(1:10)); return() }';
     remoteR.execute(func)
       .then(result => {
-        expect(result.graphicUrls.length).toEqual(1);
-        return fetch(result.graphicUrls[0]);
+        expect(result.plotUrls.length).toEqual(1);
+        return fetch(result.plotUrls[0]);
       })
       .then(response => expect(response.ok).toEqual(true))
       .catch(fail)

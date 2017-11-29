@@ -11,9 +11,6 @@
   </sl-output>
 </div>
 <div class="node-plots">
-  <ul>
-    <li *ngFor="let graphicUrl of statlet.graphicUrls; index as i">
-      <a (click)="createGraphicWidget(graphicUrl)"><i class="fa fa-pie-chart"></i> Click to view plot #{{i+1}}</a>
-    </li>
-  </ul>
+  <sl-output *ngFor="let plot of statlet.plots" [output]="plot">
+  </sl-output>
 </div>

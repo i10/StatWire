@@ -1,5 +1,5 @@
 import { AfterViewInit, Component, Input, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
-import { OutputParameter } from '../../../../../model/nodes/parameters/outputParameter';
+import { GraphicsUrl, OutputParameter } from '../../../../../model/nodes/parameters/outputParameter';
 import { PlumbingService } from '../../../plumbing.service';
 
 @Component({
@@ -37,6 +37,18 @@ export class OutputParameterComponent implements OnInit, AfterViewInit, OnDestro
 
   protected makeEndpoint(id: string) {
     this.plumbing.makeOutput(id);
+  }
+
+  isGraphic(): boolean {
+    return this.output.representation instanceof GraphicsUrl;
+  }
+
+  getOutputRepresentation(): string {
+    if (this.output.representation instanceof GraphicsUrl) {
+      return this.output.representation.url;
+    } else {
+      return this.output.representation;
+    }
   }
 
 }
