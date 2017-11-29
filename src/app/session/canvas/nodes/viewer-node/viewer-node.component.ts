@@ -25,8 +25,8 @@ export class ViewerNodeComponent implements OnInit, AfterViewInit {
   }
 
   getRepresentation(): string {
-    if (this.viewerNode.linkedParameter) {
-      return this.viewerNode.linkedParameter.representation;
+    if (this.viewerNode.source) {
+      return this.viewerNode.source.representation;
     } else {
       return 'Please choose an input.';
     }

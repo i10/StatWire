@@ -182,8 +182,8 @@ export class StatletManagerService {
     }
     // TODO: Change ViewerNode to have input parameter.
     for (const viewerNode of this.allViewerNodes) {
-      if (viewerNode.linkedParameter && viewerNode.linkedParameter.uuid === uuid) {
-        return viewerNode.linkedParameter;
+      if (viewerNode.source && viewerNode.source.uuid === uuid) {
+        return viewerNode.source;
       }
     }
     return null;

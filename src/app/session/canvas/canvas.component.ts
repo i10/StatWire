@@ -135,7 +135,7 @@ export class CanvasComponent implements AfterViewInit {
 
     const viewer = this.statletManager.getViewerNode(viewerId);
     const parameter = this.statletManager.getOutputParameter(parameterId);
-    viewer.linkedParameter = parameter;
+    viewer.source = parameter;
   }
 
   private setOnDisconnectCallback(): void {
@@ -161,7 +161,7 @@ export class CanvasComponent implements AfterViewInit {
   private removeViewerInput(viewerHtmlId: string) {
     const viewerId = parseInt(viewerHtmlId.replace(/^viewer-input:/, ''));
     const viewer = this.statletManager.getViewerNode(viewerId);
-    viewer.linkedParameter = null;
+    viewer.source = null;
   }
 }
 
