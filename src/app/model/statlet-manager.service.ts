@@ -7,7 +7,7 @@ import { Subject } from 'rxjs/Subject';
 import { RemoteRService } from '../remote-r.service';
 import { GraphicWidget } from './graphic-widget';
 import { CanvasPosition } from './nodes/canvas-position';
-import { Parameter } from './nodes/parameter';
+import { Parameter } from './nodes/parameters/parameter';
 import { Statlet } from './nodes/statlet';
 import { ViewerNode } from './nodes/viewer-node';
 

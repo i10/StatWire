@@ -1,5 +1,5 @@
 import { RemoteRService, Return } from '../../remote-r.service';
-import { Parameter } from './parameter';
+import { Parameter } from './parameters/parameter';
 import { Statlet } from './statlet';
 
 describe('Statlet', () => {

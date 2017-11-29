@@ -1,7 +1,7 @@
 import { FileArgument, RemoteRService, Return } from '../../remote-r.service';
 import { CanvasPosition } from './canvas-position';
 import { NodeAction, NodeWidget } from './nodeWidget';
-import { Parameter } from './parameter';
+import { Parameter } from './parameters/parameter';
 
 export enum StatletState {
   ready,
