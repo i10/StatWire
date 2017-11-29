@@ -28,9 +28,7 @@ export class SessionComponent implements OnInit {
   onKeyPress($event: KeyboardEvent): void {
     switch ($event.key) {
       case 'Delete':
-        console.log('delete')
         if ($event.ctrlKey) {
-          console.log('control')
           this.statletManager.deleteEverything();
         }
         break;

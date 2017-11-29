@@ -84,7 +84,7 @@ export class CanvasComponent implements AfterViewInit {
     this.plumbing.repaintEverything();
     this.allStatlets.forEach(statlet => statlet.inputs.forEach(parameter => {
       if (parameter.isLinked()) {
-        this.plumbing.connect(parameter.linkedParameter.uuid, parameter.uuid);
+        this.plumbing.connect(parameter.source.uuid, parameter.uuid);
       }
     }));
   }
@@ -124,9 +124,9 @@ export class CanvasComponent implements AfterViewInit {
   private connectParameters(sourceHtmlId: string, targetHtmlId: string): void {
     const sourceId = sourceHtmlId.replace(/^parameter:/, '');
     const targetId = targetHtmlId.replace(/^parameter:/, '');
-    const source = this.statletManager.getParameter(sourceId);
-    const target = this.statletManager.getParameter(targetId);
-    source.linkTo(target);
+    const source = this.statletManager.getOutput(sourceId);
+    const target = this.statletManager.getInput(targetId);
+    target.linkTo(source);
   }
 
   private setViewerInput(viewerHtmlId: string, parameterHtmlId: string) {
@@ -134,7 +134,7 @@ export class CanvasComponent implements AfterViewInit {
     const parameterId = parameterHtmlId.replace(/^parameter:/, '');
 
     const viewer = this.statletManager.getViewerNode(viewerId);
-    const parameter = this.statletManager.getParameter(parameterId);
+    const parameter = this.statletManager.getOutput(parameterId);
     viewer.linkedParameter = parameter;
   }
 
@@ -155,9 +155,9 @@ export class CanvasComponent implements AfterViewInit {
   private disconnectParameters(sourceHtmlId: string, targetHtmlId: string): void {
     const sourceId = sourceHtmlId.replace(/^parameter:/, '');
     const targetId = targetHtmlId.replace(/^parameter:/, '');
-    const source = this.statletManager.getParameter(sourceId);
-    const target = this.statletManager.getParameter(targetId);
-    source.unlink(target);
+    const source = this.statletManager.getOutput(sourceId);
+    const target = this.statletManager.getInput(targetId);
+    target.unlink(source);
   }
 
   private removeViewerInput(viewerHtmlId: string) {

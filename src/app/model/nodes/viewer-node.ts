@@ -1,6 +1,6 @@
 import { NodeWidget } from './nodeWidget';
-import { Parameter } from './parameters/parameter';
+import { OutputParameter } from './parameters/outputParameter';
 
 export class ViewerNode extends NodeWidget {
-  linkedParameter: Parameter;
+  linkedParameter: OutputParameter;
 }

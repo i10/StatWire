@@ -1,0 +1,17 @@
+<div class="parameter input-parameter">
+  <div id="{{endpointHtmlId}}" class="parameter-endpoint"></div>
+  <div class="parameter-label">
+    <span class="parameter-name">{{input.name}}:</span>
+    <div class="parameter-value-input-section">
+      <div *ngIf="input.useFile; then inputFile else inputText"></div>
+      <ng-template #inputFile>
+        <button (click)="useFile(false)" class="parameter-button-input-text"><i class="fa fa-file"></i></button>
+        <input type="file" (change)="fileChanged($event)">
+      </ng-template>
+      <ng-template #inputText>
+        <button (click)="useFile(true)" class="parameter-button-input-file"><i class="fa fa-terminal"></i></button>
+        <input class="parameter-value-input" type="text" [(ngModel)]="input.manualInput">
+      </ng-template>
+    </div>
+  </div>
+</div>

@@ -3,7 +3,6 @@ import { Component, Input } from '@angular/core';
 import { CanvasPosition } from '../../../../model/nodes/canvas-position';
 import { Statlet } from '../../../../model/nodes/statlet';
 import { StatletManagerService } from '../../../../model/statlet-manager.service';
-import { ParameterType } from './parameter.component';
 
 @Component({
   selector: 'sl-statlet',
@@ -11,8 +10,6 @@ import { ParameterType } from './parameter.component';
   styleUrls: ['./statlet.component.sass'],
 })
 export class StatletComponent {
-  ParameterType = ParameterType;
-
   @Input() statlet: Statlet;
 
   constructor(

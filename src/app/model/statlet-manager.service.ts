@@ -7,7 +7,8 @@ import { Subject } from 'rxjs/Subject';
 import { RemoteRService } from '../remote-r.service';
 import { GraphicWidget } from './graphic-widget';
 import { CanvasPosition } from './nodes/canvas-position';
-import { Parameter } from './nodes/parameters/parameter';
+import { InputParameter } from './nodes/parameters/inputParameter';
+import { OutputParameter } from './nodes/parameters/outputParameter';
 import { Statlet } from './nodes/statlet';
 import { ViewerNode } from './nodes/viewer-node';
 
@@ -160,19 +161,26 @@ export class StatletManagerService {
     this.activeStatlet = newActiveStatlet;
   }
 
-  getParameter(uuid: string): Parameter {
+  getInput(uuid: string): InputParameter {
     for (const statlet of this.allStatlets) {
       for (const parameter of statlet.inputs) {
         if (parameter.uuid === uuid) {
           return parameter;
         }
       }
+    }
+    return null;
+  }
+
+  getOutput(uuid: string): OutputParameter {
+    for (const statlet of this.allStatlets) {
       for (const parameter of statlet.outputs) {
         if (parameter.uuid === uuid) {
           return parameter;
         }
       }
     }
+    // TODO: Change ViewerNode to have input parameter.
     for (const viewerNode of this.allViewerNodes) {
       if (viewerNode.linkedParameter && viewerNode.linkedParameter.uuid === uuid) {
         return viewerNode.linkedParameter;
