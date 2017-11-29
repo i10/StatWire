@@ -1,12 +1,12 @@
 import { AfterViewInit, Component, HostBinding, HostListener } from '@angular/core';
 
 import BootstrapMenu from 'bootstrap-menu';
-
-import { CanvasPosition } from '../../model/canvas-position';
 import { GraphicWidget } from '../../model/graphic-widget';
-import { Statlet } from '../../model/statlet';
+
+import { CanvasPosition } from '../../model/nodes/canvas-position';
+import { Statlet } from '../../model/nodes/statlet';
+import { ViewerNode } from '../../model/nodes/viewer-node';
 import { StatletManagerService } from '../../model/statlet-manager.service';
-import { ViewerNode } from '../../model/viewer-node';
 import { PlumbingService } from './plumbing.service';
 
 @Component({

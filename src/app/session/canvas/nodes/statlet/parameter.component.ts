@@ -1,6 +1,6 @@
 import { AfterViewInit, Component, Input, OnDestroy, OnInit } from '@angular/core';
 
-import { Parameter } from '../../../../model/parameter';
+import { Parameter } from '../../../../model/nodes/parameter';
 import { PlumbingService } from '../../plumbing.service';
 
 export enum ParameterType {

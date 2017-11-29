@@ -1,5 +1,4 @@
-import { RemoteRService } from '../remote-r.service';
-import { CanvasPosition } from './canvas-position';
+import { CanvasPosition } from './nodes/canvas-position';
 
 export enum GraphicWidgetState {
   ready,

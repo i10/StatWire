@@ -1,5 +1,5 @@
+import { StatletManagerService } from '../statlet-manager.service';
 import { Parameter } from './parameter';
-import { StatletManagerService } from './statlet-manager.service';
 
 describe('Parameter', () => {
   let source: Parameter, target: Parameter;

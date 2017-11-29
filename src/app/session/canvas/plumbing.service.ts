@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { CanvasPosition } from '../../model/canvas-position';
+import { CanvasPosition } from '../../model/nodes/canvas-position';
 
 declare const jsPlumb;
 

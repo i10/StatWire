@@ -1,8 +1,8 @@
 import { Component, HostBinding, HostListener, Input, OnInit } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
-import { CanvasPosition } from '../../../model/canvas-position';
 
 import { GraphicWidget, GraphicWidgetState } from '../../../model/graphic-widget';
+import { CanvasPosition } from '../../../model/nodes/canvas-position';
 import { StatletManagerService } from '../../../model/statlet-manager.service';
 import { PlumbingService } from '../plumbing.service';
 

@@ -18,7 +18,7 @@ import { StatletComponent } from './session/canvas/nodes/statlet/statlet.compone
 import { ViewerNodeComponent } from './session/canvas/nodes/viewer-node/viewer-node.component';
 import { EditorComponent } from './session/editor/editor.component';
 import { SessionComponent } from './session/session.component';
-import { SessionStorageService } from './sessionStorage.service';
+import { SessionStorageService } from './session/sessionStorage.service';
 import { UuidService } from './uuid.service';
 
 @NgModule({

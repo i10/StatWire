@@ -1,5 +1,5 @@
 import { AfterViewInit, Component, Input, OnInit } from '@angular/core';
-import { ViewerNode } from '../../../../model/viewer-node';
+import { ViewerNode } from '../../../../model/nodes/viewer-node';
 import { PlumbingService } from '../../plumbing.service';
 
 @Component({

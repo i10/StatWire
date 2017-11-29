@@ -1,7 +1,7 @@
 import { Component, Input } from '@angular/core';
 
-import { CanvasPosition } from '../../../../model/canvas-position';
-import { Statlet } from '../../../../model/statlet';
+import { CanvasPosition } from '../../../../model/nodes/canvas-position';
+import { Statlet } from '../../../../model/nodes/statlet';
 import { StatletManagerService } from '../../../../model/statlet-manager.service';
 import { ParameterType } from './parameter.component';
 

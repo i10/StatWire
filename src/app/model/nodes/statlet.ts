@@ -1,6 +1,6 @@
-import { FileArgument, RemoteRService, Return } from '../remote-r.service';
+import { FileArgument, RemoteRService, Return } from '../../remote-r.service';
 import { CanvasPosition } from './canvas-position';
-import { Node } from './node';
+import { NodeAction, NodeWidget } from './nodeWidget';
 import { Parameter } from './parameter';
 
 export enum StatletState {
@@ -8,7 +8,7 @@ export enum StatletState {
   busy,
 }
 
-export class Statlet extends Node {
+export class Statlet extends NodeWidget {
   private _code = '';
   consoleOutput = '';
   inputs: Array<Parameter> = [];
@@ -22,6 +22,25 @@ export class Statlet extends Node {
     private remoteR: RemoteRService,
   ) {
     super(id, position);
+    this.setCustomActions();
+  }
+
+  private setCustomActions() {
+    const fontAwesomeClassSelector = () => {
+      switch (this.currentState) {
+        case StatletState.ready:
+          return 'fa-play';
+        case StatletState.busy:
+          return 'fa-hourglass';
+        default:
+          throw new Error(`State '${this.currentState}' is invalid.`);
+      }
+    };
+    const executeAction = new NodeAction('Execute', fontAwesomeClassSelector);
+    executeAction.subject.subscribe(() => this.execute());
+    this.actions.unshift(
+      executeAction,
+    );
   }
 
   set code(newCode: string) {

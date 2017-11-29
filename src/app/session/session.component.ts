@@ -1,7 +1,7 @@
-import { Component, HostListener, OnInit } from '@angular/core';
-import { SessionStorageService } from '../sessionStorage.service';
+import { Component, OnInit } from '@angular/core';
 
 import { StatletManagerService } from '../model/statlet-manager.service';
+import { SessionStorageService } from './sessionStorage.service';
 
 @Component({
   selector: 'sl-session',
