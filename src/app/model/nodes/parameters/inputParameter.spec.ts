@@ -25,7 +25,7 @@ describe('InputParameter', () => {
     target.linkTo(source);
     source.value = 2;
     expect(target.value).toEqual(2);
-    target.unlink(source);
+    target.unlink();
     source.value = 3;
     expect(target.value).toEqual('');
   });
