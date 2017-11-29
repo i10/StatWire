@@ -36,7 +36,7 @@ export class InputParameter extends Parameter {
     this.source = target;
   }
 
-  unlink(target: OutputParameter): void {
-    this.source = target;
+  unlink(): void {
+    this.source = null;
   }
 }

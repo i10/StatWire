@@ -47,12 +47,12 @@ describe('StatletManagerService', () => {
       statlet1.setOutputsUsingNames(['ignoreMe']);
       statlet2.setInputsUsingNames(['findMe']);
       const expectedParameter = statlet2.inputs[0];
-      const actualParameter = statletManager.getParameter(expectedParameter.uuid);
+      const actualParameter = statletManager.getInputParameter(expectedParameter.uuid);
       expect(actualParameter).toBe(expectedParameter);
     });
 
     it('#getParameter should return null when no Parameter with matching uuid is found', () => {
-      const actual = statletManager.getParameter('you will not find me');
+      const actual = statletManager.getInputParameter('you will not find me');
       expect(actual).toBeNull();
     });
 

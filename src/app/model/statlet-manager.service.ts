@@ -161,7 +161,7 @@ export class StatletManagerService {
     this.activeStatlet = newActiveStatlet;
   }
 
-  getInput(uuid: string): InputParameter {
+  getInputParameter(uuid: string): InputParameter {
     for (const statlet of this.allStatlets) {
       for (const parameter of statlet.inputs) {
         if (parameter.uuid === uuid) {
@@ -172,7 +172,7 @@ export class StatletManagerService {
     return null;
   }
 
-  getOutput(uuid: string): OutputParameter {
+  getOutputParameter(uuid: string): OutputParameter {
     for (const statlet of this.allStatlets) {
       for (const parameter of statlet.outputs) {
         if (parameter.uuid === uuid) {

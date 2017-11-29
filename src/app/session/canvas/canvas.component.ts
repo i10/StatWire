@@ -124,8 +124,8 @@ export class CanvasComponent implements AfterViewInit {
   private connectParameters(sourceHtmlId: string, targetHtmlId: string): void {
     const sourceId = sourceHtmlId.replace(/^parameter:/, '');
     const targetId = targetHtmlId.replace(/^parameter:/, '');
-    const source = this.statletManager.getOutput(sourceId);
-    const target = this.statletManager.getInput(targetId);
+    const source = this.statletManager.getOutputParameter(sourceId);
+    const target = this.statletManager.getInputParameter(targetId);
     target.linkTo(source);
   }
 
@@ -134,7 +134,7 @@ export class CanvasComponent implements AfterViewInit {
     const parameterId = parameterHtmlId.replace(/^parameter:/, '');
 
     const viewer = this.statletManager.getViewerNode(viewerId);
-    const parameter = this.statletManager.getOutput(parameterId);
+    const parameter = this.statletManager.getOutputParameter(parameterId);
     viewer.linkedParameter = parameter;
   }
 
@@ -155,8 +155,8 @@ export class CanvasComponent implements AfterViewInit {
   private disconnectParameters(sourceHtmlId: string, targetHtmlId: string): void {
     const sourceId = sourceHtmlId.replace(/^parameter:/, '');
     const targetId = targetHtmlId.replace(/^parameter:/, '');
-    const source = this.statletManager.getOutput(sourceId);
-    const target = this.statletManager.getInput(targetId);
+    const source = this.statletManager.getOutputParameter(sourceId);
+    const target = this.statletManager.getInputParameter(targetId);
     target.unlink(source);
   }
 
