@@ -1,5 +1,5 @@
 import { RemoteRService, Return } from '../../remote-r.service';
-import { Parameter } from './parameter';
+import { InputParameter } from './parameters/inputParameter';
 import { Statlet } from './statlet';
 
 describe('Statlet', () => {
@@ -20,13 +20,13 @@ describe('Statlet', () => {
 
   it('#setInputUsingNames should remove parameters not present in new list', () => {
     const parameterNames = ['first', 'second', 'third'];
-    statlet.inputs = [new Parameter('fourth')];
+    statlet.inputs = [new InputParameter('fourth')];
     statlet.setInputsUsingNames(parameterNames);
     expect(statlet.inputs.map(parameter => parameter.name)).toEqual(parameterNames);
   });
 
   it('#setInputUsingNames should keep original if parameter with same name exists', () => {
-    const toKeep = new Parameter('keepMe');
+    const toKeep = new InputParameter('keepMe');
     statlet.inputs = [toKeep];
     statlet.setInputsUsingNames([toKeep.name]);
     expect(statlet.inputs).toEqual([toKeep]);
@@ -60,8 +60,8 @@ describe('Statlet', () => {
 
       statlet.setOutputsUsingNames(['first', 'second', 'third']);
 
-      const linkedParameter = new Parameter('linkToSecond');
-      statlet.outputs[1].linkTo(linkedParameter);
+      const linkedParameter = new InputParameter('linkToSecond');
+      linkedParameter.linkTo(statlet.outputs[1]);
 
       statlet.execute()
         .then(() => {

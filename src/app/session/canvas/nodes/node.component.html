@@ -3,7 +3,9 @@
     <div class="node-title">
       {{node.title}}
     </div>
-    <div *ngFor="let nodeAction of node.actions" (click)="nodeAction.subject.next()">
+    <div *ngFor="let nodeAction of node.actions"
+         (click)="nodeAction.subject.next()"
+         class="node-{{nodeAction.name | lowercase}}">
       <i class="fa {{nodeAction.fontAwesomeClass}}"></i>
     </div>
   </div>

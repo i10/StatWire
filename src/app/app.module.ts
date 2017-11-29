@@ -13,7 +13,8 @@ import { GraphicWidgetComponent } from './session/canvas/graphic-widget/graphic-
 import { NodePoolComponent } from './session/canvas/node-pool/node-pool.component';
 import { StatletNodeComponent } from './session/canvas/node-pool/statlet-node/statlet-node.component';
 import { NodeComponent } from './session/canvas/nodes/node.component';
-import { ParameterComponent } from './session/canvas/nodes/statlet/parameter.component';
+import { InputParameterComponent } from './session/canvas/nodes/statlet/parameter/input-parameter.component';
+import { OutputParameterComponent } from './session/canvas/nodes/statlet/parameter/output-parameter.component';
 import { StatletComponent } from './session/canvas/nodes/statlet/statlet.component';
 import { ViewerNodeComponent } from './session/canvas/nodes/viewer-node/viewer-node.component';
 import { EditorComponent } from './session/editor/editor.component';
@@ -28,12 +29,13 @@ import { UuidService } from './uuid.service';
     EditorComponent,
     CanvasComponent,
     NodeComponent,
-    ParameterComponent,
     NodePoolComponent,
     StatletNodeComponent,
     ViewerNodeComponent,
     GraphicWidgetComponent,
     StatletComponent,
+    InputParameterComponent,
+    OutputParameterComponent,
   ],
   imports: [
     BrowserModule,
@@ -49,4 +51,4 @@ import { UuidService } from './uuid.service';
   ],
   bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}

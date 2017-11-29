@@ -1,7 +1,9 @@
 import { FileArgument, RemoteRService, Return } from '../../remote-r.service';
 import { CanvasPosition } from './canvas-position';
 import { NodeAction, NodeWidget } from './nodeWidget';
-import { Parameter } from './parameter';
+import { InputParameter } from './parameters/inputParameter';
+import { OutputParameter } from './parameters/outputParameter';
+import { Parameter } from './parameters/parameter';
 
 export enum StatletState {
   ready,
@@ -11,8 +13,8 @@ export enum StatletState {
 export class Statlet extends NodeWidget {
   private _code = '';
   consoleOutput = '';
-  inputs: Array<Parameter> = [];
-  outputs: Array<Parameter> = [];
+  inputs: Array<InputParameter> = [];
+  outputs: Array<OutputParameter> = [];
   graphicUrls: Array<string> = [];
   currentState = StatletState.ready;
 
@@ -53,18 +55,22 @@ export class Statlet extends NodeWidget {
   }
 
   setInputsUsingNames(names: Array<string>): void {
-    this.inputs = this.getUpdatedParameters(this.inputs, names);
+    this.inputs = this.getUpdatedParameters(InputParameter, this.inputs, names);
   }
 
   setOutputsUsingNames(names: Array<string>): void {
-    this.outputs = this.getUpdatedParameters(this.outputs, names);
+    this.outputs = this.getUpdatedParameters(OutputParameter, this.outputs, names);
   }
 
-  private getUpdatedParameters(params: Array<Parameter>, newNames: Array<string>): Array<Parameter> {
+  private getUpdatedParameters<T extends Parameter>(
+    TConstructor: new (name: string) => T,
+    params: Array<T>,
+    newNames: Array<string>,
+  ): Array<T> {
     const newParams = [];
     const oldNames = params.map(parameter => parameter.name);
     for (const name of newNames) {
-      let toAdd = new Parameter(name);
+      let toAdd = new TConstructor(name);
       if (oldNames.includes(name)) {
         toAdd = params.find(parameter => parameter.name === name);
       }
@@ -94,19 +100,19 @@ export class Statlet extends NodeWidget {
     }
   };
 
-  private getArgsToEvaluate(parameterList: Array<Parameter>): object {
+  private getArgsToEvaluate(parameterList: Array<InputParameter>): object {
     const argsToEvaluate = {};
     parameterList.filter(parameter => parameter.valueNeedsEvaluation())
       .forEach(parameter => argsToEvaluate[parameter.name] = parameter.value);
     return argsToEvaluate;
   }
 
-  private getFiles(parameterList: Array<Parameter>): Array<FileArgument> {
+  private getFiles(parameterList: Array<InputParameter>): Array<FileArgument> {
     return parameterList.filter(parameter => parameter.useFile)
       .map(parameter => new FileArgument(parameter.name, parameter.file));
   }
 
-  private getSerializedArgs(parameterList: Array<Parameter>): object {
+  private getSerializedArgs(parameterList: Array<InputParameter>): object {
     const serializedArgs = {};
     parameterList.filter(parameter => !parameter.useFile && !parameter.valueNeedsEvaluation())
       .forEach(parameter => serializedArgs[parameter.name] = parameter.value);

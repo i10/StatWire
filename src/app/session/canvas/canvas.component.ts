@@ -84,7 +84,7 @@ export class CanvasComponent implements AfterViewInit {
     this.plumbing.repaintEverything();
     this.allStatlets.forEach(statlet => statlet.inputs.forEach(parameter => {
       if (parameter.isLinked()) {
-        this.plumbing.connect(parameter.linkedParameter.uuid, parameter.uuid);
+        this.plumbing.connect(parameter.source.uuid, parameter.uuid);
       }
     }));
   }
@@ -122,11 +122,11 @@ export class CanvasComponent implements AfterViewInit {
   }
 
   private connectParameters(sourceHtmlId: string, targetHtmlId: string): void {
-    const sourceId = sourceHtmlId.replace(/^parameter:/, '');
-    const targetId = targetHtmlId.replace(/^parameter:/, '');
-    const source = this.statletManager.getParameter(sourceId);
-    const target = this.statletManager.getParameter(targetId);
-    source.linkTo(target);
+    const sourceId = sourceHtmlId.replace(/^output:/, '');
+    const targetId = targetHtmlId.replace(/^input:/, '');
+    const source = this.statletManager.getOutputParameter(sourceId);
+    const target = this.statletManager.getInputParameter(targetId);
+    target.linkTo(source);
   }
 
   private setViewerInput(viewerHtmlId: string, parameterHtmlId: string) {
@@ -134,7 +134,7 @@ export class CanvasComponent implements AfterViewInit {
     const parameterId = parameterHtmlId.replace(/^parameter:/, '');
 
     const viewer = this.statletManager.getViewerNode(viewerId);
-    const parameter = this.statletManager.getParameter(parameterId);
+    const parameter = this.statletManager.getOutputParameter(parameterId);
     viewer.linkedParameter = parameter;
   }
 
@@ -144,7 +144,7 @@ export class CanvasComponent implements AfterViewInit {
       const targetId = info.targetId;
       switch (this.getConnectionType(sourceId, targetId)) {
         case ConnectionType.LinkedParameters:
-          this.disconnectParameters(sourceId, targetId);
+          this.disconnectParameters(targetId);
           break;
         case ConnectionType.ViewerInput:
           this.removeViewerInput(targetId);
@@ -152,12 +152,10 @@ export class CanvasComponent implements AfterViewInit {
     });
   }
 
-  private disconnectParameters(sourceHtmlId: string, targetHtmlId: string): void {
-    const sourceId = sourceHtmlId.replace(/^parameter:/, '');
-    const targetId = targetHtmlId.replace(/^parameter:/, '');
-    const source = this.statletManager.getParameter(sourceId);
-    const target = this.statletManager.getParameter(targetId);
-    source.unlink(target);
+  private disconnectParameters(targetHtmlId: string): void {
+    const targetId = targetHtmlId.replace(/^input:/, '');
+    const target = this.statletManager.getInputParameter(targetId);
+    target.unlink();
   }
 
   private removeViewerInput(viewerHtmlId: string) {

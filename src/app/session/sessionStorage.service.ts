@@ -4,7 +4,9 @@ import * as _ from 'lodash';
 import { Observable } from 'rxjs/Observable';
 
 import { CanvasPosition } from '../model/nodes/canvas-position';
-import { Parameter } from '../model/nodes/parameter';
+import { InputParameter } from '../model/nodes/parameters/inputParameter';
+import { OutputParameter } from '../model/nodes/parameters/outputParameter';
+import { Parameter } from '../model/nodes/parameters/parameter';
 import { Statlet } from '../model/nodes/statlet';
 import { RemoteRService } from '../remote-r.service';
 
@@ -66,14 +68,19 @@ export class SessionStorageService {
     Object.assign(statlet, object);
     Object.assign(statlet, {remoteR: this.remoteR});
 
-    statlet.inputs = statlet.inputs.map((nakedParameter) => this.clotheGenericObjectToAParameter(nakedParameter));
-    statlet.outputs = statlet.outputs.map((nakedParameter) => this.clotheGenericObjectToAParameter(nakedParameter));
+    statlet.inputs =
+      statlet.inputs.map((nakedParameter) => this.clotheGenericObjectToAParameter(InputParameter, nakedParameter));
+    statlet.outputs =
+      statlet.outputs.map((nakedParameter) => this.clotheGenericObjectToAParameter(OutputParameter, nakedParameter));
 
     return statlet;
   }
 
-  private clotheGenericObjectToAParameter(object: object): Parameter {
-    const parameter = new Parameter('naked');
+  private clotheGenericObjectToAParameter<T extends Parameter>(
+    TConstructor: new (name: string) => T,
+    object: object,
+  ): T {
+    const parameter = new TConstructor('naked');
 
     Object.assign(parameter, object);
 

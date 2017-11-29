@@ -1,16 +1,14 @@
 <div class="node-inputs">
-  <sl-parameter
+  <sl-input
     *ngFor="let inputParameter of statlet.inputs"
-    [parameterType]="ParameterType.Input"
-    [parameter]="inputParameter">
-  </sl-parameter>
+    [input]="inputParameter">
+  </sl-input>
 </div>
 <div class="node-outputs">
-  <sl-parameter
+  <sl-output
     *ngFor="let outputParameter of statlet.outputs"
-    [parameterType]="ParameterType.Output"
-    [parameter]="outputParameter">
-  </sl-parameter>
+    [output]="outputParameter">
+  </sl-output>
 </div>
 <div class="node-plots">
   <ul>
