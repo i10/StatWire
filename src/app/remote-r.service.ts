@@ -33,7 +33,6 @@ export class RemoteRService {
     );  // TODO: Resolve naming conflict. Make params called 'func' and 'argsToEvaluate' possible.
     const session = await this.opencpu.call('functionCall', functionCallArgs);
     const result = await ExecutionResult.createFromSession(session);
-    console.log('Result:', result);
     return result;
   }
 

@@ -1,4 +1,5 @@
 import { AfterViewInit, Component, Input, OnInit } from '@angular/core';
+import { GraphicsUrl } from '../../../../model/nodes/parameters/outputParameter';
 import { ViewerNode } from '../../../../model/nodes/viewer-node';
 import { PlumbingService } from '../../plumbing.service';
 
@@ -24,9 +25,17 @@ export class ViewerNodeComponent implements OnInit, AfterViewInit {
     this.plumbing.makeInput(this.endpointHtmlId);
   }
 
+  isGraphic(): boolean {
+    return this.viewerNode.source != null && this.viewerNode.source.isGraphic();
+  }
+
   getRepresentation(): string {
     if (this.viewerNode.source) {
-      return this.viewerNode.source.representation;
+      if (this.viewerNode.source.representation instanceof GraphicsUrl) {
+        return this.viewerNode.source.representation.url;
+      } else {
+        return this.viewerNode.source.representation;
+      }
     } else {
       return 'Please choose an input.';
     }

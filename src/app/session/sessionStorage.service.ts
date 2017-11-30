@@ -72,6 +72,8 @@ export class SessionStorageService {
       statlet.inputs.map((nakedParameter) => this.clotheGenericObjectToAParameter(InputParameter, nakedParameter));
     statlet.outputs =
       statlet.outputs.map((nakedParameter) => this.clotheGenericObjectToAParameter(OutputParameter, nakedParameter));
+    statlet.plots =
+      statlet.plots.map(nakedParameter => this.clotheGenericObjectToAParameter(OutputParameter, nakedParameter));
 
     return statlet;
   }

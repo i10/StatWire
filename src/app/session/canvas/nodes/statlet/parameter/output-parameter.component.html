@@ -1,7 +1,7 @@
 <div class="parameter output-parameter">
   <div class="parameter-label">
     <span class="parameter-name">
-      <i *ngIf="isGraphic()" class="fa fa-pie-chart"></i> {{output.name}}:
+      <i *ngIf="output.isGraphic()" class="fa fa-pie-chart"></i> {{output.name}}:
     </span>
     <span class="parameter-value">
       {{getOutputRepresentation()}}

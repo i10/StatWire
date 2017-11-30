@@ -1,4 +1,4 @@
-import { RemoteRService, Return } from '../../remote-r.service';
+import { ExecutionResult, RemoteRService, Return } from '../../remote-r.service';
 import { InputParameter } from './parameters/inputParameter';
 import { Statlet } from './statlet';
 
@@ -52,9 +52,10 @@ describe('Statlet', () => {
     });
 
     it('#execute should write the values to the parameters while keeping their links', (done) => {
-      const returnValue = {
+      const returnValue: ExecutionResult = {
         returns: [new Return(1, '1'), new Return(2, '2'), new Return(3, '3')],
         consoleOutput: '',
+        plotUrls: [],
       };
       spyOn(remoteRStub, 'execute').and.returnValue(Promise.resolve(returnValue));
 
@@ -76,6 +77,7 @@ describe('Statlet', () => {
       const returnValue = {
         returns: [new Return(1, '1'), new Return(2, '2'), new Return(3, '3')],
         consoleOutput: '',
+        plotUrls: [],
       };
       spyOn(remoteRStub, 'execute').and.returnValue(Promise.resolve(returnValue));
 
@@ -98,6 +100,7 @@ describe('Statlet', () => {
           new Return([7, 8, 9], '7 8 9'),
         ],
         consoleOutput: '',
+        plotUrls: [],
       };
       spyOn(remoteRStub, 'execute').and.returnValue(Promise.resolve(returnValue));
 

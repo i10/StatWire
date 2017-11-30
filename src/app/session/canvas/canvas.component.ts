@@ -131,7 +131,7 @@ export class CanvasComponent implements AfterViewInit {
 
   private setViewerInput(viewerHtmlId: string, parameterHtmlId: string) {
     const viewerId = parseInt(viewerHtmlId.replace(/^viewer-input:/, ''));
-    const parameterId = parameterHtmlId.replace(/^parameter:/, '');
+    const parameterId = parameterHtmlId.replace(/^output:/, '');
 
     const viewer = this.statletManager.getViewerNode(viewerId);
     const parameter = this.statletManager.getOutputParameter(parameterId);

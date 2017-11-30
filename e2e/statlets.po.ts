@@ -3,6 +3,11 @@ import { promise } from 'selenium-webdriver';
 
 import { convertElementToSlNode, SlNode } from './sl-node.po';
 
+export enum NodeType {
+  StatLet = 'StatLet',
+  ViewerNode = 'Viewer Widget',
+}
+
 export class StatLetsPage {
   editor = new SlEditor();
 
@@ -12,14 +17,14 @@ export class StatLetsPage {
     return browser.get('/');
   }
 
-  addNodeAt(x: number, y: number, typeSelector: string = 'StatLet'): SlNode {
+  addNodeAt(x: number, y: number, typeSelector: NodeType = NodeType.StatLet): SlNode {
     const canvas = element(by.tagName('sl-canvas'));
     browser.actions()
       .mouseMove(canvas, {x: x, y: y})
       .click(protractor.Button.RIGHT)
       .perform();
     browser.actions()
-      .click(element(by.css('.dropdown.bootstrapMenu')).element(by.partialLinkText(typeSelector)))
+      .click(element(by.css('.dropdown.bootstrapMenu')).element(by.partialLinkText(typeSelector.toString())))
       .perform();
 
     const id = this.nextId;

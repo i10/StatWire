@@ -1,7 +1,7 @@
 import * as path from 'path';
 import { browser, by, element, ExpectedConditions } from 'protractor';
 
-import { StatLetsPage } from './statlets.po';
+import { NodeType, StatLetsPage } from './statlets.po';
 
 describe('StatLets', () => {
   let page: StatLetsPage;
@@ -199,7 +199,7 @@ describe('StatLets', () => {
     node1.input(1).switchToFileInput();
     node1.enterFilePath(absolutePath);
 
-    // Frank executes both nodes and watchs the output.
+    // Frank executes both nodes and watches the output.
     node1.clickExecuteButton();
     node1.waitWhileBusy();
     expect(node1.output(1).getName()).toContain('');
@@ -232,7 +232,22 @@ describe('StatLets', () => {
     browser.wait(ExpectedConditions.visibilityOf(node1.getGraphicSelection()), 1000);
 
     // Two links appear.
-    expect(node1.getGraphicSelection().all(by.tagName('a')).count()).toEqual(2 as any);
+    const plots = node1.getGraphicSelection().all(by.className('parameter'));
+    expect(plots.count()).toEqual(2 as any);
+
+    // Frank adds a viewer node and connects it to the first image
+    const viewer = page.addNodeAt(300, 10, NodeType.ViewerNode);
+    const firstPlot = plots.first();
+    browser.actions()
+      .dragAndDrop(
+        firstPlot.element(by.className('parameter-endpoint')),
+        viewer.element(by.className('viewer-node-input')),
+      )
+      .perform();
+
+    // The image is displayed in the viewer node
+    expect(firstPlot.element(by.className('parameter-value')).getText())
+      .toEqual(viewer.element(by.tagName('img')).getAttribute('src'));
 
     // Frank is very proud to have generated such beautiful images. He is, however, not done with StatLets...
   });

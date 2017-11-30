@@ -8,6 +8,10 @@ export class OutputParameter extends Parameter {
     parameter.representation = new GraphicsUrl(url);
     return parameter;
   }
+
+  isGraphic(): boolean {
+    return this.representation instanceof GraphicsUrl;
+  }
 }
 
 export class GraphicsUrl {

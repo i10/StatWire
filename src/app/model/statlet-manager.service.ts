@@ -179,11 +179,10 @@ export class StatletManagerService {
           return parameter;
         }
       }
-    }
-    // TODO: Change ViewerNode to have input parameter.
-    for (const viewerNode of this.allViewerNodes) {
-      if (viewerNode.source && viewerNode.source.uuid === uuid) {
-        return viewerNode.source;
+      for (const parameter of statlet.plots) {
+        if (parameter.uuid === uuid) {
+          return parameter;
+        }
       }
     }
     return null;

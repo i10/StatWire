@@ -39,10 +39,6 @@ export class OutputParameterComponent implements OnInit, AfterViewInit, OnDestro
     this.plumbing.makeOutput(id);
   }
 
-  isGraphic(): boolean {
-    return this.output.representation instanceof GraphicsUrl;
-  }
-
   getOutputRepresentation(): string {
     if (this.output.representation instanceof GraphicsUrl) {
       return this.output.representation.url;
