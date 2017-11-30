@@ -5,7 +5,7 @@
   "private": true,
   "scripts": {
     "ng": "ng",
-    "statwire": "ng serve --open",
+    "statwire": "ng serve",
     "opencpu": "Rscript ./scripts/startOpenCPU.R",
     "start": "concurrently --kill-others \"npm run statwire\" \"npm run opencpu\"",
     "build": "ng build",
