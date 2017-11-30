@@ -12,13 +12,14 @@ export class StatLetsPage {
     return browser.get('/');
   }
 
-  addNodeAt(x: number, y: number): SlNode {
+  addNodeAt(x: number, y: number, typeSelector: string = 'StatLet'): SlNode {
     const canvas = element(by.tagName('sl-canvas'));
     browser.actions()
       .mouseMove(canvas, {x: x, y: y})
       .click(protractor.Button.RIGHT)
-      .mouseMove({x: 10, y: 10})
-      .click()
+      .perform();
+    browser.actions()
+      .click(element(by.css('.dropdown.bootstrapMenu')).element(by.partialLinkText(typeSelector)))
       .perform();
 
     const id = this.nextId;
