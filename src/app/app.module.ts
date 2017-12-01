@@ -9,7 +9,6 @@ import { AppComponent } from './app.component';
 import { StatletManagerService } from './model/statlet-manager.service';
 import { RemoteRService } from './remote-r.service';
 import { CanvasComponent } from './session/canvas/canvas.component';
-import { GraphicWidgetComponent } from './session/canvas/graphic-widget/graphic-widget.component';
 import { NodePoolComponent } from './session/canvas/node-pool/node-pool.component';
 import { StatletNodeComponent } from './session/canvas/node-pool/statlet-node/statlet-node.component';
 import { NodeComponent } from './session/canvas/nodes/node.component';
@@ -32,7 +31,6 @@ import { UuidService } from './uuid.service';
     NodePoolComponent,
     StatletNodeComponent,
     ViewerNodeComponent,
-    GraphicWidgetComponent,
     StatletComponent,
     InputParameterComponent,
     OutputParameterComponent,

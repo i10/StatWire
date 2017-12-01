@@ -5,7 +5,6 @@ import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
 
 import { RemoteRService } from '../remote-r.service';
-import { GraphicWidget } from './graphic-widget';
 import { CanvasPosition } from './nodes/canvas-position';
 import { InputParameter } from './nodes/parameters/inputParameter';
 import { OutputParameter } from './nodes/parameters/outputParameter';
@@ -16,7 +15,6 @@ import { ViewerNode } from './nodes/viewer-node';
 export class StatletManagerService {
   allStatlets: Statlet[] = [];
   allViewerNodes: ViewerNode[] = [];
-  allGraphicWidgets: GraphicWidget[] = [];
   activeStatlet: Statlet;
 
   onChange = new Subject<Statlet[]>();
@@ -76,35 +74,12 @@ export class StatletManagerService {
     return viewerNode;
   }
 
-  createGraphicWidget(position: CanvasPosition, URL: string): GraphicWidget {
-    const id = this.nextStatletId;
-    this.nextStatletId++;
-
-    const graphicWidget = new GraphicWidget(
-      id,
-      position,
-      URL,
-    );
-
-    // graphicWidget.title = `New Graphic Widget ${id}`;
-    this.addGraphicWidget(graphicWidget);
-    // this.setActiveStatlet(statlet.id);
-
-    this.updateSession();
-
-    return graphicWidget;
-  }
-
   private addStatlet(statlet: Statlet): void {
     this.allStatlets.push(statlet);
   }
 
   private addViewerNode(viewerNode: ViewerNode): void {
     this.allViewerNodes.push(viewerNode);
-  }
-
-  private addGraphicWidget(graphicWidget: GraphicWidget): void {
-    this.allGraphicWidgets.push(graphicWidget);
   }
 
   duplicateStatlet(statletId: number): void {
@@ -129,18 +104,9 @@ export class StatletManagerService {
     this.updateSession();
   }
 
-  deleteGraphicWidget(graphicWidgetId: number): void {
-    // this.resetIfActive(statletId);
-    const indexToDelete = this.allGraphicWidgets.findIndex(graphicWidget => graphicWidget.id === graphicWidgetId);
-    this.allGraphicWidgets.splice(indexToDelete, 1);
-
-    this.updateSession();
-  }
-
   deleteEverything(): void {
     this.allStatlets = [];
     this.allViewerNodes = [];
-    this.allGraphicWidgets = [];
     this.activeStatlet = null;
     this.onChange.next(this.allStatlets);
     this.computeStatletId();

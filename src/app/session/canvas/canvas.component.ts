@@ -1,7 +1,6 @@
 import { AfterViewInit, Component, HostBinding, HostListener } from '@angular/core';
 
 import BootstrapMenu from 'bootstrap-menu';
-import { GraphicWidget } from '../../model/graphic-widget';
 
 import { CanvasPosition } from '../../model/nodes/canvas-position';
 import { Statlet } from '../../model/nodes/statlet';
@@ -57,10 +56,6 @@ export class CanvasComponent implements AfterViewInit {
 
   get allViewerNodes(): ViewerNode[] {
     return this.statletManager.allViewerNodes;
-  }
-
-  get allGraphicWidgets(): GraphicWidget[] {
-    return this.statletManager.allGraphicWidgets;
   }
 
   ngAfterViewInit() {
