@@ -1,0 +1,16 @@
+version: '3'
+
+services:
+  frontend:
+    build:
+      context: frontend
+    image: statwire-frontend
+    ports:
+      - 4200:4200
+
+  backend:
+    build:
+      context: backend
+    image: statwire-backend
+    ports:
+      - 5656:5656
