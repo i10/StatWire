@@ -1,1 +1,2 @@
 export(functionCall)
+export(listFunctions)
