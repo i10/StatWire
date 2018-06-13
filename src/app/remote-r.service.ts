@@ -36,6 +36,12 @@ export class RemoteRService {
     return result;
   }
 
+  async getFunctions(prefix: string): Promise<Array<object>> {
+    const session = await this.opencpu.call('listFunctions', {prefix: prefix});
+    const result = await session.get("R/.val/json?auto_unbox=true").then(response => response.json());
+    return result;
+  }
+
   static createCodeSnippetOutOfString(statletCode: string): CodeSnippet {
     const returnStatementPattern = /return\(([^)]*)\)/;
     const rCode = statletCode.replace(returnStatementPattern, 'return(list($1))');

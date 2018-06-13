@@ -10,7 +10,7 @@
   </div>
   <div class="editor-body">
     <div class="editor-code">
-      <ace-editor [(text)]="statlet.code" [mode]="'r'" [theme]="'chrome'"></ace-editor>
+      <ace-editor [(text)]="statlet.code" [mode]="'r'" [theme]="'chrome'" [options]="{enableBasicAutocompletion: true}"></ace-editor>
     </div>
     <div class="editor-console">
       <div class="editor-toolbar">

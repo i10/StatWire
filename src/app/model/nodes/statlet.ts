@@ -100,6 +100,10 @@ export class Statlet extends NodeWidget {
     }
   };
 
+  async autocomplete(prefix: string): Promise<Array<object>> {
+    return await this.remoteR.getFunctions(prefix);
+  }
+
   private getArgsToEvaluate(parameterList: Array<InputParameter>): object {
     const argsToEvaluate = {};
     parameterList.filter(parameter => parameter.valueNeedsEvaluation())
